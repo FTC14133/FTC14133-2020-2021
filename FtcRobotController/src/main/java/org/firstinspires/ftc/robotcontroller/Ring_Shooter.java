@@ -9,14 +9,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 public class Ring_Shooter extends OpMode{
-    private DcMotor LeftShooter = null;
-    private DcMotor RightShooter = null;
+    private DcMotor Shooter = null;
     HardwarePushbot robot = new HardwarePushbot();
 
     @Override
     public void init() {
-        LeftShooter = hardwareMap.get(DcMotor.class, "left_drive");
-        LeftShooter.setDirection(DcMotor.Direction.FORWARD);
+        Shooter = hardwareMap.get(DcMotor.class, "left_drive");
+        Shooter.setDirection(DcMotor.Direction.FORWARD);
     }
 
     public void init_loop() {
@@ -32,7 +31,7 @@ public class Ring_Shooter extends OpMode{
      */
     public void loop;()
             if (gamepad1.right_bumper) {
-                LeftShooter.setPower(3);
+                Shooter.setPower(3);
             }
 
 
