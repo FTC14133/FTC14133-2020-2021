@@ -3,6 +3,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
@@ -37,9 +38,20 @@ public class FTC_14133_2021 extends OpMode {
 
 
     public void loop() {
-        double leftPower;
-        double rightPower;
+        double leftbackPower;
+        double rightbackPower;
+        double leftfrontPower;
+        double rightfrontPower;
 
+        // POV Mode uses left stick to go forward, and right stick to turn.
+        // - This uses basic math to combine motions and is easier to drive straight.
+        // I DONT KNOW WHAT THIS DOES
+        double drive = -gamepad1.left_stick_y;
+        double turn  =  gamepad1.right_stick_x;
+        leftbackPower = Range.clip(drive + turn, -1.0, 1.0) ;
+        rightbackPower = Range.clip(drive - turn, -1.0, 1.0) ;
+        leftfrontPower = Range.clip(drive + turn, -1.0, 1.0) ;
+        rightbackPower = Range.clip(drive - turn, -1.0, 1.0) ;
 
         Servo Claw = null;
 
