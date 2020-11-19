@@ -12,7 +12,7 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor rightback = null;
     private DcMotor leftfront = null;
     private DcMotor rightfront = null;
-    HardwarePushbot robot = new HardwarePushbot();
+    private int NormScaling = 0 ;
 
 
     public void init() {
@@ -37,8 +37,22 @@ public class FTC_14133_2021 extends OpMode {
 
 
     public void loop() {
-        double leftPower;
-        double rightPower;
+        double leftPowerY;
+        double leftPowerX;
+        double rightPowerX;
+        double NormScaling;
+        if (leftfront =>` 1) {
+            // Find the largest power
+            double max = 0;
+        leftPowerY  = -gamepad1.left_stick_y ;
+        leftPowerX  = -gamepad1.left_stick_x ;
+        rightPowerX = gamepad1.right_stick_x ;
+        NormScaling = Math.max(leftfront, rightfront, leftback, rightback);
+        leftfront = leftfront/=NormScaling;
+        rightfront = rightfront/=NormScaling;
+        leftback = leftback/=NormScaling;
+        leftfront = rightback/=NormScaling;
+
 
 
         Servo Claw = null;
@@ -53,5 +67,11 @@ public class FTC_14133_2021 extends OpMode {
             // move to 180 degrees.
             Claw.setPosition(1);
         }
+    }
+
+    private void max(DcMotor leftfront, DcMotor rightfront, DcMotor leftback, DcMotor rightback) {
+    }
+
+    private void max() {
     }
 }
