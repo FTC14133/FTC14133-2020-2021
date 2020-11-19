@@ -46,7 +46,7 @@ public class Claw extends OpMode {
     @Override
     public void init() {
 
-        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.addData("Say", "Hello Driver");    //hi
     }
 
     @Override
