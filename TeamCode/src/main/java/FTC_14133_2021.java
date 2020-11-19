@@ -37,9 +37,18 @@ public class FTC_14133_2021 extends OpMode {
 
 
     public void loop() {
-        double leftPower;
-        double rightPower;
-
+        double leftPowerY;
+        double leftPowerX;
+        double rightPowerX;
+        double NormScaling;
+        leftPowerY  = -gamepad1.left_stick_y ;
+        leftPowerX  = -gamepad1.left_stick_x ;
+        rightPowerX = gamepad1.right_stick_x ;
+        NormScaling = Math.max(leftfront, rightfront, leftback, rightback);
+        leftfront = leftfront/=NormScaling;
+        rightfront = rightfront/=NormScaling;
+        leftback = leftback/=NormScaling;
+        leftfront = rightback/=NormScaling;
 
         Servo Claw = null;
 
