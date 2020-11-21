@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Disabled
 public class Long_Arm extends OpMode {
     private DcMotor LongArm = null;
-    private float Timer = 0;
 
     /*
      * Code to run ONCE when the driver hits INIT

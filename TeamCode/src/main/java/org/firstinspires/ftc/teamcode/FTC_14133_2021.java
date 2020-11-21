@@ -15,13 +15,14 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor leftfront = null;
     private DcMotor rightfront = null;
     HardwarePushbot robot = new HardwarePushbot();
-
+    private DcMotor LongArm = null;
 
     public void init() {
         leftfront = hardwareMap.get(DcMotor.class, "left_drive");
         rightfront = hardwareMap.get(DcMotor.class, "right_drive");
         leftback  = hardwareMap.get(DcMotor.class, "left_drive");
         rightback = hardwareMap.get(DcMotor.class, "right_drive");
+        LongArm = hardwareMap.get(DcMotor.class, "Long_Arm");
 
         leftfront.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
@@ -75,6 +76,13 @@ public class FTC_14133_2021 extends OpMode {
         } else if (gamepad1.a) {
             // move to 180 degrees.
             Claw.setPosition(1);
+        }
+        if (gamepad1.right_bumper) {
+            LongArm.setDirection(DcMotor.Direction.FORWARD);
+            LongArm.setPower(3);
+        } else if (gamepad1.left_bumper) {
+            LongArm.setDirection(DcMotor.Direction.REVERSE);
+            LongArm.setPower(3);
         }
     }
 }
