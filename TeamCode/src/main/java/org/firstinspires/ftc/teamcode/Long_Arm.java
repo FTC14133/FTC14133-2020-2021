@@ -38,13 +38,12 @@ public class Long_Arm extends OpMode {
 
     @Override
     public void loop() {
-        LongArm.setDirection(DcMotor.Direction.FORWARD);
-        LongArm.setPower(4);
-        Timer = Timer + 1;
-        if (Timer > 5) {
+        if (gamepad1.right_bumper) {
+            LongArm.setDirection(DcMotor.Direction.FORWARD);
+            LongArm.setPower(3);
+        } else if (gamepad1.left_bumper) {
             LongArm.setDirection(DcMotor.Direction.REVERSE);
-            LongArm.setPower(4);
-
+            LongArm.setPower(3);
         }
 
     }
