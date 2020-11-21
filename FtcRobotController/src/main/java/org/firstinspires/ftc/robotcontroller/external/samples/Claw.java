@@ -46,7 +46,7 @@ public class Claw extends OpMode {
     @Override
     public void init() {
 
-        telemetry.addData("Say", "Hello Driver");    //hi
+        telemetry.addData("Say", "Hello Driver");
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Claw extends OpMode {
         if(gamepad1.y) {
             // move to 0 degrees.
             leftClaw.setPosition(0);
-        } else if (gamepad1.x || gamepad1.b) {
+        } else if (gamepad1.x) {
             // move to 90 degrees.
             leftClaw.setPosition(0.5);
         } else if (gamepad1.a) {
