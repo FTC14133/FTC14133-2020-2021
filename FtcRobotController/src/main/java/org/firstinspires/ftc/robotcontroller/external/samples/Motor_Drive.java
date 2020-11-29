@@ -13,20 +13,23 @@ import com.qualcomm.robotcore.util.Range;
 @Disabled
 public class Motor_Drive extends OpMode
 {
-    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
+    private DcMotor leftback = null;
+    private DcMotor rightback = null;
+    private DcMotor leftfront = null;
+    private DcMotor rightfront = null;
+    HardwarePushbot robot = new HardwarePushbot();
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
-    @Override
     public void init() {
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftfront = hardwareMap.get(DcMotor.class, "left_drive");
+        rightfront = hardwareMap.get(DcMotor.class, "right_drive");
+        leftback  = hardwareMap.get(DcMotor.class, "left_drive");
+        rightback = hardwareMap.get(DcMotor.class, "right_drive");
+
+        leftfront.setDirection(DcMotor.Direction.FORWARD);
+        rightfront.setDirection(DcMotor.Direction.REVERSE);
+        leftback.setDirection(DcMotor.Direction.FORWARD);
+        rightback.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override
@@ -46,24 +49,30 @@ public class Motor_Drive extends OpMode
      */
     @Override
     public void loop() {
-        // Setup a variable for each drive wheel to save power level for telemetry
-        double leftPower;
-        double rightPower;
+        double leftPowerY;
+        double leftPowerX;
+        double rightPowerX;
+        double NormScaling;
+        double leftfront;
+        double rightback;
+        double leftback;
+        double rightfront;
 
-        //double drive = -gamepad1.left_stick_y;
-        //double turn  =  gamepad1.right_stick_x;
-        //leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        //rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+        leftPowerY  = -gamepad1.left_stick_y ;
+        leftPowerX  = gamepad1.left_stick_x ;
+        rightPowerX = gamepad1.right_stick_x ;
 
-         leftPower  = -gamepad1.left_stick_y ;
-         rightPower = -gamepad1.right_stick_y ;
+        leftfront = leftPowerY + leftPowerX + rightPowerX;
+        rightfront = leftPowerY - leftPowerX - rightPowerX;
+        leftback = leftPowerY + leftPowerX - rightPowerX;
+        rightback = leftPowerY - leftPowerX + rightPowerX;
 
+        NormScaling = Math.max(Math.max(leftfront, rightfront), Math.max(leftback, rightback));
 
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
-
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        leftfront = leftfront/=NormScaling;
+        rightfront = rightfront/=NormScaling;
+        leftback = leftback/=NormScaling;
+        rightback = rightback/=NormScaling;
     }
 
     /*

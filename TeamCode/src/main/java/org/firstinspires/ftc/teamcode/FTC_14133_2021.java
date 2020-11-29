@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,6 +13,7 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor rightback = null;
     private DcMotor leftfront = null;
     private DcMotor rightfront = null;
+    private DcMotor Shooter = null;
     HardwarePushbot robot = new HardwarePushbot();
     private DcMotor LongArm = null;
 
@@ -23,7 +23,9 @@ public class FTC_14133_2021 extends OpMode {
         leftback  = hardwareMap.get(DcMotor.class, "left_drive");
         rightback = hardwareMap.get(DcMotor.class, "right_drive");
         LongArm = hardwareMap.get(DcMotor.class, "Long_Arm");
+        Shooter = hardwareMap.get(DcMotor.class, "Shooter");
 
+        Shooter.setDirection(DcMotor.Direction.FORWARD);
         leftfront.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
         leftback.setDirection(DcMotor.Direction.FORWARD);
@@ -66,23 +68,56 @@ public class FTC_14133_2021 extends OpMode {
         rightback = rightback/=NormScaling;
 
         Servo Claw = null;
+        Servo StopperS = null;
+        float StopperB = 0;
 
-        if(gamepad1.y) {
+        if(gamepad2.y) {
             // move to 0 degrees.
             Claw.setPosition(0);
-        } else if (gamepad1.x) {
+        } else if (gamepad2.x) {
             // move to 90 degrees.
             Claw.setPosition(0.5);
-        } else if (gamepad1.a) {
+        } else if (gamepad2.a) {
             // move to 180 degrees.
             Claw.setPosition(1);
         }
-        if (gamepad1.right_bumper) {
+
+
+
+        if (gamepad2.right_bumper) {
             LongArm.setDirection(DcMotor.Direction.FORWARD);
             LongArm.setPower(3);
-        } else if (gamepad1.left_bumper) {
+        } else if (gamepad2.left_bumper) {
             LongArm.setDirection(DcMotor.Direction.REVERSE);
             LongArm.setPower(3);
+        }
+
+
+
+        if (gamepad2.b) {
+            Shooter.setPower(3);
+        }
+
+
+
+        if (gamepad1.left_bumper) {
+            Conveyor_Belt.setDirection(DcMotor.Direction.FORWARD);
+            Conveyor_Belt.setPower(4);
+        }
+        if (gamepad1.right_bumper) {
+            Conveyor_Belt.setDirection(DcMotor.Direction.REVERSE);
+            Conveyor_Belt.setPower(4);
+        }
+
+
+        if (gamepad1.y) {
+            StopperB = 1;
+        if (gamepad1.a) {
+            StopperB = 0;
+            }
+        if (StopperB == 1) ;{
+            StopperS.setPosition(90);
+            }
         }
     }
 }
