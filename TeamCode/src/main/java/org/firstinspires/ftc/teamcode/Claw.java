@@ -26,14 +26,16 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
-import androidx.appcompat.app.WindowDecorActionBar;
+
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @TeleOp(name="Pushbot: Teleop Tank", group="Pushbot")
 @Disabled
@@ -55,22 +57,20 @@ public class Claw extends OpMode {
 
     @Override
     public void start() {
+        float servoPos = 0;
     }
 
     @Override
     public void loop() {
         Servo leftClaw = null;
-
         if(gamepad1.y) {
-            // move to 0 degrees.
             leftClaw.setPosition(0);
         } else if (gamepad1.x) {
-            // move to 90 degrees.
             leftClaw.setPosition(0.5);
         } else if (gamepad1.a) {
-            // move to 180 degrees.
             leftClaw.setPosition(1);
         }
+        
     }
 
     @Override

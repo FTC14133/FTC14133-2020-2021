@@ -16,6 +16,7 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor Shooter = null;
     HardwarePushbot robot = new HardwarePushbot();
     private DcMotor LongArm = null;
+    private DcMotor Conveyor_Belt = null;
 
     public void init() {
         leftfront = hardwareMap.get(DcMotor.class, "left_drive");
@@ -24,12 +25,14 @@ public class FTC_14133_2021 extends OpMode {
         rightback = hardwareMap.get(DcMotor.class, "right_drive");
         LongArm = hardwareMap.get(DcMotor.class, "Long_Arm");
         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
+        Conveyor_Belt = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);
         leftfront.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
         leftback.setDirection(DcMotor.Direction.FORWARD);
         rightback.setDirection(DcMotor.Direction.REVERSE);
+        Conveyor_Belt.setDirection(DcMotor.Direction.REVERSE);
     }
 
 
@@ -60,8 +63,7 @@ public class FTC_14133_2021 extends OpMode {
         leftback = leftPowerY + leftPowerX - rightPowerX;
         rightback = leftPowerY - leftPowerX + rightPowerX;
 
-        NormScaling = Math.max(Math.max(leftfront, rightfront), Math.max(leftback, rightback));
-
+        NormScaling = Math.max(Math.max(Math.abs(leftfront), Math.abs(rightfront)), Math.max(Math.abs(leftback), Math.abs(rightback)));
         leftfront = leftfront/=NormScaling;
         rightfront = rightfront/=NormScaling;
         leftback = leftback/=NormScaling;
