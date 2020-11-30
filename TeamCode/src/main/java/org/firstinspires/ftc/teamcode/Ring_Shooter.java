@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-
+@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
 public class Ring_Shooter extends OpMode{
     private DcMotor Shooter = null;
     HardwarePushbot robot = new HardwarePushbot();

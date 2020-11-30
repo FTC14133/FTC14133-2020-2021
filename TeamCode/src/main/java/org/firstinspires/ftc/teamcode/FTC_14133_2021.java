@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-
+@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
 public class FTC_14133_2021 extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;

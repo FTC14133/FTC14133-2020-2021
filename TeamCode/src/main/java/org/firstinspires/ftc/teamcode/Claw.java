@@ -29,6 +29,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -38,7 +39,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @TeleOp(name="Pushbot: Teleop Tank", group="Pushbot")
-@Disabled
 public class Claw extends OpMode {
 
 
