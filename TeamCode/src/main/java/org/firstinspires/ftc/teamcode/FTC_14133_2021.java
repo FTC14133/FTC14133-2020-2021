@@ -17,8 +17,8 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor Shooter = null;
     HardwarePushbot robot = new HardwarePushbot();
     private DcMotor LongArm = null;
-    private DcMotor Conveyor_Belt = null;
-
+    private DcMotor Conveyor_Belt_Inner = null;
+    private DcMotor Conveyor_Belt_Outer = null;
     public void init() {
         leftfront = hardwareMap.get(DcMotor.class, "left_drive");
         rightfront = hardwareMap.get(DcMotor.class, "right_drive");
@@ -26,14 +26,15 @@ public class FTC_14133_2021 extends OpMode {
         rightback = hardwareMap.get(DcMotor.class, "right_drive");
         LongArm = hardwareMap.get(DcMotor.class, "Long_Arm");
         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
-        Conveyor_Belt = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
+        Conveyor_Belt_Inner = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
+        Conveyor_Belt_Outer = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);
         leftfront.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
         leftback.setDirection(DcMotor.Direction.FORWARD);
         rightback.setDirection(DcMotor.Direction.REVERSE);
-        Conveyor_Belt.setDirection(DcMotor.Direction.REVERSE);
+
     }
 
 
@@ -104,12 +105,16 @@ public class FTC_14133_2021 extends OpMode {
 
 
         if (gamepad1.left_bumper) {
-            Conveyor_Belt.setDirection(DcMotor.Direction.FORWARD);
-            Conveyor_Belt.setPower(4);
+            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.FORWARD);
+            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);
+            Conveyor_Belt_Inner.setPower(5);
+            Conveyor_Belt_Outer.setPower(5);
         }
         if (gamepad1.right_bumper) {
-            Conveyor_Belt.setDirection(DcMotor.Direction.REVERSE);
-            Conveyor_Belt.setPower(4);
+            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.REVERSE);
+            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.REVERSE);
+            Conveyor_Belt_Inner.setPower(5);
+            Conveyor_Belt_Outer.setPower(5);
         }
 
 
@@ -121,6 +126,9 @@ public class FTC_14133_2021 extends OpMode {
         if (StopperB == 1) ;{
             StopperS.setPosition(90);
             }
+        if (StopperB == 0){
+            StopperS.setPosition(0);
         }
+                }
     }
 }
