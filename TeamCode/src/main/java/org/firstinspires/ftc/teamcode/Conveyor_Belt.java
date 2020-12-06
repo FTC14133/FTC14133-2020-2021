@@ -28,16 +28,20 @@ public class Conveyor_Belt extends OpMode {
     public void loop() {
         if (gamepad2.left_bumper) {
             Conveyor_Belt_Inner.setDirection(DcMotor.Direction.FORWARD);
-            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);
+            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);        // This makes the intake run forward
             Conveyor_Belt_Inner.setPower(5);
             Conveyor_Belt_Outer.setPower(5);
         }
         if (gamepad2.right_bumper) {
-            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.REVERSE);
+            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.REVERSE);        // This makes the intake run backward
             Conveyor_Belt_Outer.setDirection(DcMotor.Direction.REVERSE);
             Conveyor_Belt_Inner.setPower(5);
             Conveyor_Belt_Outer.setPower(5);
-
+        }
+        else {
+             Conveyor_Belt_Outer.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
+             Conveyor_Belt_Inner.setPower(0);        //to turn them off when not being used
+            }
         }
     }
-}
+

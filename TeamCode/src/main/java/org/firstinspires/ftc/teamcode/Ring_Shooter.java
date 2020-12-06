@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
@@ -34,8 +35,14 @@ public class Ring_Shooter extends OpMode{
 
     @Override
     public void loop() {
+        Servo Stopper = null;
         if (gamepad1.b) {
-            Shooter.setPower(3);
+            Shooter.setPower(3);            // This Controls the shooter
+            Stopper.setPosition(90);        // This sets the Stopper to allow rings to come in the Shooter
+        }
+        else {
+            Shooter.setPower(0);    // This tells the program to set the Intake, Long Arm, and Shooter
+                                    //to turn them off when not being used
         }
     }
 }

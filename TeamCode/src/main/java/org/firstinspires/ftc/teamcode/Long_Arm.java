@@ -37,11 +37,15 @@ public class Long_Arm extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.right_bumper) {
-            LongArm.setDirection(DcMotor.Direction.FORWARD);
+            LongArm.setDirection(DcMotor.Direction.FORWARD);        //sets the long arm forward
             LongArm.setPower(3);
         } else if (gamepad1.left_bumper) {
-            LongArm.setDirection(DcMotor.Direction.REVERSE);
+            LongArm.setDirection(DcMotor.Direction.REVERSE);        //sets the long arm backwards
             LongArm.setPower(3);
+        }
+        else {
+            LongArm.setPower(0);// This tells the program to set the Intake, Long Arm, and Shooter
+                                //to turn them off when not being used
         }
 
     }

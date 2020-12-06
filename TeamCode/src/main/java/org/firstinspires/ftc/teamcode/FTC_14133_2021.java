@@ -72,8 +72,7 @@ public class FTC_14133_2021 extends OpMode {
         rightback = rightback/=NormScaling;
 
         Servo Claw = null;
-        Servo StopperS = null;
-        float StopperB = 0;
+        Servo Stopper = null;
 
         if(gamepad2.y) {
             // move to 0 degrees.
@@ -89,46 +88,43 @@ public class FTC_14133_2021 extends OpMode {
 
 
         if (gamepad2.right_bumper) {
-            LongArm.setDirection(DcMotor.Direction.FORWARD);
+            LongArm.setDirection(DcMotor.Direction.FORWARD);       //sets the long arm forward
             LongArm.setPower(3);
         } else if (gamepad2.left_bumper) {
-            LongArm.setDirection(DcMotor.Direction.REVERSE);
+            LongArm.setDirection(DcMotor.Direction.REVERSE);        //sets the long arm backwards
             LongArm.setPower(3);
         }
 
 
-
         if (gamepad2.b) {
-            Shooter.setPower(3);
+            Shooter.setPower(3);            // This Controls the shooter
+            Stopper.setPosition(90);        // This sets the Stopper to allow rings to come in the Shooter
         }
 
 
 
         if (gamepad1.left_bumper) {
             Conveyor_Belt_Inner.setDirection(DcMotor.Direction.FORWARD);
-            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);
+            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);        // This makes the intake run forward
             Conveyor_Belt_Inner.setPower(5);
             Conveyor_Belt_Outer.setPower(5);
         }
         if (gamepad1.right_bumper) {
-            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.REVERSE);
+            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.REVERSE);        // This makes the intake run backward
             Conveyor_Belt_Outer.setDirection(DcMotor.Direction.REVERSE);
             Conveyor_Belt_Inner.setPower(5);
             Conveyor_Belt_Outer.setPower(5);
         }
-
-
-        if (gamepad1.y) {
-            StopperB = 1;
-        if (gamepad1.a) {
-            StopperB = 0;
-            }
-        if (StopperB == 1) ;{
-            StopperS.setPosition(90);
-            }
-        if (StopperB == 0){
-            StopperS.setPosition(0);
+        else {
+            Conveyor_Belt_Outer.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
+            Conveyor_Belt_Inner.setPower(0);        //to turn them off when not being used
+            Stopper.setPosition(0);
+            LongArm.setPower(0);
+            Shooter.setPower(0);
         }
-                }
-    }
-}
+
+
+            }
+        }
+
+
