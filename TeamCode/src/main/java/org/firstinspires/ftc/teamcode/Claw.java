@@ -62,13 +62,16 @@ public class Claw extends OpMode {
 
     @Override
     public void loop() {
-        Servo leftClaw = null;
-        if(gamepad1.y) {
-            leftClaw.setPosition(0);
-        } else if (gamepad1.x) {
-            leftClaw.setPosition(0.5);
-        } else if (gamepad1.a) {
-            leftClaw.setPosition(1);
+        Servo Claw = null;
+        if(gamepad2.y) {
+            // move to 0 degrees.
+            Claw.setPosition(0);
+        } else if (gamepad2.x) {
+            // move to 90 degrees.
+            Claw.setPosition(90);
+        } else if (gamepad2.a) {
+            // move to 180 degrees.
+            Claw.setPosition(180);
         }
         
     }
