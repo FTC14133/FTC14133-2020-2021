@@ -67,17 +67,16 @@ public class FTC_14133_2021 extends OpMode {
 
         NormScaling = Math.max(Math.max(Math.abs(leftfrontpower), Math.abs(rightfrontpower)), Math.max(Math.abs(leftbackpower), Math.abs(rightbackpower)));
         if (NormScaling == 0) {}
-        if (NormScaling > 0) {
+        if (NormScaling > 1) {
             leftfrontpower /= NormScaling;
             rightfrontpower /= NormScaling;
             leftbackpower /= NormScaling;
             rightbackpower /= NormScaling;
-
-            leftfront.setPower(leftfrontpower);
-            leftback.setPower(leftbackpower);
-            rightfront.setPower(rightfrontpower);
-            rightback.setPower(rightbackpower);
         }
+        leftfront.setPower(leftfrontpower);
+        leftback.setPower(leftbackpower);
+        rightfront.setPower(rightfrontpower);
+        rightback.setPower(rightbackpower);
 
         Servo Claw = null;
         Servo Stopper = null;
@@ -97,10 +96,13 @@ public class FTC_14133_2021 extends OpMode {
 
         if (gamepad2.right_bumper) {
             LongArm.setDirection(DcMotor.Direction.FORWARD);       //sets the long arm forward
-            LongArm.setPower(3);
+            LongArm.setPower(1);
         } else if (gamepad2.left_bumper) {
             LongArm.setDirection(DcMotor.Direction.REVERSE);        //sets the long arm backwards
-            LongArm.setPower(3);
+            LongArm.setPower(1);
+
+        } else {
+            LongArm.setPower(0);
         }
 
 
