@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/**package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -14,7 +14,7 @@ public class Long_Arm extends OpMode {
     /*
      * Code to run ONCE when the driver hits INIT
      */
-    @Override
+/**    @Override
     public void init() {
         LongArm = hardwareMap.get(DcMotor.class, "Long_Arm");
     }
@@ -26,7 +26,7 @@ public class Long_Arm extends OpMode {
     /*
      * Code to run ONCE when the driver hits PLAY
      */
-    @Override
+ /**   @Override
     public void start() {
 
         /*
@@ -34,7 +34,7 @@ public class Long_Arm extends OpMode {
          */
     }
 
-    @Override
+ /**   @Override
     public void loop() {
         if (gamepad1.right_bumper) {
             LongArm.setDirection(DcMotor.Direction.FORWARD);        //sets the long arm forward
@@ -52,3 +52,4 @@ public class Long_Arm extends OpMode {
 
 
 }
+  */

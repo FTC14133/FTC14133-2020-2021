@@ -1,8 +1,11 @@
+// https://first-tech-challenge.github.io/SkyStone/
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -19,15 +22,17 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor LongArm = null;
     private DcMotor Conveyor_Belt_Inner = null;
     private DcMotor Conveyor_Belt_Outer = null;
+
     public void init() {
         leftfront = hardwareMap.get(DcMotor.class, "left_drive");       //sets the names of the motors on the hardware map
         rightfront = hardwareMap.get(DcMotor.class, "right_drive");
-        leftback  = hardwareMap.get(DcMotor.class, "left_drive");
+        leftback = hardwareMap.get(DcMotor.class, "left_drive");
         rightback = hardwareMap.get(DcMotor.class, "right_drive");
         LongArm = hardwareMap.get(DcMotor.class, "Long_Arm");
         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
         Conveyor_Belt_Inner = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
         Conveyor_Belt_Outer = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
+
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
         leftfront.setDirection(DcMotor.Direction.FORWARD);
@@ -56,9 +61,9 @@ public class FTC_14133_2021 extends OpMode {
         double leftbackpower;       //Power level for leftback
         double rightfrontpower;     //Power level for rightfront
 
-        leftPowerY  = -gamepad1.left_stick_y ;      //find the value of y axis on the left joystick
-        leftPowerX  = gamepad1.left_stick_x ;      //find the value of x axis on the left joystick
-        rightPowerX = gamepad1.right_stick_x ;      //find the value of x axis on the right joystick
+        leftPowerY = -gamepad1.left_stick_y;      //find the value of y axis on the left joystick
+        leftPowerX = gamepad1.left_stick_x;      //find the value of x axis on the left joystick
+        rightPowerX = gamepad1.right_stick_x;      //find the value of x axis on the right joystick
 
         leftfrontpower = leftPowerY + leftPowerX + rightPowerX;
         rightfrontpower = leftPowerY - leftPowerX - rightPowerX;
@@ -66,7 +71,8 @@ public class FTC_14133_2021 extends OpMode {
         rightbackpower = leftPowerY - leftPowerX + rightPowerX;
 
         NormScaling = Math.max(Math.max(Math.abs(leftfrontpower), Math.abs(rightfrontpower)), Math.max(Math.abs(leftbackpower), Math.abs(rightbackpower)));
-        if (NormScaling == 0) {}
+        if (NormScaling == 0) {
+        }
         if (NormScaling > 1) {
             leftfrontpower /= NormScaling;
             rightfrontpower /= NormScaling;
@@ -81,7 +87,7 @@ public class FTC_14133_2021 extends OpMode {
         Servo Claw = null;
         Servo Stopper = null;
 
-        if(gamepad2.y) {
+        if (gamepad2.y) {
             // move to 0 degrees.
             Claw.setPosition(0);
         } else if (gamepad2.x) {
@@ -91,7 +97,6 @@ public class FTC_14133_2021 extends OpMode {
             // move to 180 degrees.
             Claw.setPosition(180);
         }
-
 
 
         if (gamepad2.right_bumper) {
@@ -112,7 +117,6 @@ public class FTC_14133_2021 extends OpMode {
         }
 
 
-
         if (gamepad1.left_bumper) {
             Conveyor_Belt_Inner.setDirection(DcMotor.Direction.FORWARD);
             Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);        // This makes the intake run forward
@@ -124,8 +128,7 @@ public class FTC_14133_2021 extends OpMode {
             Conveyor_Belt_Outer.setDirection(DcMotor.Direction.REVERSE);
             Conveyor_Belt_Inner.setPower(5);
             Conveyor_Belt_Outer.setPower(5);
-        }
-        else {
+        } else {
             Conveyor_Belt_Outer.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             Conveyor_Belt_Inner.setPower(0);        //to turn them off when not being used
             Stopper.setPosition(0);
@@ -133,8 +136,6 @@ public class FTC_14133_2021 extends OpMode {
             Shooter.setPower(0);
         }
 
-
-            }
         }
-
+    }
 
