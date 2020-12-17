@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/**package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -30,7 +30,7 @@ public class Ring_Shooter extends OpMode{
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
-
+/**
     }
 
     @Override
@@ -47,3 +47,4 @@ public class Ring_Shooter extends OpMode{
     }
 }
 
+*/

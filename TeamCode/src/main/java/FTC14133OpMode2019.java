@@ -1,4 +1,4 @@
-public class FTC14133OpMode2019 {
+/**public class FTC14133OpMode2019 {
 }
 package org.firstinspires.ftc.teamcode;
 
@@ -19,7 +19,7 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * This function is executed when this Op Mode is selected from the Driver Station.
      */
-    @Override
+/**    @Override
     public void runOpMode() {
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
@@ -50,7 +50,7 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void Driveforward() {
+/**    private void Driveforward() {
         FrontLeft.setPower(-0.5);
         FrontRight.setPower(-0.5);
         BackLeft.setPower(-0.5);
@@ -60,7 +60,7 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void Drivebackward() {
+/**    private void Drivebackward() {
         FrontLeft.setPower(0.5);
         FrontRight.setPower(0.5);
         BackLeft.setPower(0.5);
@@ -70,7 +70,7 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void Strafeleft() {
+/**    private void Strafeleft() {
         FrontLeft.setPower(0.5);
         FrontRight.setPower(-0.5);
         BackLeft.setPower(-0.5);
@@ -80,7 +80,7 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void Straferight() {
+/**    private void Straferight() {
         FrontLeft.setPower(-0.5);
         FrontRight.setPower(0.5);
         BackLeft.setPower(0.5);
@@ -90,7 +90,7 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void Turnleft() {
+ /**   private void Turnleft() {
         FrontLeft.setPower(-0.5);
         FrontRight.setPower(0.5);
         BackLeft.setPower(-0.5);
@@ -100,7 +100,7 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void Turnright() {
+/**    private void Turnright() {
         FrontLeft.setPower(0.5);
         FrontRight.setPower(-0.5);
         BackLeft.setPower(0.5);
@@ -110,7 +110,8 @@ public class AutoMoob2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void IntakeDown() {
+ /**   private void IntakeDown() {
         Elevator.setPower(1);
     }
 }
+  */
