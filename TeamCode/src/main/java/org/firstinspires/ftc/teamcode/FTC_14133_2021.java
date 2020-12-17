@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode;
-
+// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -19,6 +20,7 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor LongArm = null;
     private DcMotor Conveyor_Belt_Inner = null;
     private DcMotor Conveyor_Belt_Outer = null;
+    DigitalChannel LimitSwitchLongArm ;
     public void init() {
         leftfront = hardwareMap.get(DcMotor.class, "left_drive");       //sets the names of the motors on the hardware map
         rightfront = hardwareMap.get(DcMotor.class, "right_drive");
@@ -28,12 +30,14 @@ public class FTC_14133_2021 extends OpMode {
         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
         Conveyor_Belt_Inner = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
         Conveyor_Belt_Outer = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
+        LimitSwitchLongArm = hardwareMap.get(DigitalChannel.class, "LimitSwitchLongArm");
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
         leftfront.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
         leftback.setDirection(DcMotor.Direction.FORWARD);
         rightback.setDirection(DcMotor.Direction.REVERSE);
+        LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
 
     }
 
@@ -55,6 +59,7 @@ public class FTC_14133_2021 extends OpMode {
         double rightbackpower;      //Power level for rightback
         double leftbackpower;       //Power level for leftback
         double rightfrontpower;     //Power level for rightfront
+        int ClawButton = 1;
 
         leftPowerY  = -gamepad1.left_stick_y ;      //find the value of y axis on the left joystick
         leftPowerX  = gamepad1.left_stick_x ;      //find the value of x axis on the left joystick
@@ -67,31 +72,30 @@ public class FTC_14133_2021 extends OpMode {
 
         NormScaling = Math.max(Math.max(Math.abs(leftfrontpower), Math.abs(rightfrontpower)), Math.max(Math.abs(leftbackpower), Math.abs(rightbackpower)));
         if (NormScaling == 0) {}
-        if (NormScaling > 1) {
+        if (NormScaling > 0) {
             leftfrontpower /= NormScaling;
             rightfrontpower /= NormScaling;
             leftbackpower /= NormScaling;
             rightbackpower /= NormScaling;
+
+            leftfront.setPower(leftfrontpower);
+            leftback.setPower(leftbackpower);
+            rightfront.setPower(rightfrontpower);
+            rightback.setPower(rightbackpower);
         }
-        leftfront.setPower(leftfrontpower);
-        leftback.setPower(leftbackpower);
-        rightfront.setPower(rightfrontpower);
-        rightback.setPower(rightbackpower);
 
         Servo Claw = null;
         Servo Stopper = null;
 
         if(gamepad2.y) {
-            // move to 0 degrees.
-            Claw.setPosition(0);
-        } else if (gamepad2.x) {
-            // move to 90 degrees.
-            Claw.setPosition(90);
-        } else if (gamepad2.a) {
-            // move to 180 degrees.
-            Claw.setPosition(180);
+            ClawButton = ClawButton * -1;
         }
-
+        if(ClawButton == 1){
+            Claw.setPosition(0);
+        }
+        if(ClawButton == -1){
+            Claw.setPosition(90);
+        }
 
 
         if (gamepad2.right_bumper) {
@@ -100,14 +104,11 @@ public class FTC_14133_2021 extends OpMode {
         } else if (gamepad2.left_bumper) {
             LongArm.setDirection(DcMotor.Direction.REVERSE);        //sets the long arm backwards
             LongArm.setPower(1);
-
-        } else {
-            LongArm.setPower(0);
         }
 
 
         if (gamepad2.b) {
-            Shooter.setPower(3);            // This Controls the shooter
+            Shooter.setPower(1);            // This Controls the shooter
             Stopper.setPosition(90);        // This sets the Stopper to allow rings to come in the Shooter
         }
 
@@ -116,14 +117,14 @@ public class FTC_14133_2021 extends OpMode {
         if (gamepad1.left_bumper) {
             Conveyor_Belt_Inner.setDirection(DcMotor.Direction.FORWARD);
             Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);        // This makes the intake run forward
-            Conveyor_Belt_Inner.setPower(5);
-            Conveyor_Belt_Outer.setPower(5);
+            Conveyor_Belt_Inner.setPower(1);
+            Conveyor_Belt_Outer.setPower(1);
         }
         if (gamepad1.right_bumper) {
             Conveyor_Belt_Inner.setDirection(DcMotor.Direction.REVERSE);        // This makes the intake run backward
             Conveyor_Belt_Outer.setDirection(DcMotor.Direction.REVERSE);
-            Conveyor_Belt_Inner.setPower(5);
-            Conveyor_Belt_Outer.setPower(5);
+            Conveyor_Belt_Inner.setPower(1);
+            Conveyor_Belt_Outer.setPower(1);
         }
         else {
             Conveyor_Belt_Outer.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
