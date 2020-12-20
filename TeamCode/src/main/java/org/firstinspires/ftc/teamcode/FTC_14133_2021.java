@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+@TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
 public class FTC_14133_2021 extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;
@@ -22,6 +22,8 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor conveyor = null;
     DigitalChannel LimitSwitchLongArm ;
     DigitalChannel beamBreak;
+    Servo Claw = null;
+    Servo Stopper = null;
 
 
     public void init() {
@@ -35,6 +37,9 @@ public class FTC_14133_2021 extends OpMode {
         conveyor = hardwareMap.get(DcMotor.class, "Conveyor_Belt");
         LimitSwitchLongArm = hardwareMap.get(DigitalChannel.class, "LimitSwitchLongArm");
         beamBreak = hardwareMap.get(DigitalChannel.class, "sensor_digital");
+        Claw = hardwareMap.get(Servo.class, "claw");
+        Stopper = hardwareMap.get(Servo.class, "stopper");
+
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
         leftfront.setDirection(DcMotor.Direction.FORWARD);
@@ -43,6 +48,7 @@ public class FTC_14133_2021 extends OpMode {
         rightback.setDirection(DcMotor.Direction.REVERSE);
         LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+
 
     }
 
@@ -89,8 +95,7 @@ public class FTC_14133_2021 extends OpMode {
         rightfront.setPower(rightfrontpower);
         rightback.setPower(rightbackpower);
 
-        Servo Claw = null;
-        Servo Stopper = null;
+
 
         if(gamepad2.y) {
             ClawButton = ClawButton * -1;
@@ -99,7 +104,7 @@ public class FTC_14133_2021 extends OpMode {
             Claw.setPosition(0);
         }
         if(ClawButton == -1){
-            Claw.setPosition(90);
+            Claw.setPosition(0.5);
         }
 
 
@@ -114,7 +119,7 @@ public class FTC_14133_2021 extends OpMode {
 
         if (gamepad2.b) {
             Shooter.setPower(1);            // This Controls the shooter
-            Stopper.setPosition(90);        // This sets the Stopper to allow rings to come in the Shooter
+            Stopper.setPosition(0.5);        // This sets the Stopper to allow rings to come in the Shooter
         }
 
 
@@ -128,7 +133,7 @@ public class FTC_14133_2021 extends OpMode {
             conveyor.setPower(-1);
         }
 
-        while (beamBreak.getState() == true){
+        if (beamBreak.getState()){
             if  (gamepad2.left_trigger >0){
                 conveyor.setPower(-1);
             }

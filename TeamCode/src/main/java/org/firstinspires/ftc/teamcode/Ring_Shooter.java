@@ -25,7 +25,7 @@ public class Ring_Shooter extends OpMode{
     /*
      * Code to run ONCE when the driver hits PLAY
      */
-    public void start(){
+  //  public void start(){
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
