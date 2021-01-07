@@ -11,19 +11,21 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
 public class FTC_14133_2021 extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftback = null;
+    private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
     private DcMotor leftfront = null;
     private DcMotor rightfront = null;
-    private DcMotor Shooter = null;
-    HardwarePushbot robot = new HardwarePushbot();
-    private DcMotor LongArm = null;
-    private DcMotor intake = null;
-    private DcMotor conveyor = null;
-    DigitalChannel LimitSwitchLongArm;
-    DigitalChannel beamBreak;
-    Servo Claw = null;
-    Servo Stopper = null;
+
+    private DcMotor Shooter = null;         // Sets the variable of the shooter
+    private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
+    private DcMotor intake = null;          // Sets the variable of the intake
+    private DcMotor conveyor = null;          // Sets the variable of the conveyor
+    DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
+    DigitalChannel beamBreak;          // Sets the variable of the beamBreak
+    Servo Claw = null;          // Sets the variable of the Claw
+    Servo Stopper = null;          // Sets the variable of the stopper
+    boolean clawstate = false;          // Sets the variable of the clawstate
+    boolean toggle = true;          // Sets the variable of the toggle
 
 
     public void init() {
@@ -96,31 +98,27 @@ public class FTC_14133_2021 extends OpMode {
         rightback.setPower(rightbackpower);
 
 
-        if (gamepad2.y) {
-            //   ClawButton = ClawButton * -1;
-            a = a + 1;
 
-            if (a < 200) {
-                Claw.setPosition(90);
-            } else if (a < 2000) {
-                Claw.setPosition(0);
+
+
+        if (toggle && gamepad2.y) {  // Only execute once per Button push
+            toggle = false;  // Prevents this section of code from being called again until the Button is released and re-pressed
+            if (clawstate) {  // Decide which way to set the motor this time through (or use this as a motor value instead)
+                clawstate= false;
+                Claw.setPosition(1);
             } else {
-                a = 0;
+                clawstate= true;
+                Claw.setPosition(0);
             }
+        } else if(gamepad2.y == false) {
+            toggle = true; // Button has been released, so this allows a re-press to activate the code above.
+        }
 
 
-            //  }
-            //if(ClawButton == 1){
-            //  Claw.setPosition(0);
-            //  }
-            //if(ClawButton == -1){
-            //    Claw.setPosition(90);
-            //}
 
-
-            if (gamepad2.right_bumper) {
+            if (gamepad2.right_bumper) {            //turns the arm that is long but there is not a arm that is short
                 LongArm.setPower(1);
-            } else if (gamepad2.left_bumper) {
+            } else if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
                 LongArm.setPower(-1);
 
             }
@@ -132,17 +130,17 @@ public class FTC_14133_2021 extends OpMode {
             }
 
 
-            if (gamepad2.right_trigger > 0) {
+            if (gamepad2.right_trigger > 0) {       //runs the intake forward
                 intake.setPower(1);
             }
 
-            if (gamepad2.left_trigger > 0) {
+            if (gamepad2.left_trigger > 0) {        //runs the intake backwards
                 intake.setPower(-1);
                 conveyor.setPower(-1);
             }
 
             if (beamBreak.getState()) {
-                if (gamepad2.left_trigger > 0) {
+                if (gamepad2.left_trigger > 0) {        //BEAM BREAK grace can you do this
                     conveyor.setPower(-1);
                 } else {
                     conveyor.setPower(1);
@@ -159,6 +157,5 @@ public class FTC_14133_2021 extends OpMode {
 
         }
     }
-}
 
 
