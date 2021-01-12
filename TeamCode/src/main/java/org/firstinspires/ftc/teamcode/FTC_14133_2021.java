@@ -26,6 +26,7 @@ public class FTC_14133_2021 extends OpMode {
     Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
+    double LongArmPos = 0;
 
 
     public void init() {
@@ -50,7 +51,11 @@ public class FTC_14133_2021 extends OpMode {
         rightback.setDirection(DcMotor.Direction.REVERSE);
         LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
-
+        Claw.setPosition(0);
+        Stopper.setPosition(0);
+        LongArmPos = LongArm.getCurrentPosition();
+        telemetry.addData("Digital Touch", LongArmPos);
+        telemetry.update();
 
     }
 
@@ -117,9 +122,9 @@ public class FTC_14133_2021 extends OpMode {
 
 
             if (gamepad2.right_bumper) {            //turns the arm that is long but there is not a arm that is short
-                LongArm.setPower(1);
+                LongArm.setTargetPosition(1);
             } else if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
-                LongArm.setPower(-1);
+                LongArm.setTargetPosition(-1);
 
             }
 
