@@ -15,7 +15,7 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor rightback = null;
     private DcMotor leftfront = null;
     private DcMotor rightfront = null;
-
+    static final double MOTOR_TICK_COUNT = 1120;
     private DcMotor Shooter = null;         // Sets the variable of the shooter
     private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
     private DcMotor intake = null;          // Sets the variable of the intake
@@ -26,7 +26,6 @@ public class FTC_14133_2021 extends OpMode {
     Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
-    double LongArmPos = 0;
 
 
     public void init() {
@@ -53,10 +52,12 @@ public class FTC_14133_2021 extends OpMode {
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         Claw.setPosition(0);
         Stopper.setPosition(0);
-        LongArmPos = LongArm.getCurrentPosition();
-        telemetry.addData("Digital Touch", LongArmPos);
-        telemetry.update();
+        double quarterTurn = MOTOR_TICK_COUNT/4;        //Value for 90 degrees
 
+        LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using encoder we start it up
+        LongArm.setTargetPosition((int)quarterTurn);        //Tell the motor to go to 90 degrees when told to
+        LongArm.setPower(1);        //Sets the power for the Long arm
+        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);       //Tells motor to go to 90 degrees
     }
 
 
