@@ -77,6 +77,7 @@ public class FTC_14133_2021 extends OpMode {
         double rightbackpower;      //Power level for rightback
         double leftbackpower;       //Power level for leftback
         double rightfrontpower;     //Power level for rightfront
+        int ShooterPower = 0;
         int ClawButton = 1;
         int a = 1;
 
@@ -103,9 +104,6 @@ public class FTC_14133_2021 extends OpMode {
         rightback.setPower(rightbackpower);
 
 
-
-
-
         if (toggle && gamepad2.y) {  // Only execute once per Button push
             toggle = false;  // Prevents this section of code from being called again until the Button is released and re-pressed
             if (clawstate) {  // Decide which way to set the motor this time through (or use this as a motor value instead)
@@ -127,6 +125,21 @@ public class FTC_14133_2021 extends OpMode {
                 LongArm.setTargetPosition(-1);
 
             }
+
+
+
+
+
+            if (ShooterPower > 1){
+                ShooterPower = 1;
+            }
+
+            if (ShooterPower < -1){
+                ShooterPower = -1;
+            }
+
+
+
 
 
             if (gamepad2.b) {
