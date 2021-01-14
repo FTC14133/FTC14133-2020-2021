@@ -15,7 +15,7 @@ public class FTC_14133_2021 extends OpMode {
     private DcMotor rightback = null;
     private DcMotor leftfront = null;
     private DcMotor rightfront = null;
-    static final double MOTOR_TICK_COUNT = 1120;
+    static final double MOTOR_TICK_COUNT = 2800;
     private DcMotor Shooter = null;         // Sets the variable of the shooter
     private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
     private DcMotor intake = null;          // Sets the variable of the intake
@@ -52,12 +52,10 @@ public class FTC_14133_2021 extends OpMode {
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         Claw.setPosition(0);
         Stopper.setPosition(0);
-        double quarterTurn = MOTOR_TICK_COUNT/4;        //Value for 90 degrees
+                //Value for 90 degrees
 
-        LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using encoder we start it up
-        LongArm.setTargetPosition((int)quarterTurn);        //Tell the motor to go to 90 degrees when told to
-        LongArm.setPower(1);        //Sets the power for the Long arm
-        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);       //Tells motor to go to 90 degrees
+
+       //Tells motor to go to 90 degrees
     }
 
 
@@ -81,6 +79,8 @@ public class FTC_14133_2021 extends OpMode {
         int ShooterPower = 0;
         int ClawButton = 1;
         int a = 1;
+        LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
+        double armrotation = MOTOR_TICK_COUNT * (90/360);
 
         leftPowerY = -gamepad1.left_stick_y;      //find the value of y axis on the left joystick
         leftPowerX = gamepad1.left_stick_x;      //find the value of x axis on the left joystick
@@ -120,12 +120,22 @@ public class FTC_14133_2021 extends OpMode {
 
 
 
+
+
+
             if (gamepad2.right_bumper) {            //turns the arm that is long but there is not a arm that is short
-                LongArm.setTargetPosition(1);
+                LongArm.setTargetPosition(90);        //Tell the motor to go to 90 degrees when told to
+                LongArm.setPower(1);        //Sets the power for the Long arm
+                LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
-                LongArm.setTargetPosition(-1);
+                LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+                LongArm.setPower(1);        //Sets the power for the Long arm
+                LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             }
+
+
+
 
 
 
