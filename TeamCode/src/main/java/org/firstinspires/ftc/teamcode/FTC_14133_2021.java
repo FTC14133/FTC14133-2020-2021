@@ -8,7 +8,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-@TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
+import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
+
+ @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
 public class FTC_14133_2021 extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
@@ -26,6 +28,8 @@ public class FTC_14133_2021 extends OpMode {
     Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
+    double LongArmPos = 0;
+    double ShooterPower = 1;             // mayhaps
 
 
     public void init() {
@@ -76,7 +80,7 @@ public class FTC_14133_2021 extends OpMode {
         double rightbackpower;      //Power level for rightback
         double leftbackpower;       //Power level for leftback
         double rightfrontpower;     //Power level for rightfront
-        int ShooterPower = 0;
+        int ShooterPower =1;
         int ClawButton = 1;
         int a = 1;
         LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
@@ -137,24 +141,24 @@ public class FTC_14133_2021 extends OpMode {
 
 
 
-
-
-
-
-            if (ShooterPower > 1){
-                ShooterPower = 1;
+            if (gamepad2.left_stick_y < 0){
+                ShooterPower+=0.01;
             }
 
-            if (ShooterPower < -1){
-                ShooterPower = -1;
+            if (gamepad2.left_stick_y > 0){
+                ShooterPower-=0.01;
             }
 
+            if (ShooterPower>1){
+                ShooterPower=1;
+            }
 
-
-
+        if (ShooterPower < 0) {
+            ShooterPower= 0;
+        }
 
             if (gamepad2.b) {
-                Shooter.setPower(1);            // This Controls the shooter
+                Shooter.setPower(ShooterPower);            // This Controls the shooter
                 Stopper.setPosition(0.5);        // This sets the Stopper to allow rings to come in the Shooter
             }
 
