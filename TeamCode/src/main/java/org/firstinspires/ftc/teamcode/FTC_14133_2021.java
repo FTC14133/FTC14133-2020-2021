@@ -28,7 +28,6 @@ public class FTC_14133_2021 extends OpMode {
     Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
-    double LongArmPos = 0;
     double ShooterPower = 1;             // mayhaps
 
 
@@ -79,111 +78,115 @@ public class FTC_14133_2021 extends OpMode {
         double rightbackpower;      //Power level for rightback
         double leftbackpower;       //Power level for leftback
         double rightfrontpower;     //Power level for rightfront
-        double armrotation = MOTOR_TICK_COUNT * (90/360);
+        double armrotation = MOTOR_TICK_COUNT * (90 / 360);
+
+        //Mecanum Wheels
 
         leftPowerY = -gamepad1.left_stick_y;      //find the value of y axis on the left joystick
         leftPowerX = gamepad1.left_stick_x;      //find the value of x axis on the left joystick
         rightPowerX = gamepad1.right_stick_x;      //find the value of x axis on the right joystick
 
-        leftfrontpower = leftPowerY + leftPowerX + rightPowerX;
+        leftfrontpower = leftPowerY + leftPowerX + rightPowerX;     //Power of Mecanum wheels
         rightfrontpower = leftPowerY - leftPowerX - rightPowerX;
         leftbackpower = leftPowerY + leftPowerX - rightPowerX;
         rightbackpower = leftPowerY - leftPowerX + rightPowerX;
 
-        NormScaling = Math.max(Math.max(Math.abs(leftfrontpower), Math.abs(rightfrontpower)), Math.max(Math.abs(leftbackpower), Math.abs(rightbackpower)));
+        NormScaling = Math.max(Math.max(Math.abs(leftfrontpower), Math.abs(rightfrontpower)), Math.max(Math.abs(leftbackpower), Math.abs(rightbackpower)));     //This line of code gets the max of the the absolute values of the power of the wheels. WARNING DO NOT TRY THIS AT HOME
 
         if (NormScaling > 1) {
-            leftfrontpower /= NormScaling;
+            leftfrontpower /= NormScaling;      //If the max of the the absolute values of the power of the wheels is greater than 1 it will divide all of the powers of the wheels by the max of the the absolute values of the power of the wheels
             rightfrontpower /= NormScaling;
             leftbackpower /= NormScaling;
             rightbackpower /= NormScaling;
         }
-        leftfront.setPower(leftfrontpower);
+        leftfront.setPower(leftfrontpower);     //Sets the power of the wheels
         leftback.setPower(leftbackpower);
         rightfront.setPower(rightfrontpower);
         rightback.setPower(rightbackpower);
 
+        //Claw
 
         if (toggle && gamepad2.y) {  // Only execute once per Button push
             toggle = false;  // Prevents this section of code from being called again until the Button is released and re-pressed
             if (clawstate) {  // Decide which way to set the motor this time through (or use this as a motor value instead)
-                clawstate= false;
+                clawstate = false;
                 Claw.setPosition(1);
             } else {
-                clawstate= true;
+                clawstate = true;
                 Claw.setPosition(0);
             }
-        } else if(gamepad2.y == false) {
+        } else if (gamepad2.y == false) {
             toggle = true; // Button has been released, so this allows a re-press to activate the code above.
         }
 
-
-
-
-
+        //Long Arm
 
         if (gamepad2.right_bumper) {            //turns the arm that is long but there is not a arm that is short
-                LongArm.setTargetPosition((int)armrotation);        //Tell the motor to go to 90 degrees when told to
-                LongArm.setPower(1);        //Sets the power for the Long arm
-                LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
-                LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
-                LongArm.setPower(1);        //Sets the power for the Long arm
-                LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            }
-
-
+            LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
+            LongArm.setPower(1);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
+            LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+            LongArm.setPower(1);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
 
 
-        if (gamepad2.left_stick_y < 0){
-                ShooterPower+=0.01;
-            }
+        //Shooter and Shooter Power
 
-        if (gamepad2.left_stick_y > 0){
-                ShooterPower-=0.01;
-            }
+        if (gamepad2.left_stick_y < 0) {
+            ShooterPower += 0.01;
+        }
 
-         if (ShooterPower>1){
-                ShooterPower=1;
-            }
+        if (gamepad2.left_stick_y > 0) {
+            ShooterPower -= 0.01;
+        }
+
+        if (ShooterPower > 1) {
+            ShooterPower = 1;
+        }
 
         if (ShooterPower < 0) {
-            ShooterPower= 0;
+            ShooterPower = 0;
         }
 
         if (gamepad2.b) {
-                Shooter.setPower(ShooterPower);            // This Controls the shooter
-                Stopper.setPosition(0.5);        // This sets the Stopper to allow rings to come in the Shooter
-            }
+            Shooter.setPower(ShooterPower);            // This Controls the shooter
+            Stopper.setPosition(0.5);        // This sets the Stopper to allow rings to come in the Shooter
+        }
 
+        //Intake and Conveyor and Conveyor Detection System
 
         if (gamepad2.right_trigger > 0) {       //runs the intake forward
-                intake.setPower(1);
-            }
+            intake.setPower(1);
+        }
 
         if (gamepad2.left_trigger > 0) {        //runs the intake backwards
-                intake.setPower(-1);
-                conveyor.setPower(-1);
-            }
+            intake.setPower(-1);
+            conveyor.setPower(-1);
+        }
 
         if (beamBreak.getState()) {
-                if (gamepad2.left_trigger > 0) {        //BEAM BREAK grace can you do this
-                    conveyor.setPower(-1);
-                } else {
-                    conveyor.setPower(1);
-                }
-        } else {
-                conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
-                intake.setPower(0);        //to turn them off when not being used
-                Stopper.setPosition(0);
-                LongArm.setPower(0);
-                Shooter.setPower(0);
-                LongArm.setPower(0);
+            if (gamepad2.left_trigger > 0) {        //BEAM BREAK grace can you do this
+                conveyor.setPower(-1);
+            } else {
+                conveyor.setPower(1);
             }
+        }
+        //Big Else Statement
+
+        else {
+            conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
+            intake.setPower(0);        //to turn them off when not being used
+            Stopper.setPosition(0);
+            LongArm.setPower(0);
+            Shooter.setPower(0);
+            LongArm.setPower(0);
 
 
         }
     }
+}
 
 
