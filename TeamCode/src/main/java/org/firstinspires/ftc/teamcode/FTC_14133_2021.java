@@ -56,10 +56,9 @@ public class FTC_14133_2021 extends OpMode {
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         Claw.setPosition(0);
         Stopper.setPosition(0);
-                //Value for 90 degrees
+        LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
 
 
-       //Tells motor to go to 90 degrees
     }
 
 
@@ -80,10 +79,6 @@ public class FTC_14133_2021 extends OpMode {
         double rightbackpower;      //Power level for rightback
         double leftbackpower;       //Power level for leftback
         double rightfrontpower;     //Power level for rightfront
-        int ShooterPower =1;
-        int ClawButton = 1;
-        int a = 1;
-        LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
         double armrotation = MOTOR_TICK_COUNT * (90/360);
 
         leftPowerY = -gamepad1.left_stick_y;      //find the value of y axis on the left joystick
@@ -127,11 +122,11 @@ public class FTC_14133_2021 extends OpMode {
 
 
 
-            if (gamepad2.right_bumper) {            //turns the arm that is long but there is not a arm that is short
-                LongArm.setTargetPosition(90);        //Tell the motor to go to 90 degrees when told to
+        if (gamepad2.right_bumper) {            //turns the arm that is long but there is not a arm that is short
+                LongArm.setTargetPosition((int)armrotation);        //Tell the motor to go to 90 degrees when told to
                 LongArm.setPower(1);        //Sets the power for the Long arm
                 LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            } else if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
+        } else if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
                 LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
                 LongArm.setPower(1);        //Sets the power for the Long arm
                 LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -141,15 +136,15 @@ public class FTC_14133_2021 extends OpMode {
 
 
 
-            if (gamepad2.left_stick_y < 0){
+        if (gamepad2.left_stick_y < 0){
                 ShooterPower+=0.01;
             }
 
-            if (gamepad2.left_stick_y > 0){
+        if (gamepad2.left_stick_y > 0){
                 ShooterPower-=0.01;
             }
 
-            if (ShooterPower>1){
+         if (ShooterPower>1){
                 ShooterPower=1;
             }
 
@@ -157,28 +152,28 @@ public class FTC_14133_2021 extends OpMode {
             ShooterPower= 0;
         }
 
-            if (gamepad2.b) {
+        if (gamepad2.b) {
                 Shooter.setPower(ShooterPower);            // This Controls the shooter
                 Stopper.setPosition(0.5);        // This sets the Stopper to allow rings to come in the Shooter
             }
 
 
-            if (gamepad2.right_trigger > 0) {       //runs the intake forward
+        if (gamepad2.right_trigger > 0) {       //runs the intake forward
                 intake.setPower(1);
             }
 
-            if (gamepad2.left_trigger > 0) {        //runs the intake backwards
+        if (gamepad2.left_trigger > 0) {        //runs the intake backwards
                 intake.setPower(-1);
                 conveyor.setPower(-1);
             }
 
-            if (beamBreak.getState()) {
+        if (beamBreak.getState()) {
                 if (gamepad2.left_trigger > 0) {        //BEAM BREAK grace can you do this
                     conveyor.setPower(-1);
                 } else {
                     conveyor.setPower(1);
                 }
-            } else {
+        } else {
                 conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
                 intake.setPower(0);        //to turn them off when not being used
                 Stopper.setPosition(0);
