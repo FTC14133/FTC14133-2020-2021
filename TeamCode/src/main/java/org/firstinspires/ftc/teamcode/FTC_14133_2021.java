@@ -30,7 +30,6 @@ public class FTC_14133_2021 extends OpMode {
     boolean toggle = true;          // Sets the variable of the toggle
     double ShooterPower = 1;             // mayhaps
 
-
     public void init() {
         leftfront = hardwareMap.get(DcMotor.class, "leftfront");       //sets the names of the motors on the hardware map
         rightfront = hardwareMap.get(DcMotor.class, "rightfront");
@@ -59,6 +58,7 @@ public class FTC_14133_2021 extends OpMode {
 
 
     }
+
 
 
     public void init_loop() {

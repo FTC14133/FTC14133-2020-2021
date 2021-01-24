@@ -6,12 +6,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import java.util.concurrent.TimeUnit;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
-public class FTC_14133_2021_Auto extends OpMode {
+class FTC_14133_2021_Auto extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
@@ -29,7 +30,8 @@ public class FTC_14133_2021_Auto extends OpMode {
     Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
-    double ShooterPower = 1;             // mayhaps
+    double distance = 0;
+    double turn = 0;
 
 
     public void init() {
@@ -62,8 +64,61 @@ public class FTC_14133_2021_Auto extends OpMode {
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void runOpMode() {
+    @Override
+    public void loop() {
 
+    }
+
+    void ForwardorBackwards() {
+        //Driving forward/backwards
+      //  double distance= 5; //(in)
+        double encodercounts= distance*(1/(75*(1/25.4)))*560;
+        int encodercountsint= (int) encodercounts;
+        leftfront.setTargetPosition(encodercountsint);
+        leftfront.setPower(1);        //Sets the power for the Long arm
+        rightfront.setTargetPosition( encodercountsint);
+        rightfront.setPower(1);        //Sets the power for the Long arm
+        leftback.setTargetPosition( encodercountsint);
+        leftback.setPower(1);        //Sets the power for the Long arm
+        rightback.setTargetPosition( encodercountsint);
+        rightback.setPower(1);        //Sets the power for the Long arm
+        leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    void LeftorRight() {
+        //Driving left/right
+        double encodercounts= turn*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097;
+        int encodercountsint= (int) encodercounts;
+        leftfront.setTargetPosition(encodercountsint);
+        leftfront.setPower(1);        //
+        rightfront.setTargetPosition(-encodercountsint);
+        rightfront.setPower(1);        //Sets the power for the Long arm
+        leftback.setTargetPosition(encodercountsint);
+        leftback.setPower(1);        //Sets the power for the Long arm
+        rightback.setTargetPosition(-encodercountsint);
+        rightback.setPower(1);        //Sets the power for the Long arm
+        leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void runOpMode() {
+        //Do the FUNCTION of LEFT OR RIGHT
+        turn = 5;
+        LeftorRight();
+        turn = 5;
+        //Do the FUNCTION of FORWARD OR BACKWARDS
+        distance = 5;
+        ForwardorBackwards();
+        distance = 5;
+    }
+}
+
+/*
         //Driving forward/backwards
         double distance= 5; //(in)
         double encodercounts= distance*(1/(75*(1/25.4)))*560;
@@ -98,5 +153,4 @@ public class FTC_14133_2021_Auto extends OpMode {
         leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-    }
-}
+ */
