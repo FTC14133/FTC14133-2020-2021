@@ -126,6 +126,14 @@ class FTC_14133_2021_Auto extends OpMode {
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    void IntakeFuction(double speed){
+        intake.setPower(1);
+        if (beamBreak.getState()) {
+            conveyor.setPower(-1);
+
+        }
+    }
+
     public void runOpMode() {
         //Do the FUNCTION of LEFT OR RIGHT
       //  turn = 5;
