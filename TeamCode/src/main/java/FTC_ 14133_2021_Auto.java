@@ -30,8 +30,8 @@ class FTC_14133_2021_Auto extends OpMode {
     Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
-    double distance = 0;
-    double turn = 0;
+    //double distance = 0;
+  //  double turn = 0;
 
 
     public void init() {
@@ -69,37 +69,57 @@ class FTC_14133_2021_Auto extends OpMode {
 
     }
 
-    void ForwardorBackwards() {
+    void ForwardorBackwards(double distance, double speed) {
         //Driving forward/backwards
       //  double distance= 5; //(in)
         double encodercounts= distance*(1/(75*(1/25.4)))*560;
         int encodercountsint= (int) encodercounts;
         leftfront.setTargetPosition(encodercountsint);
-        leftfront.setPower(1);        //Sets the power for the Long arm
+        leftfront.setPower(speed);        //Sets the power for the Long arm
         rightfront.setTargetPosition( encodercountsint);
-        rightfront.setPower(1);        //Sets the power for the Long arm
+        rightfront.setPower(speed);        //Sets the power for the Long arm
         leftback.setTargetPosition( encodercountsint);
-        leftback.setPower(1);        //Sets the power for the Long arm
+        leftback.setPower(speed);        //Sets the power for the Long arm
         rightback.setTargetPosition( encodercountsint);
-        rightback.setPower(1);        //Sets the power for the Long arm
+        rightback.setPower(speed);        //Sets the power for the Long arm
         leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    void LeftorRight() {
+    void Rotate(double turn, double speed) {
         //Driving left/right
+        //NOT DONE
         double encodercounts= turn*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097;
         int encodercountsint= (int) encodercounts;
         leftfront.setTargetPosition(encodercountsint);
-        leftfront.setPower(1);        //
+        leftfront.setPower(speed);        //
         rightfront.setTargetPosition(-encodercountsint);
-        rightfront.setPower(1);        //Sets the power for the Long arm
+        rightfront.setPower(speed);        //Sets the power for the Long arm
         leftback.setTargetPosition(encodercountsint);
-        leftback.setPower(1);        //Sets the power for the Long arm
+        leftback.setPower(speed);        //Sets the power for the Long arm
         rightback.setTargetPosition(-encodercountsint);
-        rightback.setPower(1);        //Sets the power for the Long arm
+        rightback.setPower(speed);        //Sets the power for the Long arm
+        leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    void Strafing(double Straf, double speed) {
+        //Driving left/right
+        //Positive is Strafing left negative is Strafing right
+        double encodercounts= Straf*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097;
+        int encodercountsint= (int) encodercounts;
+        leftfront.setTargetPosition(encodercountsint);
+        leftfront.setPower(speed);        //
+        rightfront.setTargetPosition(-encodercountsint);
+        rightfront.setPower(speed);        //Sets the power for the Long arm
+        leftback.setTargetPosition(encodercountsint);
+        leftback.setPower(speed);        //Sets the power for the Long arm
+        rightback.setTargetPosition(-encodercountsint);
+        rightback.setPower(speed);        //Sets the power for the Long arm
         leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -108,13 +128,13 @@ class FTC_14133_2021_Auto extends OpMode {
 
     public void runOpMode() {
         //Do the FUNCTION of LEFT OR RIGHT
-        turn = 5;
-        LeftorRight();
-        turn = 5;
+      //  turn = 5;
+        Strafing(5, 0.5);
+     //   turn = 0;
         //Do the FUNCTION of FORWARD OR BACKWARDS
-        distance = 5;
-        ForwardorBackwards();
-        distance = 5;
+     //   distance = 5;
+        ForwardorBackwards(5, 0.5);
+      //  distance = 0;
     }
 }
 
