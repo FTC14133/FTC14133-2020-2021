@@ -124,14 +124,33 @@ class FTC_14133_2021_Auto extends OpMode {
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
 
-    void IntakeFuction(double speed){
-        intake.setPower(1);
+    void IntakeFunction(double speed){
+        intake.setPower(speed);
         if (beamBreak.getState()) {
-            conveyor.setPower(-1);
-
+            conveyor.setPower(speed);
+        }else{
+            conveyor.setPower(0);
         }
+    }
+
+    void ShooterFunction(double speed){
+        Shooter.setPower(speed);
+    }
+
+    void ClawFunctionOpen(){
+        double armrotation = MOTOR_TICK_COUNT * (90 / 360);
+        LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
+        LongArm.setPower(1);        //Sets the power for the Long arm
+        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    void ClawFunctionClose(){
+        LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+        LongArm.setPower(1);        //Sets the power for the Long arm
+        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void runOpMode() {
@@ -143,6 +162,7 @@ class FTC_14133_2021_Auto extends OpMode {
      //   distance = 5;
         ForwardorBackwards(5, 0.5);
       //  distance = 0;
+        IntakeFunction(0.5);
     }
 }
 
