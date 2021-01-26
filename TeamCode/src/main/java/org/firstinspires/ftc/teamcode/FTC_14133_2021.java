@@ -25,7 +25,6 @@ public class FTC_14133_2021 extends OpMode {
     DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
     DigitalChannel beamBreak;          // Sets the variable of the beamBreak
     Servo Claw = null;          // Sets the variable of the Claw
-    Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
     double ShooterPower = 1;             // mayhaps
@@ -42,7 +41,6 @@ public class FTC_14133_2021 extends OpMode {
         LimitSwitchLongArm = hardwareMap.get(DigitalChannel.class, "LimitSwitchLongArm");
         beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
         Claw = hardwareMap.get(Servo.class, "Claw");
-        Stopper = hardwareMap.get(Servo.class, "Stopper");
 
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
@@ -53,7 +51,6 @@ public class FTC_14133_2021 extends OpMode {
         LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         Claw.setPosition(0);
-        Stopper.setPosition(0);
         LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
 
 
@@ -153,7 +150,8 @@ public class FTC_14133_2021 extends OpMode {
 
         if (gamepad2.b) {
             Shooter.setPower(ShooterPower);            // This Controls the shooter
-            Stopper.setPosition(0.5);        // This sets the Stopper to allow rings to come in the Shooter
+            intake.setPower(1);
+            conveyor.setPower(1);
         }
 
         //Intake and Conveyor and Conveyor Detection System
@@ -179,7 +177,6 @@ public class FTC_14133_2021 extends OpMode {
         else {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
-            Stopper.setPosition(0);
             LongArm.setPower(0);
             Shooter.setPower(0);
             LongArm.setPower(0);

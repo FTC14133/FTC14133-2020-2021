@@ -138,19 +138,35 @@ class FTC_14133_2021_Auto extends OpMode {
 
     void ShooterFunction(double speed){
         Shooter.setPower(speed);
+        conveyor.setPower(1);
+        intake.setPower(1);
+
     }
 
-    void ClawFunctionOpen(){
+    void LongArmFunctionOpen(){
         double armrotation = MOTOR_TICK_COUNT * (90 / 360);
         LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
         LongArm.setPower(1);        //Sets the power for the Long arm
         LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    void LongArmFunctionClose(){
+        LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+        LongArm.setPower(1);        //Sets the power for the Long arm
+        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    void ClawFunctionOpen(){
+        LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+        LongArm.setPower(1);        //Sets the power for the Long arm
+        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Claw.setPosition(90);
+    }
+
     void ClawFunctionClose(){
         LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
         LongArm.setPower(1);        //Sets the power for the Long arm
         LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Claw.setPosition(0);
     }
 
     public void runOpMode() {
