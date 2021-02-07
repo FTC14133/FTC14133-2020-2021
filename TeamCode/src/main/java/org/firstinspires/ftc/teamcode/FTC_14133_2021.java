@@ -179,9 +179,6 @@ public class FTC_14133_2021 extends OpMode {
             intake.setPower(0);        //to turn them off when not being used
             LongArm.setPower(0);
             Shooter.setPower(0);
-            LongArm.setPower(0);
-
-
         }
     }
 }
