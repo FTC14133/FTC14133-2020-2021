@@ -1,21 +1,30 @@
-/**package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+
+@TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
 public class Conveyor_Belt extends OpMode {
-    private DcMotor Conveyor_Belt_Inner = null;
-    private DcMotor Conveyor_Belt_Outer = null;
+
+    private DcMotor intake = null;          // Sets the variable of the intake
+    private DcMotor conveyor = null;          // Sets the variable of the conveyor
+    DigitalChannel beamBreak;          // Sets the variable of the beamBreak
+
+
     public void init() {
-        Conveyor_Belt_Inner = hardwareMap.get(DcMotor.class, "Conveyor_Belt_Inner");
-        Conveyor_Belt_Outer = hardwareMap.get(DcMotor.class, "Conveyor_Belt_Outer");
+
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        conveyor.setDirection(DcMotor.Direction.FORWARD);
+
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        conveyor = hardwareMap.get(DcMotor.class, "conveyor");
+        beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+
     }
+
 
     public void init_loop() {
     }
@@ -26,23 +35,31 @@ public class Conveyor_Belt extends OpMode {
 
 
     public void loop() {
-        if (gamepad2.left_bumper) {
-            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.FORWARD);
-            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.FORWARD);        // This makes the intake run forward
-            Conveyor_Belt_Inner.setPower(5);
-            Conveyor_Belt_Outer.setPower(5);
+
+        //Intake and Conveyor and Conveyor Detection System
+
+        if (gamepad2.right_trigger > 0) {       //runs the intake forward
+            intake.setPower(1);
         }
-        if (gamepad2.right_bumper) {
-            Conveyor_Belt_Inner.setDirection(DcMotor.Direction.REVERSE);        // This makes the intake run backward
-            Conveyor_Belt_Outer.setDirection(DcMotor.Direction.REVERSE);
-            Conveyor_Belt_Inner.setPower(5);
-            Conveyor_Belt_Outer.setPower(5);
+
+        if (gamepad2.left_trigger > 0) {        //runs the intake backwards
+            intake.setPower(-1);
+            conveyor.setPower(-1);
         }
-        else {
-             Conveyor_Belt_Outer.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
-             Conveyor_Belt_Inner.setPower(0);        //to turn them off when not being used
+
+        if (beamBreak.getState()) {
+            if (gamepad2.left_trigger > 0) {        //BEAM BREAK grace can you do this
+                conveyor.setPower(-1);
+            } else {
+                conveyor.setPower(1);
             }
         }
-    }
+        //Big Else Statement
 
-*/
+        else {
+            conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
+            intake.setPower(0);        //to turn them off when not being used
+
+        }
+    }
+}

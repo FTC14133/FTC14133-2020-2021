@@ -20,7 +20,6 @@ FTC_14133_2021_Auto extends OpMode {
     private DcMotor leftfront = null;
     private DcMotor rightfront = null;
     static final double MOTOR_TICK_COUNT = 2800;
-    static final double Drive_Tick_Count = 560;
     private DcMotor Shooter = null;         // Sets the variable of the shooter
     private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
     private DcMotor intake = null;          // Sets the variable of the intake
@@ -28,7 +27,6 @@ FTC_14133_2021_Auto extends OpMode {
     DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
     DigitalChannel beamBreak;          // Sets the variable of the beamBreak
     Servo Claw = null;          // Sets the variable of the Claw
-    Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
     int count = 0;
@@ -48,7 +46,6 @@ FTC_14133_2021_Auto extends OpMode {
         LimitSwitchLongArm = hardwareMap.get(DigitalChannel.class, "LimitSwitchLongArm");
         beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
         Claw = hardwareMap.get(Servo.class, "Claw");
-        Stopper = hardwareMap.get(Servo.class, "Stopper");
 
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
@@ -59,7 +56,6 @@ FTC_14133_2021_Auto extends OpMode {
         LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         Claw.setPosition(0);
-        Stopper.setPosition(0);
         leftfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -89,6 +85,7 @@ FTC_14133_2021_Auto extends OpMode {
         leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+
 
     void Rotate(double turn, double speed) {
         //Driving left/right
@@ -145,8 +142,8 @@ FTC_14133_2021_Auto extends OpMode {
 
     void ShooterFunction(double speed){
         Shooter.setPower(speed);
-        conveyor.setPower(1);
-        intake.setPower(1);
+        conveyor.setPower(speed);
+        conveyor.setPower(speed);
 
     }
 
@@ -161,19 +158,6 @@ FTC_14133_2021_Auto extends OpMode {
         LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
         LongArm.setPower(1);        //Sets the power for the Long arm
         LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    void ClawFunctionOpen(){
-        LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
-        LongArm.setPower(1);        //Sets the power for the Long arm
-        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Claw.setPosition(90);
-    }
-
-    void ClawFunctionClose(){
-        LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
-        LongArm.setPower(1);        //Sets the power for the Long arm
-        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Claw.setPosition(0);
     }
 
     public void runOpMode() {

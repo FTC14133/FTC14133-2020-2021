@@ -1,50 +1,59 @@
-/**package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
 public class Ring_Shooter extends OpMode{
     private DcMotor Shooter = null;
-    HardwarePushbot robot = new HardwarePushbot();
+    double ShooterPower = 1;             // mayhaps
+    private DcMotor intake = null;          // Sets the variable of the intake
+    private DcMotor conveyor = null;          // Sets the variable of the conveyor
 
     @Override
     public void init() {
-        Shooter = hardwareMap.get(DcMotor.class, "left_drive");
+        Shooter = hardwareMap.get(DcMotor.class, "Shooter");
         Shooter.setDirection(DcMotor.Direction.FORWARD);
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        conveyor = hardwareMap.get(DcMotor.class, "conveyor");
     }
 
     public void init_loop() {
     }
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-  //  public void start(){
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
-/**
+    public void start(){
     }
 
     @Override
     public void loop() {
-        Servo Stopper = null;
-        if (gamepad1.b) {
-            Shooter.setPower(3);            // This Controls the shooter
-            Stopper.setPosition(90);        // This sets the Stopper to allow rings to come in the Shooter
+
+        if (gamepad2.left_stick_y < 0) {
+            ShooterPower += 0.01;
+        }
+
+        if (gamepad2.left_stick_y > 0) {
+            ShooterPower -= 0.01;
+        }
+
+        if (ShooterPower > 1) {
+            ShooterPower = 1;
+        }
+
+        if (ShooterPower < 0) {
+            ShooterPower = 0;
+        }
+
+        if (gamepad2.b) {
+            Shooter.setPower(ShooterPower);            // This Controls the shooter
+            intake.setPower(1);
+            conveyor.setPower(1);
         }
         else {
             Shooter.setPower(0);    // This tells the program to set the Intake, Long Arm, and Shooter
-                                    //to turn them off when not being used
+            intake.setPower(0);
+            conveyor.setPower(0);                        //to turn them off when not being used
         }
     }
 }
 
-*/
