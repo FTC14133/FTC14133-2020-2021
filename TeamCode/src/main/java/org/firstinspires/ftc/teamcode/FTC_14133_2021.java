@@ -144,8 +144,8 @@ public class FTC_14133_2021 extends OpMode {
             ShooterPower = 1;
         }
 
-        if (ShooterPower < 0) {
-            ShooterPower = 0;
+        if (ShooterPower < 0.5) {
+            ShooterPower = 0.5;
         }
 
         if (gamepad2.b) {

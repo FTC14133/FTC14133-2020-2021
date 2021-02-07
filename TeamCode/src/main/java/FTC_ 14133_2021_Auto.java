@@ -12,7 +12,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
-class FTC_14133_2021_Auto extends OpMode {
+class
+FTC_14133_2021_Auto extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
@@ -30,6 +31,7 @@ class FTC_14133_2021_Auto extends OpMode {
     Servo Stopper = null;          // Sets the variable of the stopper
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
+    int count = 0;
     //double distance = 0;
   //  double turn = 0;
 
@@ -107,10 +109,10 @@ class FTC_14133_2021_Auto extends OpMode {
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    void Strafing(double Straf, double speed) {
+    void Strafing(double Strafe, double speed) {
         //Driving left/right
         //Positive is Strafing left negative is Strafing right
-        double encodercounts= Straf*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097;
+        double encodercounts= Strafe*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097;
         int encodercountsint= (int) encodercounts;
         leftfront.setTargetPosition(encodercountsint);
         leftfront.setPower(speed);        //
@@ -127,13 +129,18 @@ class FTC_14133_2021_Auto extends OpMode {
 
     }
 
-    void IntakeFunction(double speed){
+    boolean IntakeFunction(double speed){
         intake.setPower(speed);
         if (beamBreak.getState()) {
             conveyor.setPower(speed);
-        }else{
-            conveyor.setPower(0);
         }
+        if(speed==0);
+            return false;
+        else{
+            conveyor.setPower(0);
+            return true;
+        }
+
     }
 
     void ShooterFunction(double speed){
@@ -170,15 +177,29 @@ class FTC_14133_2021_Auto extends OpMode {
     }
 
     public void runOpMode() {
-        //Do the FUNCTION of LEFT OR RIGHT
-      //  turn = 5;
-        Strafing(5, 0.5);
-     //   turn = 0;
-        //Do the FUNCTION of FORWARD OR BACKWARDS
-     //   distance = 5;
-        ForwardorBackwards(5, 0.5);
-      //  distance = 0;
-        IntakeFunction(0.5);
+        ForwardorBackwards(5,-0.75);    // negative speed goes backwards i think correct me if im wrong
+       
+        Strafing(3,0.75);   // scoot left until aligned with top goal
+
+        ShooterFunction(5);
+
+        ForwardorBackwards(3,3);    // move forward at rings
+
+        boolean intakeon = IntakeFunction(0.5);
+        while (intakeon==true){
+            if(beamBreak.getState()&&toggle){
+                count=count=1;
+                toggle=false;
+            }
+            else{
+                toggle=true;
+            }
+            if(count==3){
+                intakeon=IntakeFunction(0);
+            }
+        }
+        if(count==1){
+
     }
 }
 
