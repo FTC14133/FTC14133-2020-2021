@@ -1,5 +1,6 @@
-// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
+/* package org.firstinspires.ftc.teamcode;// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,8 +12,9 @@ import java.util.concurrent.TimeUnit;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
+@Disabled
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
-public class FTC_14133_2021_Auto extends LinearOpMode {
+    public class FTC_14133_2021_Auto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
@@ -202,3 +204,4 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
     }
 }
+ */

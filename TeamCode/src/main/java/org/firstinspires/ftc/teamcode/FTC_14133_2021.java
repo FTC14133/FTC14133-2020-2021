@@ -7,103 +7,108 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
-
  @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
 public class FTC_14133_2021 extends OpMode {
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
-    private DcMotor rightback = null;
-    private DcMotor leftfront = null;
-    private DcMotor rightfront = null;
-    static final double MOTOR_TICK_COUNT = 2800;
-    private DcMotor Shooter = null;         // Sets the variable of the shooter
-    private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
-    private DcMotor intake = null;          // Sets the variable of the intake
-    private DcMotor conveyor = null;          // Sets the variable of the conveyor
-    DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
-    DigitalChannel beamBreak;          // Sets the variable of the beamBreak
-    Servo Claw = null;          // Sets the variable of the Claw
-    boolean clawstate = false;          // Sets the variable of the clawstate
-    boolean toggle = true;          // Sets the variable of the toggle
-    double ShooterPower = 1;             // mayhaps
+     private ElapsedTime runtime = new ElapsedTime();
+     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
+     private DcMotor rightback = null;
+     private DcMotor lf = null;
+     private DcMotor rightfront = null;
 
-    public void init() {
-        leftfront = hardwareMap.get(DcMotor.class, "leftfront");       //sets the names of the motors on the hardware map
-        rightfront = hardwareMap.get(DcMotor.class, "rightfront");
-        leftback = hardwareMap.get(DcMotor.class, "leftback");
-        rightback = hardwareMap.get(DcMotor.class, "rightback");
-        LongArm = hardwareMap.get(DcMotor.class, "LongArm");
+     // COMMENTED OUT THINGS ARE NOT TO BE DELETED
+
+     /* static final double MOTOR_TICK_COUNT = 2800;
+     private DcMotor Shooter = null;         // Sets the variable of the shooter
+     private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
+     private DcMotor intake = null;          // Sets the variable of the intake
+     private DcMotor conveyor = null;          // Sets the variable of the conveyor
+     DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
+     DigitalChannel beamBreak;          // Sets the variable of the beamBreak
+     Servo Claw = null;          // Sets the variable of the Claw
+     boolean clawstate = false;          // Sets the variable of the clawstate
+     boolean toggle = true;          // Sets the variable of the toggle
+     double ShooterPower = 1;             // mayhaps
+
+      */
+
+     public void init() {
+         lf = hardwareMap.get(DcMotor.class, "lf");       //sets the names of the motors on the hardware map
+         rightfront = hardwareMap.get(DcMotor.class, "rightfront");
+         leftback = hardwareMap.get(DcMotor.class, "leftback");
+         rightback = hardwareMap.get(DcMotor.class, "rightback");
+      /*  LongArm = hardwareMap.get(DcMotor.class, "LongArm");
         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
         intake = hardwareMap.get(DcMotor.class, "intake");
         conveyor = hardwareMap.get(DcMotor.class, "conveyor");
         LimitSwitchLongArm = hardwareMap.get(DigitalChannel.class, "LimitSwitchLongArm");
         beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
         Claw = hardwareMap.get(Servo.class, "Claw");
+*/
 
-
-        Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
-        leftfront.setDirection(DcMotor.Direction.FORWARD);
-        rightfront.setDirection(DcMotor.Direction.REVERSE);
-        leftback.setDirection(DcMotor.Direction.FORWARD);
-        rightback.setDirection(DcMotor.Direction.REVERSE);
-        LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
+         //Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
+         lf.setDirection(DcMotor.Direction.FORWARD);
+         rightfront.setDirection(DcMotor.Direction.REVERSE);
+         leftback.setDirection(DcMotor.Direction.FORWARD);
+         rightback.setDirection(DcMotor.Direction.REVERSE);
+        /*LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         Claw.setPosition(0);
         LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
         LongArm.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
         conveyor.setDirection(DcMotor.Direction.FORWARD);
+         */
 
 
-    }
+     }
 
 
-
-    public void init_loop() {
-    }
-
-
-    public void start() {
-    }
+     public void init_loop() {
+     }
 
 
-    public void loop() {
-        double leftPowerY;
-        double leftPowerX;
-        double rightPowerX;
-        double NormScaling;
-        double leftfrontpower;      //Power level for leftfront
-        double rightbackpower;      //Power level for rightback
-        double leftbackpower;       //Power level for leftback
-        double rightfrontpower;     //Power level for rightfront
-        double armrotation = MOTOR_TICK_COUNT * (90 / 360);
+     public void start() {
+     }
 
-        //Mecanum Wheels
 
-        leftPowerY = -gamepad1.left_stick_y;      //find the value of y axis on the left joystick
-        leftPowerX = gamepad1.left_stick_x;      //find the value of x axis on the left joystick
-        rightPowerX = gamepad1.right_stick_x;      //find the value of x axis on the right joystick
+     public void loop() {
+         double leftPowerY;
+         double leftPowerX;
+         double rightPowerX;
+         double NormScaling;
+         double leftfrontpower;      //Power level for leftfront
+         double rightbackpower;      //Power level for rightback
+         double leftbackpower;       //Power level for leftback
+         double rightfrontpower;     //Power level for rightfront
+         //double armrotation = MOTOR_TICK_COUNT * (90 / 360);
 
-        leftfrontpower = leftPowerY + leftPowerX + rightPowerX;     //Power of Mecanum wheels
-        rightfrontpower = leftPowerY - leftPowerX - rightPowerX;
-        leftbackpower = leftPowerY + leftPowerX - rightPowerX;
-        rightbackpower = leftPowerY - leftPowerX + rightPowerX;
+         //Mecanum Wheels
 
-        NormScaling = Math.max(Math.max(Math.abs(leftfrontpower), Math.abs(rightfrontpower)), Math.max(Math.abs(leftbackpower), Math.abs(rightbackpower)));     //This line of code gets the max of the the absolute values of the power of the wheels. WARNING DO NOT TRY THIS AT HOME
+         leftPowerY = -gamepad1.left_stick_y;      //find the value of y axis on the left joystick
+         leftPowerX = gamepad1.left_stick_x;      //find the value of x axis on the left joystick
+         rightPowerX = gamepad1.right_stick_x;      //find the value of x axis on the right joystick
 
-        if (NormScaling > 1) {
-            leftfrontpower /= NormScaling;      //If the max of the the absolute values of the power of the wheels is greater than 1 it will divide all of the powers of the wheels by the max of the the absolute values of the power of the wheels
-            rightfrontpower /= NormScaling;
-            leftbackpower /= NormScaling;
-            rightbackpower /= NormScaling;
-        }
-        leftfront.setPower(leftfrontpower);     //Sets the power of the wheels
-        leftback.setPower(leftbackpower);
-        rightfront.setPower(rightfrontpower);
-        rightback.setPower(rightbackpower);
+         leftfrontpower = leftPowerY + leftPowerX - rightPowerX;     //Power of Mecanum wheels
+         rightfrontpower = leftPowerY - leftPowerX + rightPowerX;
+         leftbackpower = leftPowerY - leftPowerX - rightPowerX;
+         rightbackpower = leftPowerY + leftPowerX + rightPowerX;
 
+         NormScaling = Math.max(Math.max(Math.abs(leftfrontpower), Math.abs(rightfrontpower)), Math.max(Math.abs(leftbackpower), Math.abs(rightbackpower)));     //This line of code gets the max of the the absolute values of the power of the wheels. WARNING DO NOT TRY THIS AT HOME
+
+         if (NormScaling > 1) {
+             leftfrontpower /= NormScaling;      //If the max of the the absolute values of the power of the wheels is greater than 1 it will divide all of the powers of the wheels by the max of the the absolute values of the power of the wheels
+             rightfrontpower /= NormScaling;
+             leftbackpower /= NormScaling;
+             rightbackpower /= NormScaling;
+         }
+         lf.setPower(leftfrontpower);     //Sets the power of the wheels
+         leftback.setPower(leftbackpower);
+         rightfront.setPower(rightfrontpower);
+         rightback.setPower(rightbackpower);
+     }
+ }
+
+        /*
         //Claw
 
         if (toggle && gamepad2.y) {  // Only execute once per Button push
@@ -185,5 +190,4 @@ public class FTC_14133_2021 extends OpMode {
         }
     }
 }
-
-
+         */
