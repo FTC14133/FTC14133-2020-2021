@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
 @Disabled
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
-    public class FTC_14133_2021_Auto extends LinearOpMode {
+    class FTC_14133_2021_Auto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
