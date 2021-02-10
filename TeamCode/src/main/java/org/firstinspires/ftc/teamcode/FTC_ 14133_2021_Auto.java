@@ -1,4 +1,4 @@
-/* package org.firstinspires.ftc.teamcode;// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
+// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -46,6 +46,8 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         leftfront.setTargetPosition(encodercountsint);
         leftfront.setPower(speed);        //Sets the power for the Long arm
         rightfront.setTargetPosition( encodercountsint);
+
+
         rightfront.setPower(speed);        //Sets the power for the Long arm
         leftback.setTargetPosition( encodercountsint);
         leftback.setPower(speed);        //Sets the power for the Long arm
@@ -154,6 +156,8 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         Claw = hardwareMap.get(Servo.class, "Claw");
 
 
+
+
         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
         leftfront.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
@@ -176,6 +180,8 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
         ForwardorBackwards(3,3);    // move forward at rings
 
+        ShooterFunction(5);
+
         boolean intakeon = IntakeFunction(0.5);
         while (intakeon==true){
             if(beamBreak.getState()&&toggle){
@@ -192,16 +198,85 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         if(count==1){       // if one ring is picked up, do this portion of code
             ForwardorBackwards(2,3);
 
+            ShooterFunction(1);
+
             Strafing(2,3);
+
+            LongArmFunctionDown();
+
+            Claw.setPosition(0);
+
+            Strafing(-2, 3);
+
+            Rotate(180, 3);
+
+            ForwardorBackwards(-2, 3);
+
+            Claw.setPosition(1);
+
+            LongArmFunctionUP();
+
+            ForwardorBackwards(1, 3);
+
+            LongArmFunctionDown();
+
+            Claw.setPosition(0);
 
         }
         if(count==2){
+            ForwardorBackwards(2,3);
 
+            ShooterFunction(1);
+
+            ForwardorBackwards(4,3);
+
+            LongArmFunctionDown();
+
+            Claw.setPosition(0);
+
+            Rotate(180, 3);
+
+            ForwardorBackwards(-4, 3);
+
+            Claw.setPosition(1);
+
+            LongArmFunctionUP();
+
+            ForwardorBackwards(1, 3);
+
+            LongArmFunctionDown();
+
+            Claw.setPosition(0);
         }
         if(count==3){
+            ForwardorBackwards(4,3);
 
+            ShooterFunction(1);
+
+            Strafing(3,3);
+
+            LongArmFunctionDown();
+
+            Claw.setPosition(0);
+
+            Strafing(-2, 3);
+
+            Rotate(180, 3);
+
+            ForwardorBackwards(-6, 3);
+
+            Claw.setPosition(1);
+
+            LongArmFunctionUP();
+
+            ForwardorBackwards(1, 3);
+
+            LongArmFunctionDown();
+
+            Claw.setPosition(0);
         }
 
     }
 }
+
  */
