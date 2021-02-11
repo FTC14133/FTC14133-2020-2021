@@ -18,7 +18,7 @@ public class FTC_14133_2021 extends OpMode {
 
      // COMMENTED OUT THINGS ARE NOT TO BE DELETED
      static final double MOTOR_TICK_COUNT = 2800;
-     //   private DcMotor Shooter = null;         // Sets the variable of the shooter
+     private DcMotor Shooter = null;         // Sets the variable of the shooter
      private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
      private DcMotor intake = null;          // Sets the variable of the intake
      private DcMotor conveyor = null;          // Sets the variable of the conveyor
@@ -26,7 +26,7 @@ public class FTC_14133_2021 extends OpMode {
      //   Servo Claw = null;          // Sets the variable of the Claw
      //   boolean clawstate = false;          // Sets the variable of the clawstate
      //    boolean toggle = true;          // Sets the variable of the toggle
-     //   double ShooterPower = 1;             // mayhaps
+     double ShooterPower = 1;             // mayhaps
 
 
      public void init() {
@@ -41,7 +41,7 @@ public class FTC_14133_2021 extends OpMode {
          beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
          //Claw = hardwareMap.get(Servo.class, "Claw");
 
-         //Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
+         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
          lf.setDirection(DcMotor.Direction.FORWARD);
          rightfront.setDirection(DcMotor.Direction.REVERSE);
          leftback.setDirection(DcMotor.Direction.FORWARD);
@@ -135,7 +135,7 @@ public class FTC_14133_2021 extends OpMode {
 
 
 
-        /*//Shooter and Shooter Power
+        //Shooter and Shooter Power
 
         if (gamepad2.left_stick_y < 0) {
             ShooterPower += 0.01;
@@ -158,8 +158,6 @@ public class FTC_14133_2021 extends OpMode {
             intake.setPower(1);
             conveyor.setPower(1);
         }
-
-         */
 
         //Intake and Conveyor and Conveyor Detection System
 
@@ -185,7 +183,7 @@ public class FTC_14133_2021 extends OpMode {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
             LongArm.setPower(0);
-            //Shooter.setPower(0);
+            Shooter.setPower(0);
         }
     }
 }
