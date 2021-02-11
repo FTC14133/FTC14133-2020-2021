@@ -35,13 +35,13 @@ public class FTC_14133_2021 extends OpMode {
          leftback = hardwareMap.get(DcMotor.class, "leftback");
          rightback = hardwareMap.get(DcMotor.class, "rightback");
          LongArm = hardwareMap.get(DcMotor.class, "LongArm");
-         //Shooter = hardwareMap.get(DcMotor.class, "Shooter");
+         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
          intake = hardwareMap.get(DcMotor.class, "intake");
          conveyor = hardwareMap.get(DcMotor.class, "conveyor");
          beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
          //Claw = hardwareMap.get(Servo.class, "Claw");
 
-         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
+         Shooter.setDirection(DcMotor.Direction.REVERSE);            //sets the directions of the motors
          lf.setDirection(DcMotor.Direction.FORWARD);
          rightfront.setDirection(DcMotor.Direction.REVERSE);
          leftback.setDirection(DcMotor.Direction.FORWARD);
@@ -51,7 +51,7 @@ public class FTC_14133_2021 extends OpMode {
          LongArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
          LongArm.setDirection(DcMotor.Direction.FORWARD);
-         intake.setDirection(DcMotor.Direction.REVERSE);
+         intake.setDirection(DcMotor.Direction.FORWARD);
          conveyor.setDirection(DcMotor.Direction.FORWARD);
 
 
@@ -170,7 +170,7 @@ public class FTC_14133_2021 extends OpMode {
             conveyor.setPower(-1);
         }
 
-        if (beamBreak.getState()) {
+        if (!beamBreak.getState()) {
             if (gamepad2.left_trigger > 0) {        //BEAM BREAK grace can you do this
                 conveyor.setPower(-1);
             } else {
