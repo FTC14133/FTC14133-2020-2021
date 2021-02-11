@@ -3,6 +3,7 @@
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -16,20 +17,19 @@ public class FTC_14133_2021 extends OpMode {
      private DcMotor rightfront = null;
 
      // COMMENTED OUT THINGS ARE NOT TO BE DELETED
-
-     /* static final double MOTOR_TICK_COUNT = 2800;
-     private DcMotor Shooter = null;         // Sets the variable of the shooter
+      static final double MOTOR_TICK_COUNT = 2800;
+  //   private DcMotor Shooter = null;         // Sets the variable of the shooter
      private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
-     private DcMotor intake = null;          // Sets the variable of the intake
-     private DcMotor conveyor = null;          // Sets the variable of the conveyor
-     DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
-     DigitalChannel beamBreak;          // Sets the variable of the beamBreak
-     Servo Claw = null;          // Sets the variable of the Claw
-     boolean clawstate = false;          // Sets the variable of the clawstate
-     boolean toggle = true;          // Sets the variable of the toggle
-     double ShooterPower = 1;             // mayhaps
+  //   private DcMotor intake = null;          // Sets the variable of the intake
+  //   private DcMotor conveyor = null;          // Sets the variable of the conveyor
+  //   DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
+  //   DigitalChannel beamBreak;          // Sets the variable of the beamBreak
+  //   Servo Claw = null;          // Sets the variable of the Claw
+  //   boolean clawstate = false;          // Sets the variable of the clawstate
+ //    boolean toggle = true;          // Sets the variable of the toggle
+  //   double ShooterPower = 1;             // mayhaps
 
-      */
+
 
      public void init() {
          lf = hardwareMap.get(DcMotor.class, "lf");       //sets the names of the motors on the hardware map
@@ -50,14 +50,16 @@ public class FTC_14133_2021 extends OpMode {
          rightfront.setDirection(DcMotor.Direction.REVERSE);
          leftback.setDirection(DcMotor.Direction.FORWARD);
          rightback.setDirection(DcMotor.Direction.REVERSE);
-        /*LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
-        beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
-        Claw.setPosition(0);
-        LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
-        LongArm.setDirection(DcMotor.Direction.FORWARD);
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        conveyor.setDirection(DcMotor.Direction.FORWARD);
-         */
+        //LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
+    //    beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+     //   Claw.setPosition(0);
+         LongArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
+         LongArm.setDirection(DcMotor.Direction.FORWARD);
+    //    intake.setDirection(DcMotor.Direction.FORWARD);
+     //   conveyor.setDirection(DcMotor.Direction.FORWARD);
+
+
 
 
      }

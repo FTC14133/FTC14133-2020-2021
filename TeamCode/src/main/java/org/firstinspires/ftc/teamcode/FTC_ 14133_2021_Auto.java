@@ -1,4 +1,4 @@
-// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
+package org.firstinspires.ftc.teamcode;// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
 @Disabled
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
-    class FTC_14133_2021_Auto extends LinearOpMode {
+class FTC_14133_2021_Auto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
@@ -172,13 +172,13 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        ForwardorBackwards(5,-0.75);    // negative speed goes backwards i think correct me if im wrong
+        ForwardorBackwards(5,0.75);
        
-        Strafing(3,0.75);   // scoot left until aligned with top goal
+        Strafing(3,-0.75);   // scoot left until aligned with top goal
 
         ShooterFunction(5);
 
-        ForwardorBackwards(3,3);    // move forward at rings
+        ForwardorBackwards(3,-3);    // move forward at rings
 
         ShooterFunction(5);
 
@@ -200,49 +200,18 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
             ShooterFunction(1);
 
-            Strafing(2,3);
+            Strafing(2,-3);
 
             LongArmFunctionDown();
 
             Claw.setPosition(0);
-
-            Strafing(-2, 3);
-
-            Rotate(180, 3);
-
-            ForwardorBackwards(-2, 3);
-
-            Claw.setPosition(1);
-
-            LongArmFunctionUP();
-
-            ForwardorBackwards(1, 3);
-
-            LongArmFunctionDown();
-
-            Claw.setPosition(0);
-
         }
         if(count==2){
             ForwardorBackwards(2,3);
 
             ShooterFunction(1);
 
-            ForwardorBackwards(4,3);
-
-            LongArmFunctionDown();
-
-            Claw.setPosition(0);
-
-            Rotate(180, 3);
-
-            ForwardorBackwards(-4, 3);
-
-            Claw.setPosition(1);
-
-            LongArmFunctionUP();
-
-            ForwardorBackwards(1, 3);
+            ForwardorBackwards(4,-3);
 
             LongArmFunctionDown();
 
@@ -253,30 +222,15 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
             ShooterFunction(1);
 
-            Strafing(3,3);
+            Strafing(3,-3);
 
             LongArmFunctionDown();
 
             Claw.setPosition(0);
 
-            Strafing(-2, 3);
 
-            Rotate(180, 3);
-
-            ForwardorBackwards(-6, 3);
-
-            Claw.setPosition(1);
-
-            LongArmFunctionUP();
-
-            ForwardorBackwards(1, 3);
-
-            LongArmFunctionDown();
-
-            Claw.setPosition(0);
         }
 
     }
 }
 
- */
