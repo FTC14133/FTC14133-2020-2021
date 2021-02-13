@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode;// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
+package org.firstinspires.ftc.teamcode;
+// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,9 +13,8 @@ import java.util.concurrent.TimeUnit;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
-@Disabled
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
-class FTC_14133_2021_Auto extends LinearOpMode {
+    public class FTC_14133_2021_Auto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
@@ -32,7 +32,7 @@ class FTC_14133_2021_Auto extends LinearOpMode {
     boolean toggle = true;          // Sets the variable of the toggle
     int count = 0;
     //double distance = 0;
-  //  double turn = 0;
+    //  double turn = 0;
 
     void ForwardorBackwards(double distance, double speed) {
         leftfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -40,7 +40,7 @@ class FTC_14133_2021_Auto extends LinearOpMode {
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving forward/backwards
-      //  double distance= 5; //(in)
+        //  double distance= 5; //(in)
         double encodercounts= distance*(1/(75*(1/25.4)))*560;
         int encodercountsint= (int) encodercounts;
         leftfront.setTargetPosition(encodercountsint);
@@ -173,7 +173,7 @@ class FTC_14133_2021_Auto extends LinearOpMode {
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         ForwardorBackwards(5,0.75);
-       
+
         Strafing(3,-0.75);   // scoot left until aligned with top goal
 
         ShooterFunction(5);
@@ -233,6 +233,3 @@ class FTC_14133_2021_Auto extends LinearOpMode {
 
     }
 }
-
-
-
