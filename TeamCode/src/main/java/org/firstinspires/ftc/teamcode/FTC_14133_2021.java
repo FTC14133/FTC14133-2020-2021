@@ -23,9 +23,9 @@ public class FTC_14133_2021 extends OpMode {
      private DcMotor intake = null;          // Sets the variable of the intake
      private DcMotor conveyor = null;          // Sets the variable of the conveyor
      DigitalChannel beamBreak;          // Sets the variable of the beamBreak
-     //   Servo Claw = null;          // Sets the variable of the Claw
-     //   boolean clawstate = false;          // Sets the variable of the clawstate
-     //    boolean toggle = true;          // Sets the variable of the toggle
+     Servo Claw = null;          // Sets the variable of the Claw
+     boolean clawstate = false;          // Sets the variable of the clawstate
+     boolean toggle = true;          // Sets the variable of the toggle
      double ShooterPower = 1;             // mayhaps
 
 
@@ -39,7 +39,7 @@ public class FTC_14133_2021 extends OpMode {
          intake = hardwareMap.get(DcMotor.class, "intake");
          conveyor = hardwareMap.get(DcMotor.class, "conveyor");
          beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
-         //Claw = hardwareMap.get(Servo.class, "Claw");
+         Claw = hardwareMap.get(Servo.class, "Claw");
 
          Shooter.setDirection(DcMotor.Direction.REVERSE);            //sets the directions of the motors
          lf.setDirection(DcMotor.Direction.FORWARD);
@@ -47,7 +47,7 @@ public class FTC_14133_2021 extends OpMode {
          leftback.setDirection(DcMotor.Direction.FORWARD);
          rightback.setDirection(DcMotor.Direction.REVERSE);
          beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
-         //Claw.setPosition(0);
+         Claw.setPosition(1);
          LongArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
          LongArm.setDirection(DcMotor.Direction.FORWARD);
@@ -76,6 +76,7 @@ public class FTC_14133_2021 extends OpMode {
          double leftbackpower;       //Power level for leftback
          double rightfrontpower;     //Power level for rightfront
          double armrotation = MOTOR_TICK_COUNT * (0.375);
+         double armrotationmiddle = MOTOR_TICK_COUNT * (0.25);
 
          //Mecanum Wheels
 
@@ -103,7 +104,7 @@ public class FTC_14133_2021 extends OpMode {
 
 
 
-        /*
+
         //Claw
 
         if (toggle && gamepad2.y) {  // Only execute once per Button push
@@ -118,17 +119,25 @@ public class FTC_14133_2021 extends OpMode {
         } else if (gamepad2.y == false) {
             toggle = true; // Button has been released, so this allows a re-press to activate the code above.
         }
-*/
+
+
+
          //Long Arm
 
-         if (gamepad2.right_bumper) {            //turns the arm that is long but there is not a arm that is short
+         if (gamepad2.dpad_up) {            //turns the arm that is long but there is not a arm that is short
              LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
-             LongArm.setPower(1);        //Sets the power for the Long arm
+             LongArm.setPower(0.5);        //Sets the power for the Long arm
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
-         if (gamepad2.left_bumper) {      //rotates the arm that is long but there is not a arm that is short
+         if (gamepad2.dpad_down) {      //rotates the arm that is long but there is not a arm that is short
              LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
-             LongArm.setPower(1);        //Sets the power for the Long arm
+             LongArm.setPower(0.5);        //Sets the power for the Long arm
+             LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         }
+
+         if (gamepad2.dpad_left) {      //rotates the arm that is long but there is not a arm that is short
+             LongArm.setTargetPosition((int) armrotationmiddle);
+             LongArm.setPower(0.5);        //Sets the power for the Long arm
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
 
@@ -182,7 +191,6 @@ public class FTC_14133_2021 extends OpMode {
         else {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
-            LongArm.setPower(0);
             Shooter.setPower(0);
         }
     }
