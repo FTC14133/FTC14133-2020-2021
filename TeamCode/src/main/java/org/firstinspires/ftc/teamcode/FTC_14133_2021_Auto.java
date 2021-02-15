@@ -18,14 +18,14 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
-    private DcMotor leftfront = null;
+    private DcMotor lf = null;
     private DcMotor rightfront = null;
     static final double MOTOR_TICK_COUNT = 2800;
     private DcMotor Shooter = null;         // Sets the variable of the shooter
     private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
     private DcMotor intake = null;          // Sets the variable of the intake
     private DcMotor conveyor = null;          // Sets the variable of the conveyor
-    DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
+ //   DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
     DigitalChannel beamBreak;          // Sets the variable of the beamBreak
     Servo Claw = null;          // Sets the variable of the Claw
     boolean clawstate = false;          // Sets the variable of the clawstate
@@ -35,16 +35,16 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
     //  double turn = 0;
 
     void ForwardorBackwards(double distance, double speed) {
-        leftfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving forward/backwards
         //  double distance= 5; //(in)
-        double encodercounts= distance*(1/(75*(1/25.4)))*560;
+        double encodercounts= distance*189.653333333;//(1/(75*(1/25.4)))*560;
         int encodercountsint= (int) encodercounts;
-        leftfront.setTargetPosition(encodercountsint);
-        leftfront.setPower(speed);        //Sets the power for the Long arm
+        lf.setTargetPosition(encodercountsint);
+        lf.setPower(speed);        //Sets the power for the Long arm
         rightfront.setTargetPosition( encodercountsint);
 
 
@@ -55,13 +55,16 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightback.setPower(speed);        //Sets the power for the Long arm
         leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while(lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()){
+        }
     }
 
 
     void Rotate(double turn, double speed) {
-        leftfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -69,22 +72,25 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         //NOT DONE
         double encodercounts= turn*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097; // test iteratively
         int encodercountsint= (int) encodercounts;
-        leftfront.setTargetPosition(encodercountsint);
-        leftfront.setPower(speed);        //
-        rightfront.setTargetPosition(-encodercountsint);
+        lf.setTargetPosition(-encodercountsint);
+        lf.setPower(speed);        //
+        rightfront.setTargetPosition(encodercountsint);
         rightfront.setPower(speed);        //Sets the power for the Long arm
-        leftback.setTargetPosition(encodercountsint);
+        leftback.setTargetPosition(-encodercountsint);
         leftback.setPower(speed);        //Sets the power for the Long arm
-        rightback.setTargetPosition(-encodercountsint);
+        rightback.setTargetPosition(encodercountsint);
         rightback.setPower(speed);        //Sets the power for the Long arm
         leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while(lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()){
+        }
     }
 
     void Strafing(double Strafe, double speed) {
-        leftfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -92,9 +98,9 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         //Positive is Strafing left negative is Strafing right
         double encodercounts= Strafe*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097;
         int encodercountsint= (int) encodercounts;
-        leftfront.setTargetPosition(encodercountsint);
-        leftfront.setPower(speed);        //
-        rightfront.setTargetPosition(-encodercountsint);
+        lf.setTargetPosition(-encodercountsint);
+        lf.setPower(speed);        //
+        rightfront.setTargetPosition(encodercountsint);
         rightfront.setPower(speed);        //Sets the power for the Long arm
         leftback.setTargetPosition(encodercountsint);
         leftback.setPower(speed);        //Sets the power for the Long arm
@@ -102,8 +108,11 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightback.setPower(speed);        //Sets the power for the Long arm
         leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()){
+        }
+
 
     }
 
@@ -143,7 +152,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
     }
 
     public void runOpMode() {
-        leftfront = hardwareMap.get(DcMotor.class, "leftfront");       //sets the names of the motors on the hardware map
+        lf = hardwareMap.get(DcMotor.class, "lf");       //sets the names of the motors on the hardware map
         rightfront = hardwareMap.get(DcMotor.class, "rightfront");
         leftback = hardwareMap.get(DcMotor.class, "leftback");
         rightback = hardwareMap.get(DcMotor.class, "rightback");
@@ -151,30 +160,37 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         Shooter = hardwareMap.get(DcMotor.class, "Shooter");
         intake = hardwareMap.get(DcMotor.class, "intake");
         conveyor = hardwareMap.get(DcMotor.class, "conveyor");
-        LimitSwitchLongArm = hardwareMap.get(DigitalChannel.class, "LimitSwitchLongArm");
+     //   LimitSwitchLongArm = hardwareMap.get(DigitalChannel.class, "LimitSwitchLongArm");
         beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
         Claw = hardwareMap.get(Servo.class, "Claw");
 
 
-
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightfront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftback.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightback.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LongArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        conveyor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
-        leftfront.setDirection(DcMotor.Direction.FORWARD);
+        lf.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
         leftback.setDirection(DcMotor.Direction.FORWARD);
         rightback.setDirection(DcMotor.Direction.REVERSE);
-        LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
+        //LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
         beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         Claw.setPosition(0);
         LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        ForwardorBackwards(5,0.75);
+        ForwardorBackwards(42,0.75);
 
-        Strafing(3,-0.75);   // scoot left until aligned with top goal
+        Strafing(20,-0.75);   // scoot left until aligned with top goal
 
         ShooterFunction(5);
 
