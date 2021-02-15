@@ -124,20 +124,20 @@ public class FTC_14133_2021 extends OpMode {
 
          //Long Arm
 
-         if (gamepad2.dpad_up) {            //turns the arm that is long but there is not a arm that is short
+         if (gamepad2.dpad_down) {            //turns the arm that is long but there is not a arm that is short
              LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
-             LongArm.setPower(0.5);        //Sets the power for the Long arm
+             LongArm.setPower(0.3);        //Sets the power for the Long arm
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
-         if (gamepad2.dpad_down) {      //rotates the arm that is long but there is not a arm that is short
+         if (gamepad2.dpad_up) {      //rotates the arm that is long but there is not a arm that is short
              LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
-             LongArm.setPower(0.5);        //Sets the power for the Long arm
+             LongArm.setPower(0.3);        //Sets the power for the Long arm
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
 
-         if (gamepad2.dpad_left) {      //rotates the arm that is long but there is not a arm that is short
+         if (gamepad2.dpad_left || gamepad2.dpad_right) {      //rotates the arm that is long but there is not a arm that is short
              LongArm.setTargetPosition((int) armrotationmiddle);
-             LongArm.setPower(0.5);        //Sets the power for the Long arm
+             LongArm.setPower(0.3);        //Sets the power for the Long arm
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
 
@@ -159,7 +159,7 @@ public class FTC_14133_2021 extends OpMode {
         }
 
         if (ShooterPower < 0.5) {
-            ShooterPower = 0.5;
+            ShooterPower = 0.75;
         }
 
         if (gamepad2.b) {
@@ -191,7 +191,7 @@ public class FTC_14133_2021 extends OpMode {
         else {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
-            Shooter.setPower(0);
+            Shooter.setPower(0.75);
         }
     }
 }

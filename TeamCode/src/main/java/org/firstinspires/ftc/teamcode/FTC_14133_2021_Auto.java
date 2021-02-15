@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
     private DcMotor rightback = null;
     private DcMotor lf = null;
     private DcMotor rightfront = null;
-    static final double MOTOR_TICK_COUNT = 2800;
+    static final double MOTOR_TICK_COUNT = 2800;        //
     private DcMotor Shooter = null;         // Sets the variable of the shooter
     private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
     private DcMotor intake = null;          // Sets the variable of the intake
@@ -41,7 +41,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving forward/backwards
         //  double distance= 5; //(in)
-        double encodercounts= distance*189.653333333;//(1/(75*(1/25.4)))*560;
+        double encodercounts= distance*60.3686819388;//(1/(75*(1/25.4)))*560;
         int encodercountsint= (int) encodercounts;
         lf.setTargetPosition(encodercountsint);
         lf.setPower(speed);        //Sets the power for the Long arm
@@ -70,7 +70,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving left/right
         //NOT DONE
-        double encodercounts= turn*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097; // test iteratively
+        double encodercounts= turn*1.4142135623730950488016887242097; // test iteratively
         int encodercountsint= (int) encodercounts;
         lf.setTargetPosition(-encodercountsint);
         lf.setPower(speed);        //
@@ -96,7 +96,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving left/right
         //Positive is Strafing left negative is Strafing right
-        double encodercounts= Strafe*(1/(75*(1/25.4)))*560*1.4142135623730950488016887242097;
+        double encodercounts= Strafe*60.3686819388*1.4142135623730950488016887242097;
         int encodercountsint= (int) encodercounts;
         lf.setTargetPosition(-encodercountsint);
         lf.setPower(speed);        //
@@ -134,7 +134,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
     void ShooterFunction(double speed){
         Shooter.setPower(speed);
         conveyor.setPower(speed);
-        conveyor.setPower(speed);
+        intake.setPower(speed);
 
     }
 
@@ -190,13 +190,17 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
         ForwardorBackwards(42,0.75);
 
-        Strafing(20,-0.75);   // scoot left until aligned with top goal
+        Strafing(24,-0.75);   // scoot left until aligned with top goal
 
-        ShooterFunction(5);
+        ShooterFunction(1);
+
+        sleep(4000);
 
         ForwardorBackwards(3,-3);    // move forward at rings
 
-        ShooterFunction(5);
+        ShooterFunction(1);
+
+        sleep(4000);
 
         boolean intakeon = IntakeFunction(0.5);
         while (intakeon==true){
