@@ -144,6 +144,8 @@ public class FTC_14133_2021 extends OpMode {
 
 
 
+
+
         //Shooter and Shooter Power
 
         if (gamepad2.left_stick_y < 0) {
