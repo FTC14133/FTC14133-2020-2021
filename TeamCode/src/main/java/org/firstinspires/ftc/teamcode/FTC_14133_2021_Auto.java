@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -58,6 +59,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()) {
+
         }
     }
 
@@ -129,10 +131,10 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
     }
 
-    void ShooterFunction(double speed) {
-        Shooter.setPower(-speed);
-        sleep(500);
+    void ConveyorFunction(double speed) {
+     //   Shooter.setPower(speed);
         conveyor.setPower(speed);
+        intake.setPower(speed);
     }
 
     void LongArmFunctionDown() {
@@ -166,8 +168,9 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         conveyor = hardwareMap.get(DcMotor.class, "conveyor");
         beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
         Claw = hardwareMap.get(Servo.class, "Claw");
-        Shooter.setPower(0.75);
-
+        telemetry.addData("count", count);
+        telemetry.addData("beamBreak", beamBreak.getState());
+        telemetry.update();
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightfront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -178,7 +181,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         conveyor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Shooter.setDirection(DcMotor.Direction.FORWARD);            //sets the directions of the motors
+        Shooter.setDirection(DcMotor.Direction.REVERSE);            //sets the directions of the motors
         lf.setDirection(DcMotor.Direction.FORWARD);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
         leftback.setDirection(DcMotor.Direction.FORWARD);
@@ -191,105 +194,128 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Shooter.setPower(1);
 
-        boolean intakeon = IntakeFunction(0.5);
-        while (intakeon == true) {
-            if (!beamBreak.getState()) {
-                conveyor.setPower(-1);
-            }
-            if (beamBreak.getState() && toggle) {
+
+   //     boolean intakeon = IntakeFunction(0.5);
+     //   while (intakeon == true) {
+     //       telemetry.update();
+      //      if (!beamBreak.getState()) {
+     //           conveyor.setPower(1);
+      //      }
+
+        while (toggle)
+        {
+            if (beamBreak.getState()) {
                 count = count + 1;
                 toggle = false;
-            } else {
-                toggle = true;
+
             }
-            if (count == 3) {
-                intakeon = IntakeFunction(0);
-            }
+        }
 
 
-        ForwardorBackwards(42, 0.75);
+        ForwardorBackwards(57.5, 0.75);
 
         Strafing(-18, -0.5);   // scoot left until aligned with top goal
 
-        ShooterFunction(1);
+        ConveyorFunction(1);
 
         sleep(4000);
-
-        ForwardorBackwards(-29, -0.2);    // move forward at rings
-
-        ShooterFunction(1);
+        ForwardorBackwards(-26, 0.2);    // move forward at rings
 
 
+
+       // ForwardorBackwards(-26, 0.2);    // move forward at rings
+
+        ConveyorFunction(0);
+
+        ForwardorBackwards(-6, 0.3);    // move forward at rings
+        toggle = true;
+
+        ForwardorBackwards(-2, 0.3);    // move forward at rings
+        toggle = true;
+
+        ForwardorBackwards(-2, 0.3);    // move forward at rings
+        toggle = true;
 
         telemetry.addData("count", count);    //
         telemetry.update();
 
+        ForwardorBackwards(35, 0.5);
+
+        ConveyorFunction(1);
+
+        sleep(3000);
+
+        ConveyorFunction(0);
         if (count == 0) {       // if one ring is picked up, do this portion of code
-            ForwardorBackwards(25, 0.5);
 
-            ShooterFunction(1);
+       //     ShooterFunction(1);
 
-            sleep(3000);
+       //     sleep(3000);
 
-            IntakeFunction(0);
+     //       IntakeFunction(0);
 
-            Strafing(12, -3);
+            Strafing(12, -0.75);
 
             LongArmFunctionDown();
 
+            sleep(250);
+
             Claw.setPosition(0);
+
+            sleep(250);
+
+            LongArm.setTargetPosition(0);
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             Strafing(-12, 0.75);
 
             ForwardorBackwards(6,0.5);
-
-            LongArm.setTargetPosition(0);
-            LongArm.setPower(0.3);        //Sets the power for the Long arm
-            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         }
-        if (count == 2) {
-            ForwardorBackwards(25, 3);
+        if (count == 1) {
 
-            ShooterFunction(1);
+            ForwardorBackwards(16, 0.75);
 
-            sleep(5000);
+        //    ShooterFunction(1);
 
-            IntakeFunction(0);
-
-            ForwardorBackwards(9, -3);
+            Strafing(-6,0.75);
 
             LongArmFunctionDown();
 
+            sleep(250);
+
             Claw.setPosition(0);
+
+            sleep(250);
 
             LongArm.setTargetPosition(0);
             LongArm.setPower(0.3);        //Sets the power for the Long arm
             LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //ForwardorBackwards(-4,0.75);
         }
         if (count == 3) {
-            ForwardorBackwards(25, 3);
+            ForwardorBackwards(40, 0.75);
 
-            ShooterFunction(1);
+     //       ShooterFunction(1);
 
-            sleep(7000);
-
-            IntakeFunction(0);
-
-            Strafing(12, -3);
-
-            ForwardorBackwards(24, 0.75);
+            Strafing(12, -1);
 
             LongArmFunctionDown();
 
+            sleep(250);
+
             Claw.setPosition(0);
+
+            sleep(250);
 
             LongArm.setTargetPosition(0);
             LongArm.setPower(0.3);        //Sets the power for the Long arm
             LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+            ForwardorBackwards(-32,0.75);
             }
         }
     }
-}
