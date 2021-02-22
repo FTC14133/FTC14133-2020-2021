@@ -31,8 +31,6 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
     int count = 0;
-    //double distance = 0;
-    //  double turn = 0;
 
     void ForwardorBackwards(double distance, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -44,23 +42,34 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         double encodercounts = distance * 60.3686819388;//(1/(75*(1/25.4)))*560;
         int encodercountsint = (int) encodercounts;
         lf.setTargetPosition(encodercountsint);
-        lf.setPower(speed);        //Sets the power for the Long arm
+        lf.setPower(speed);        //Sets the power for the left front wheel
         rightfront.setTargetPosition(encodercountsint);
-
-
-        rightfront.setPower(speed);        //Sets the power for the Long arm
+        rightfront.setPower(speed);        //Sets the power for the right front wheel
         leftback.setTargetPosition(encodercountsint);
-        leftback.setPower(speed);        //Sets the power for the Long arm
+        leftback.setPower(speed);        //Sets the power for the left back wheel
         rightback.setTargetPosition(encodercountsint);
-        rightback.setPower(speed);        //Sets the power for the Long arm
+        rightback.setPower(speed);        //Sets the power for the right back wheel
         leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()) {
+            //run until motors arrive at position
+            if(!beamBreak.getState()) { //if beam is broken
+                conveyor.setPower(1);//Run conveyor
+                if (toggle){ //if toggle is true, or there was no ring in last loop
+                    count = count + 1;
+                    toggle=false; //set to false to stop count
+                    telemetry.update();}
+                }
+            else{ // if beam break not broken
+                toggle=true; //set to false to allow for count next time ring breaks beam
+                conveyor.setPower(0); // stop conveyor
+                }
 
         }
+        conveyor.setPower(0); //stops conveyor if loop ended with conveyor running
     }
 
 
@@ -87,6 +96,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while (lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()) {
+            //run until motors arrive at position
         }
     }
 
@@ -112,6 +122,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()) {
+            //run until motors arrive at position
         }
 
 
@@ -119,7 +130,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
     boolean IntakeFunction(double speed) {
         intake.setPower(speed);
-        if (beamBreak.getState()) {
+        if (!beamBreak.getState()) {
             conveyor.setPower(speed);
         }
         if (speed == 0) {
@@ -143,6 +154,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
         LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (LongArm.isBusy()){
+            //run until motors arrive at position
         }
     }
 
@@ -151,6 +163,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
         LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (LongArm.isBusy()){
+            //run until motors arrive at position
         }
     }
 
@@ -204,51 +217,53 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
      //           conveyor.setPower(1);
       //      }
 
-        while (toggle)
-        {
-            if (beamBreak.getState()) {
-                count = count + 1;
-                toggle = false;
-
-            }
-        }
-
-
-        ForwardorBackwards(57.5, 0.75);
-
-        Strafing(-18, -0.5);   // scoot left until aligned with top goal
-
-        ConveyorFunction(1);
-
-        sleep(4000);
-        ForwardorBackwards(-26, 0.2);    // move forward at rings
+      //  while (toggle)
+       // {
+      //      if (beamBreak.getState()) {
+      //          count = count + 1;
+       //         toggle = false;
+//
+      //      }
+      //  }
 
 
+        ForwardorBackwards(57, 1); // Drive forward from wall
+
+        Strafing(-18, -1);   // scoot left until aligned with top goal
+
+        ConveyorFunction(1);  //shoot rings in conveyor
+
+        sleep(4000); //time to shoot rings in conveyor
+
+        ForwardorBackwards(-16,1); //move quickly to ring stack
+
+        intake.setPower(1);//begin running intake
+
+        ForwardorBackwards(-10, 0.2);    // move slowly to pick up rings, count code in drive while loop
 
        // ForwardorBackwards(-26, 0.2);    // move forward at rings
 
-        ConveyorFunction(0);
+       // ConveyorFunction(0);
 
-        ForwardorBackwards(-6, 0.3);    // move forward at rings
-        toggle = true;
+       // ForwardorBackwards(-6, 0.3);    // move forward at rings
+       // toggle = true;
 
-        ForwardorBackwards(-2, 0.3);    // move forward at rings
-        toggle = true;
+       // ForwardorBackwards(-2, 0.3);    // move forward at rings
+       // toggle = true;
 
-        ForwardorBackwards(-2, 0.3);    // move forward at rings
-        toggle = true;
+      //  ForwardorBackwards(-2, 0.3);    // move forward at rings
+      //  toggle = true;
 
-        telemetry.addData("count", count);    //
         telemetry.update();
 
-        ForwardorBackwards(35, 0.5);
+        ForwardorBackwards(26, 1); // move back to line to shoot
 
-        ConveyorFunction(1);
+        ConveyorFunction(1); //begin shooting
 
-        sleep(3000);
+        sleep(3000); //time to shoot
 
-        ConveyorFunction(0);
-        if (count == 0) {       // if one ring is picked up, do this portion of code
+        ConveyorFunction(0); // stop shooting
+        if (count == 0) {       // if zero rings are picked up, do this portion of code
 
        //     ShooterFunction(1);
 
