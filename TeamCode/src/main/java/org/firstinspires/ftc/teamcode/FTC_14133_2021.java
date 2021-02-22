@@ -116,7 +116,7 @@ public class FTC_14133_2021 extends OpMode {
                 clawstate = true;
                 Claw.setPosition(0);
             }
-        } else if (gamepad2.y == false) {
+        } else if (!gamepad2.y) {
             toggle = true; // Button has been released, so this allows a re-press to activate the code above.
         }
 
@@ -148,11 +148,11 @@ public class FTC_14133_2021 extends OpMode {
 
         //Shooter and Shooter Power
 
-        if (gamepad2.left_stick_y < 0) {
+        if (gamepad2.left_stick_y < -0.25) {
             ShooterPower += 0.01;
         }
 
-        if (gamepad2.left_stick_y > 0) {
+        if (gamepad2.left_stick_y > 0.25) {
             ShooterPower -= 0.01;
         }
 
@@ -160,7 +160,7 @@ public class FTC_14133_2021 extends OpMode {
             ShooterPower = 1;
         }
 
-        if (ShooterPower < 0.5) {
+        if (ShooterPower < 0.75) {
             ShooterPower = 0.75;
         }
 
