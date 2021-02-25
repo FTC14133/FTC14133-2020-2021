@@ -30,7 +30,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
     Servo Claw = null;          // Sets the variable of the Claw
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
-    int count = 0;
+    public int count = 0;
 
     void ForwardorBackwards(double distance, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -58,14 +58,26 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
             //run until motors arrive at position
             if(!beamBreak.getState()) { //if beam is broken
                 conveyor.setPower(1);//Run conveyor
+                telemetry.addData("count", count);
+                telemetry.addData("toggle", toggle);
+                telemetry.addData("beamBreak", beamBreak.getState());
+                telemetry.update();
+
                 if (toggle){ //if toggle is true, or there was no ring in last loop
                     count = count + 1;
                     toggle=false; //set to false to stop count
+                    telemetry.addData("count", count);
+                    telemetry.addData("toggle", toggle);
+                    telemetry.addData("beamBreak", beamBreak.getState());
                     telemetry.update();}
                 }
             else{ // if beam break not broken
                 toggle=true; //set to false to allow for count next time ring breaks beam
                 conveyor.setPower(0); // stop conveyor
+                telemetry.addData("count", count);
+                telemetry.addData("toggle", toggle);
+                telemetry.addData("beamBreak", beamBreak.getState());
+                telemetry.update();
                 }
 
         }
@@ -182,6 +194,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
         beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
         Claw = hardwareMap.get(Servo.class, "Claw");
         telemetry.addData("count", count);
+        telemetry.addData("toggle", toggle);
         telemetry.addData("beamBreak", beamBreak.getState());
         telemetry.update();
 
@@ -227,11 +240,11 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
       //  }
 
 
-        ForwardorBackwards(57, 1); // Drive forward from wall
+        ForwardorBackwards(57, 0.5); // Drive forward from wall
 
-        Strafing(-18, -1);   // scoot left until aligned with top goal
+        Strafing(-18, -0.5);   // scoot left until aligned with top goal
 
-        ConveyorFunction(1);  //shoot rings in conveyor
+        ConveyorFunction(0.5);  //shoot rings in conveyor
 
         sleep(4000); //time to shoot rings in conveyor
 
@@ -256,7 +269,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
         telemetry.update();
 
-        ForwardorBackwards(26, 1); // move back to line to shoot
+        ForwardorBackwards(26, 0.5); // move back to line to shoot
 
         ConveyorFunction(1); //begin shooting
 
@@ -288,6 +301,10 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
             Strafing(-12, 0.75);
 
             ForwardorBackwards(6,0.5);
+
+            LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
         if (count == 1) {
 
@@ -310,8 +327,12 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
             LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             //ForwardorBackwards(-4,0.75);
+
+            LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        if (count == 3) {
+        if (count == 3 || count == 4) {
             ForwardorBackwards(40, 0.75);
 
      //       ShooterFunction(1);
@@ -331,6 +352,10 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
             LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             ForwardorBackwards(-32,0.75);
+
+            LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
         }
     }
