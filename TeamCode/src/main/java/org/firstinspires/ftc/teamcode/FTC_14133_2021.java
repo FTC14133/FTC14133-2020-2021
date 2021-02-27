@@ -141,6 +141,10 @@ public class FTC_14133_2021 extends OpMode {
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
 
+         if (gamepad2.a){
+             LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         }
+
 
 
 

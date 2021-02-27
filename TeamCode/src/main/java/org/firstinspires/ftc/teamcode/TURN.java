@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 
-@Autonomous(name="FTC 14133 2021 Auto", group="Auto")
-public class FTC_14133_2021_Auto extends LinearOpMode {
+@Autonomous(name="TURN", group="Auto")
+public class TURN extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
     private DcMotor rightback = null;
@@ -31,7 +31,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
     public int count = 0;
-
+/*
     void ForwardorBackwards(double distance, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -84,6 +84,8 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         conveyor.setPower(0); //stops conveyor if loop ended with conveyor running
     }
 
+ */
+
 
     void Rotate(double turn, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -111,7 +113,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
             //run until motors arrive at position
         }
     }
-
+    /*
     void Strafing(double Strafe, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -182,6 +184,8 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     public void waitForStart() {
     }
 
+
+     */
     public void runOpMode() {
         lf = hardwareMap.get(DcMotor.class, "lf");       //sets the names of the motors on the hardware map
         rightfront = hardwareMap.get(DcMotor.class, "rightfront");
@@ -222,6 +226,8 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Shooter.setPower(1);
 
+        Rotate(360, 1);
+/*
         ForwardorBackwards(57, 0.5); // Drive forward from wall
 
         Strafing(-18, -0.5);   // scoot left until aligned with top goal
@@ -230,18 +236,26 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
         sleep(4000); //time to shoot rings in conveyor
 
-        intake.setPower(1);//begin running intake
-
         ForwardorBackwards(-16,1); //move quickly to ring stack
+
+        intake.setPower(1);//begin running intake
 
         ForwardorBackwards(-10.5, 0.2);    // move slowly to pick up rings, count code in drive while loop
 
         ForwardorBackwards(26, 0.5); // move back to line to shoot
 
+        ConveyorFunction(1); //begin shooting
 
+        sleep(4000); //time to shoot
 
         ConveyorFunction(0); // stop shooting
         if (count == 0) {       // if zero rings are picked up, do this portion of code
+
+            //     ShooterFunction(1);
+
+            //     sleep(3000);
+
+            //       IntakeFunction(0);
 
             Strafing(12, -0.75);
 
@@ -253,28 +267,23 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             sleep(250);
 
-            ForwardorBackwards(-55,0.5);
+            LongArm.setTargetPosition(0);
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            Rotate(90,0.5);
+            Strafing(-12, 0.75);
 
-            ForwardorBackwards(12, 0.5);
+            ForwardorBackwards(6,0.5);
 
-            Claw.setPosition(1);
-
-            sleep(1500);
-
-            LongArmFunctionUP();
-
-            Rotate(-90,0.5);
-
-            ForwardorBackwards(60, 1);
+            LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
         if (count == 1) {
-            ConveyorFunction(1); //begin shooting
-
-            sleep(4000); //time to shoot
 
             ForwardorBackwards(16, 0.75);
+
+            //    ShooterFunction(1);
 
             Strafing(-6,0.75);
 
@@ -286,14 +295,18 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             sleep(250);
 
+            LongArm.setTargetPosition(0);
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //ForwardorBackwards(-4,0.75);
+
             LongArmFunctionUP();
         }
         if (count > 2) {
-            ConveyorFunction(1); //begin shooting
-
-            sleep(4000); //time to shoot
-
             ForwardorBackwards(40, 0.75);
+
+            //       ShooterFunction(1);
 
             Strafing(12, -1);
 
@@ -305,9 +318,19 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             sleep(250);
 
-            LongArmFunctionUP();
+            LongArm.setTargetPosition(0);
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             ForwardorBackwards(-32,0.75);
+
+            LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
+            LongArm.setPower(0.3);        //Sets the power for the Long arm
+            LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 }
+
+
+
+ */}}
