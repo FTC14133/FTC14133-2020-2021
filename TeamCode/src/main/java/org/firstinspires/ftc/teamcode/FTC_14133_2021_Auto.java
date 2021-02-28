@@ -222,19 +222,19 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Shooter.setPower(1);
 
-        ForwardorBackwards(57, 0.5); // Drive forward from wall
+        ForwardorBackwards(57, 0.75); // Drive forward from wall
 
         Strafing(-18, -0.5);   // scoot left until aligned with top goal
 
         ConveyorFunction(0.5);  //shoot rings in conveyor
 
-        sleep(4000); //time to shoot rings in conveyor
+        sleep(3500); //time to shoot rings in conveyor
 
         intake.setPower(1);//begin running intake
 
-        ForwardorBackwards(-16,1); //move quickly to ring stack
+        ForwardorBackwards(-16,0.7); //move quickly to ring stack
 
-        ForwardorBackwards(-10.5, 0.2);    // move slowly to pick up rings, count code in drive while loop
+        ForwardorBackwards(-10.5, 0.4);    // move slowly to pick up rings, count code in drive while loop
 
         ForwardorBackwards(26, 0.5); // move back to line to shoot
 
@@ -247,32 +247,36 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             LongArmFunctionDown();
 
-            sleep(250);
+            sleep(200);
 
             Claw.setPosition(0);
 
-            sleep(250);
+            sleep(150);
 
-            ForwardorBackwards(-55,0.5);
+            ForwardorBackwards(-52,0.65);
 
             Rotate(90,0.5);
 
-            ForwardorBackwards(12, 0.5);
+            ForwardorBackwards(5, 0.3);
 
             Claw.setPosition(1);
 
-            sleep(1500);
+            sleep(250);
 
             LongArmFunctionUP();
 
             Rotate(-90,0.5);
 
-            ForwardorBackwards(60, 1);
+            ForwardorBackwards(58, 1);
+
+            Strafing(10, 0.5);
+
+            ForwardorBackwards(10, 0.75);
         }
         if (count == 1) {
             ConveyorFunction(1); //begin shooting
 
-            sleep(4000); //time to shoot
+            sleep(3500); //time to shoot
 
             ForwardorBackwards(16, 0.75);
 
@@ -280,18 +284,19 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             LongArmFunctionDown();
 
-            sleep(250);
+            sleep(240);
 
             Claw.setPosition(0);
 
-            sleep(250);
+            sleep(240);
 
             LongArmFunctionUP();
         }
-        if (count > 2) {
-            ConveyorFunction(1); //begin shooting
+        if (count > 1) {
+            ConveyorFunction(1); //begin sho
+            // oting
 
-            sleep(4000); //time to shoot
+            sleep(3500); //time to shoot
 
             ForwardorBackwards(40, 0.75);
 
@@ -299,11 +304,11 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             LongArmFunctionDown();
 
-            sleep(250);
+            sleep(240);
 
             Claw.setPosition(0);
 
-            sleep(250);
+            sleep(240);
 
             LongArmFunctionUP();
 
