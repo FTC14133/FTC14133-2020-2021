@@ -290,7 +290,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             sleep(240);
 
-            LongArmFunctionUP();
+            LongArmFunctionUP();//
         }
         if (count > 1) {
             ConveyorFunction(1); //begin sho
