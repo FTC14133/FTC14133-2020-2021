@@ -156,7 +156,7 @@ public class FTC_14133_2021 extends OpMode {
          }
 
          if (gamepad2.a) {
-             LongArm.setTargetPosition(-1400);        //Tell the motor to go to 90 degrees when told to
+             LongArm.setTargetPosition(-1440);        //Tell the motor to go to 90 degrees when told to
              LongArm.setPower(0.3);
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
        }
