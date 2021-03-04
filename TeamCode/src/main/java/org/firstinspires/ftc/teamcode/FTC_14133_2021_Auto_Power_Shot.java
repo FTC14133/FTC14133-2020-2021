@@ -220,25 +220,25 @@ public class FTC_14133_2021_Auto_Power_Shot extends LinearOpMode {
 
         Strafing(-18, -0.5);   // scoot left until aligned with top goal
 
-        Rotate(5,0.5);  // turn towards power shot
+        Rotate(12,0.5);  // turn towards power shot
 
         ConveyorFunction(0.5);  //shoot rings in conveyor
 
-        sleep(2000); //time to shoot rings in conveyor
+        sleep(500); //time to shoot rings in conveyor
 
-        Rotate(3,0.5); // turn toward 2nd power shot
-
-        ConveyorFunction(0.5);  //shoot rings in conveyor
-
-        sleep(2000); //time to shoot rings in conveyor
-
-        Rotate(2,0.5); // turn toward 3rd power shot
+        Rotate(5,0.5); // turn toward 2nd power shot
 
         ConveyorFunction(0.5);  //shoot rings in conveyor
 
-        sleep(2000); //time to shoot rings in conveyor
+        sleep(500); //time to shoot rings in conveyor
 
-        Rotate(-10,0.5); // realign
+        Rotate(5,0.5); // turn toward 3rd power shot
+
+        ConveyorFunction(0.5);  //shoot rings in conveyor
+
+        sleep(500); //time to shoot rings in conveyor
+
+        Rotate(-22,0.5); // realign
 
         intake.setPower(1);//begin running intake
 
