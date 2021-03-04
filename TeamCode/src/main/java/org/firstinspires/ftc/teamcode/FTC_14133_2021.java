@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
  @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
 public class FTC_14133_2021 extends OpMode {
@@ -27,6 +31,7 @@ public class FTC_14133_2021 extends OpMode {
      boolean clawstate = false;          // Sets the variable of the clawstate
      boolean toggle = true;          // Sets the variable of the toggle
      double ShooterPower = 1;             // mayhaps
+     DigitalChannel limit;
 
 
      public void init() {
@@ -40,6 +45,7 @@ public class FTC_14133_2021 extends OpMode {
          conveyor = hardwareMap.get(DcMotor.class, "conveyor");
          beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
          Claw = hardwareMap.get(Servo.class, "Claw");
+         limit = hardwareMap.get(DigitalChannel.class, "limit");
 
          Shooter.setDirection(DcMotor.Direction.REVERSE);            //sets the directions of the motors
          lf.setDirection(DcMotor.Direction.FORWARD);
@@ -53,6 +59,8 @@ public class FTC_14133_2021 extends OpMode {
          LongArm.setDirection(DcMotor.Direction.FORWARD);
          intake.setDirection(DcMotor.Direction.FORWARD);
          conveyor.setDirection(DcMotor.Direction.FORWARD);
+
+
 
 
      }
@@ -77,6 +85,12 @@ public class FTC_14133_2021 extends OpMode {
          double rightfrontpower;     //Power level for rightfront
          double armrotation = MOTOR_TICK_COUNT * (0.375);
          double armrotationmiddle = MOTOR_TICK_COUNT * (0.25);
+
+         telemetry.addData("Is pressed?    ", limit.getState());
+
+         telemetry.update();
+
+
 
          //Mecanum Wheels
 
@@ -141,9 +155,21 @@ public class FTC_14133_2021 extends OpMode {
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
 
-         if (gamepad2.a){
+         if (gamepad2.a) {
+             LongArm.setTargetPosition(-1440);        //Tell the motor to go to 90 degrees when told to
+             LongArm.setPower(0.3);
+             LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       }
+
+         if (limit.getState()) {
              LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+             LongArm.setTargetPosition(40);        //Tell the motor to go to 90 degrees when told to
+             LongArm.setPower(0.3);
+             LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
+
+
+
 
 
 
@@ -173,6 +199,10 @@ public class FTC_14133_2021 extends OpMode {
             intake.setPower(1);
             conveyor.setPower(1);
         }
+
+
+
+
 
         //Intake and Conveyor and Conveyor Detection System
 
