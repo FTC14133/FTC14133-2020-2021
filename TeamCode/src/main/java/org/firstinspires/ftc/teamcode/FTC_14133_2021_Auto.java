@@ -54,7 +54,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()) {
+        while (lf.isBusy() || leftback.isBusy()) {
             //run until motors arrive at position
             if(!beamBreak.getState()) { //if beam is broken
                 conveyor.setPower(1);//Run conveyor
@@ -107,7 +107,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()) {
+        while (lf.isBusy() || leftback.isBusy()) {
             //run until motors arrive at position
         }
     }
@@ -133,7 +133,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (lf.isBusy() || rightfront.isBusy() || leftback.isBusy() || rightback.isBusy()) {
+        while (lf.isBusy() || leftback.isBusy()) {
             //run until motors arrive at position
         }
 
@@ -161,7 +161,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     }
 
     void LongArmFunctionDown() {
-        double armrotation = MOTOR_TICK_COUNT * (0.375);
+        double armrotation = MOTOR_TICK_COUNT * (0.4);
         LongArm.setPower(0.3);        //Sets the power for the Long arm
         LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
         LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -224,7 +224,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
         ForwardorBackwards(57, 0.75); // Drive forward from wall
 
-        Strafing(-18, -0.5);   // scoot left until aligned with top goal
+        Strafing(-17, -0.5);   // scoot left until aligned with top goal
 
         ConveyorFunction(0.5);  //shoot rings in conveyor
 
@@ -236,7 +236,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
         ForwardorBackwards(-10.5, 0.4);    // move slowly to pick up rings, count code in drive while loop
 
-        ForwardorBackwards(26, 0.5); // move back to line to shoot
+        ForwardorBackwards(24, 0.75); // move back to line to shoot
 
 
 
@@ -253,32 +253,38 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             sleep(150);
 
-            ForwardorBackwards(-52,0.65);
+            ForwardorBackwards(-53,0.75);
 
-            Rotate(90,0.5);
+            Rotate(95,0.7);
 
-            ForwardorBackwards(5, 0.3);
+            ForwardorBackwards(10, 0.65);
 
             Claw.setPosition(1);
 
-            sleep(250);
+            sleep(200);
+
+            Rotate(-100,0.75);
+
+            ForwardorBackwards(50, 1);
+
+            Claw.setPosition(0);
+
+            sleep(200);
 
             LongArmFunctionUP();
 
-            Rotate(-90,0.5);
+         //   Strafing(10, 1);
 
-            ForwardorBackwards(58, 1);
+          //  LongArmFunctionDown();
 
-            Strafing(10, 0.5);
-
-            ForwardorBackwards(10, 0.75);
+          //  ForwardorBackwards(10, 0.75);
         }
         if (count == 1) {
             ConveyorFunction(1); //begin shooting
 
             sleep(3500); //time to shoot
 
-            ForwardorBackwards(16, 0.75);
+            ForwardorBackwards(18, 0.75);
 
             Strafing(-6,0.75);
 
@@ -300,7 +306,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             ForwardorBackwards(40, 0.75);
 
-            Strafing(12, -1);
+            Strafing(7, -1);
 
             LongArmFunctionDown();
 

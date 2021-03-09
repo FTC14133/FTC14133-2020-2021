@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 // https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,8 +12,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
- @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+
+import java.util.concurrent.TimeUnit;
+
+import static com.qualcomm.hardware.rev.RevBlinkinLedDriver.BlinkinPattern.GREEN;
+
+@TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
 public class FTC_14133_2021 extends OpMode {
      private ElapsedTime runtime = new ElapsedTime();
      private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
@@ -31,6 +44,7 @@ public class FTC_14133_2021 extends OpMode {
      boolean clawstate = false;          // Sets the variable of the clawstate
      boolean toggle = true;          // Sets the variable of the toggle
      double ShooterPower = 1;             // mayhaps
+     Servo light = null;
      DigitalChannel limit;
 
 
@@ -46,6 +60,7 @@ public class FTC_14133_2021 extends OpMode {
          beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
          Claw = hardwareMap.get(Servo.class, "Claw");
          limit = hardwareMap.get(DigitalChannel.class, "limit");
+         light = hardwareMap.get(Servo.class, "light");
 
          Shooter.setDirection(DcMotor.Direction.REVERSE);            //sets the directions of the motors
          lf.setDirection(DcMotor.Direction.FORWARD);
@@ -54,6 +69,19 @@ public class FTC_14133_2021 extends OpMode {
          rightback.setDirection(DcMotor.Direction.REVERSE);
          beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
          Claw.setPosition(1);
+
+        // RevBlinkinLedDriver blinkinLedDriver = null;
+         //GREEN;
+         light.setPosition(-0.71);
+        // blinkinLedDriver.setPattern(GREEN);
+
+         /*
+         display = telemetry.addData("Display Kind: ", displayKind.toString());
+         patternName = telemetry.addData("Pattern: ", pattern.toString());
+
+         ledCycleDeadline = new Deadline(LED_PERIOD, TimeUnit.SECONDS);
+         gamepadRateLimit = new Deadline(GAMEPAD_LOCKOUT, TimeUnit.MILLISECONDS);
+          */
          LongArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
          LongArm.setDirection(DcMotor.Direction.FORWARD);
@@ -163,7 +191,7 @@ public class FTC_14133_2021 extends OpMode {
 
          if (limit.getState()) {
              LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-             LongArm.setTargetPosition(40);        //Tell the motor to go to 90 degrees when told to
+             LongArm.setTargetPosition(350);        //Tell the motor to go to 90 degrees when told to
              LongArm.setPower(0.3);
              LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          }
