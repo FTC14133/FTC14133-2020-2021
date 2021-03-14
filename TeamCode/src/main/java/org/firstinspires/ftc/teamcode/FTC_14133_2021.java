@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -19,7 +18,7 @@ public class FTC_14133_2021 extends OpMode {
      // COMMENTED OUT THINGS ARE NOT TO BE DELETED
      static final double MOTOR_TICK_COUNT = 2800;
      private DcMotor shooter = null;         // Sets the variable of the shooter
-     private DcMotor longarm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
+     private DcMotor arm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
      private DcMotor intake = null;          // Sets the variable of the intake
      private DcMotor conveyor = null;          // Sets the variable of the conveyor
      DigitalChannel beambreak;          // Sets the variable of the beamBreak
@@ -37,7 +36,7 @@ public class FTC_14133_2021 extends OpMode {
          rf = hardwareMap.get(DcMotor.class, "rightfront");
          lb = hardwareMap.get(DcMotor.class, "leftback");
          rb = hardwareMap.get(DcMotor.class, "rightback");
-         longarm = hardwareMap.get(DcMotor.class, "LongArm");
+         arm = hardwareMap.get(DcMotor.class, "LongArm");
          shooter = hardwareMap.get(DcMotor.class, "Shooter");
          intake = hardwareMap.get(DcMotor.class, "intake");
          conveyor = hardwareMap.get(DcMotor.class, "conveyor");
@@ -67,9 +66,9 @@ public class FTC_14133_2021 extends OpMode {
          ledCycleDeadline = new Deadline(LED_PERIOD, TimeUnit.SECONDS);
          gamepadRateLimit = new Deadline(GAMEPAD_LOCKOUT, TimeUnit.MILLISECONDS);
           */
-         longarm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-         longarm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
-         longarm.setDirection(DcMotor.Direction.FORWARD);
+         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
+         arm.setDirection(DcMotor.Direction.FORWARD);
          intake.setDirection(DcMotor.Direction.FORWARD);
          conveyor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -152,19 +151,19 @@ public class FTC_14133_2021 extends OpMode {
          //Long Arm
 
          if (limitup.getState()) {
-             longarm.setPower(0);
+             arm.setPower(0);
          }
 
          if (limitdown.getState()) {
-             longarm.setPower(0);
+             arm.setPower(0);
          }
 
          if (gamepad2.dpad_down && !limitdown.getState()) {            //turns the arm that is long but there is not a arm that is short
-             longarm.setPower(-0.3);        //Sets the power for the Long arm
+             arm.setPower(-0.3);        //Sets the power for the Long arm
          }
 
          if (gamepad2.dpad_up && !limitup.getState()) {      //rotates the arm that is long but there is not a arm that is short
-             longarm.setPower(0.3);        //Sets the power for the Long arm
+             arm.setPower(0.3);        //Sets the power for the Long arm
          }
 
          /*if (gamepad2.dpad_left || gamepad2.dpad_right) {      //rotates the arm that is long but there is not a arm that is short
@@ -241,7 +240,7 @@ public class FTC_14133_2021 extends OpMode {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
             shooter.setPower(0.75);
-            longarm.setPower(0);
+            arm.setPower(0);
         }
     }
 }
