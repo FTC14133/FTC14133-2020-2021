@@ -33,15 +33,15 @@ public class FTC_14133_2021 extends OpMode {
 
      public void init() {
          lf = hardwareMap.get(DcMotor.class, "lf");       //sets the names of the motors on the hardware map
-         rf = hardwareMap.get(DcMotor.class, "rightfront");
-         lb = hardwareMap.get(DcMotor.class, "leftback");
-         rb = hardwareMap.get(DcMotor.class, "rightback");
-         arm = hardwareMap.get(DcMotor.class, "LongArm");
-         shooter = hardwareMap.get(DcMotor.class, "Shooter");
+         rf = hardwareMap.get(DcMotor.class, "rf");
+         lb = hardwareMap.get(DcMotor.class, "lb");
+         rb = hardwareMap.get(DcMotor.class, "rb");
+         arm = hardwareMap.get(DcMotor.class, "arm");
+         shooter = hardwareMap.get(DcMotor.class, "shooter");
          intake = hardwareMap.get(DcMotor.class, "intake");
          conveyor = hardwareMap.get(DcMotor.class, "conveyor");
-         beambreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
-         claw = hardwareMap.get(Servo.class, "Claw");
+         beambreak = hardwareMap.get(DigitalChannel.class, "beambreak");
+         claw = hardwareMap.get(Servo.class, "claw");
          limitup = hardwareMap.get(DigitalChannel.class, "limitup");
          limitdown = hardwareMap.get(DigitalChannel.class, "limitdown");
          light = hardwareMap.get(Servo.class, "light");
