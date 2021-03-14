@@ -6,9 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
-public class FTC_14133_2021 extends OpMode {
+    @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
+    public class FTC_14133_2021 extends OpMode {
      private ElapsedTime runtime = new ElapsedTime();
      private DcMotor lb = null;        // Sets the variables of the mecanum wheels
      private DcMotor rb = null;
@@ -17,7 +18,7 @@ public class FTC_14133_2021 extends OpMode {
 
      // COMMENTED OUT THINGS ARE NOT TO BE DELETED
      static final double MOTOR_TICK_COUNT = 2800;
-     private DcMotor shooter = null;         // Sets the variable of the shooter
+     private DcMotorEx shooter = null;         // Sets the variable of the shooter
      private DcMotor arm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
      private DcMotor intake = null;          // Sets the variable of the intake
      private DcMotor conveyor = null;          // Sets the variable of the conveyor
@@ -30,16 +31,15 @@ public class FTC_14133_2021 extends OpMode {
      DigitalChannel limitup;
      DigitalChannel limitdown;
 
-
      public void init() {
-         lf = hardwareMap.get(DcMotor.class, "lf");       //sets the names of the motors on the hardware map
-         rf = hardwareMap.get(DcMotor.class, "rf");
-         lb = hardwareMap.get(DcMotor.class, "lb");
-         rb = hardwareMap.get(DcMotor.class, "rb");
-         arm = hardwareMap.get(DcMotor.class, "arm");
-         shooter = hardwareMap.get(DcMotor.class, "shooter");
-         intake = hardwareMap.get(DcMotor.class, "intake");
-         conveyor = hardwareMap.get(DcMotor.class, "conveyor");
+         lf = hardwareMap.get(DcMotorEx.class, "lf");       //sets the names of the motors on the hardware map
+         rf = hardwareMap.get(DcMotorEx.class, "rf");
+         lb = hardwareMap.get(DcMotorEx.class, "lb");
+         rb = hardwareMap.get(DcMotorEx.class, "rb");
+         arm = hardwareMap.get(DcMotorEx.class, "arm");
+         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+         intake = hardwareMap.get(DcMotorEx.class, "intake");
+         conveyor = hardwareMap.get(DcMotorEx.class, "conveyor");
          beambreak = hardwareMap.get(DigitalChannel.class, "beambreak");
          claw = hardwareMap.get(Servo.class, "claw");
          limitup = hardwareMap.get(DigitalChannel.class, "limitup");
@@ -68,23 +68,17 @@ public class FTC_14133_2021 extends OpMode {
           */
          arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
+         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          arm.setDirection(DcMotor.Direction.FORWARD);
          intake.setDirection(DcMotor.Direction.FORWARD);
          conveyor.setDirection(DcMotor.Direction.FORWARD);
-
-
-
-
      }
-
 
      public void init_loop() {
      }
 
-
      public void start() {
      }
-
 
      public void loop() {
          double leftPowerY;
@@ -101,8 +95,6 @@ public class FTC_14133_2021 extends OpMode {
          telemetry.addData("Is pressed? ", limitup.getState());
          telemetry.addData("Is pressed? ", limitdown.getState());
          telemetry.update();
-
-
 
          //Mecanum Wheels
 
@@ -128,9 +120,6 @@ public class FTC_14133_2021 extends OpMode {
          rf.setPower(rightfrontpower);
          rb.setPower(rightbackpower);
 
-
-
-
         //Claw
 
         if (toggle && gamepad2.y) {  // Only execute once per Button push
@@ -145,8 +134,6 @@ public class FTC_14133_2021 extends OpMode {
         } else if (!gamepad2.y) {
             toggle = true; // Button has been released, so this allows a re-press to activate the code above.
         }
-
-
 
          //Long Arm
 
@@ -180,41 +167,29 @@ public class FTC_14133_2021 extends OpMode {
 
           */
 
-
-
-
-
-
-
-
-
         //Shooter and Shooter Power
 
         if (gamepad2.left_stick_y < -0.25) {
-            shooterpower += 0.01;
+            shooterpower += 10;
         }
 
         if (gamepad2.left_stick_y > 0.25) {
-            shooterpower -= 0.01;
+            shooterpower -= 10;
         }
 
-        if (shooterpower > 1) {
-            shooterpower = 1;
+        if (shooterpower < 700) {
+            shooterpower = 700;
         }
 
-        if (shooterpower < 0.75) {
-            shooterpower = 0.75;
+        if (shooterpower > 2500) {
+            shooterpower = 2500;
         }
 
         if (gamepad2.b) {
-            shooter.setPower(shooterpower);            // This Controls the shooter
+            shooter.setVelocity(shooterpower);
             intake.setPower(1);
             conveyor.setPower(1);
         }
-
-
-
-
 
         //Intake and Conveyor and Conveyor Detection System
 
@@ -239,7 +214,7 @@ public class FTC_14133_2021 extends OpMode {
         else {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
-            shooter.setPower(0.75);
+            shooter.setVelocity(700);
             arm.setPower(0);
         }
     }
