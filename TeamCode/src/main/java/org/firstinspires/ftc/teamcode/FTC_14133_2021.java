@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -11,10 +13,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
     @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
     public class FTC_14133_2021 extends OpMode {
      private ElapsedTime runtime = new ElapsedTime();
-     private DcMotor lb = null;        // Sets the variables of the mecanum wheels
-     private DcMotor rb = null;
-     private DcMotor lf = null;
-     private DcMotor rf = null;
+     private DcMotorEx lb = null;        // Sets the variables of the mecanum wheels
+     private DcMotorEx rb = null;
+     private DcMotorEx lf = null;
+     private DcMotorEx rf = null;
 
      // COMMENTED OUT THINGS ARE NOT TO BE DELETED
      static final double MOTOR_TICK_COUNT = 2800;
@@ -32,29 +34,39 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
      DigitalChannel limitdown;
 
      public void init() {
-         lf = hardwareMap.get(DcMotorEx.class, "lf");       //sets the names of the motors on the hardware map
-         rf = hardwareMap.get(DcMotorEx.class, "rf");
-         lb = hardwareMap.get(DcMotorEx.class, "lb");
-         rb = hardwareMap.get(DcMotorEx.class, "rb");
-         arm = hardwareMap.get(DcMotorEx.class, "arm");
-         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
-         intake = hardwareMap.get(DcMotorEx.class, "intake");
-         conveyor = hardwareMap.get(DcMotorEx.class, "conveyor");
+         lf = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "lf");       //sets the names of the motors on the hardware map
+         rf = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rf");
+         lb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "lb");
+         rb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rb");
+         arm = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "arm");
+         shooter = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "shooter");
+         intake = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "intake");
+         conveyor = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "conveyor");
          beambreak = hardwareMap.get(DigitalChannel.class, "beambreak");
          claw = hardwareMap.get(Servo.class, "claw");
          limitup = hardwareMap.get(DigitalChannel.class, "limitup");
          limitdown = hardwareMap.get(DigitalChannel.class, "limitdown");
          light = hardwareMap.get(Servo.class, "light");
 
-         shooter.setDirection(DcMotor.Direction.REVERSE);            //sets the directions of the motors
-         lf.setDirection(DcMotor.Direction.FORWARD);
-         rf.setDirection(DcMotor.Direction.REVERSE);
-         lb.setDirection(DcMotor.Direction.FORWARD);
-         rb.setDirection(DcMotor.Direction.REVERSE);
+         shooter.setDirection(DcMotorEx.Direction.REVERSE);            //sets the directions of the motors
+         lf.setDirection(DcMotorEx.Direction.FORWARD);
+         rf.setDirection(DcMotorEx.Direction.REVERSE);
+         lb.setDirection(DcMotorEx.Direction.FORWARD);
+         rb.setDirection(DcMotorEx.Direction.REVERSE);
          beambreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
          claw.setPosition(1);
 
-        // RevBlinkinLedDriver blinkinLedDriver = null;
+          final double driveP = 2.5;        //PID values will change, these are filler values
+          final double driveI = 0.1;
+          final double driveD = 0.2;
+          PIDCoefficients drivePID = new PIDCoefficients(driveP, driveI, driveD);
+          lf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+          rf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+          lb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+          rb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+
+
+         // RevBlinkinLedDriver blinkinLedDriver = null;
          //GREEN;
          light.setPosition(-0.71);
         // blinkinLedDriver.setPattern(GREEN);
@@ -66,9 +78,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          ledCycleDeadline = new Deadline(LED_PERIOD, TimeUnit.SECONDS);
          gamepadRateLimit = new Deadline(GAMEPAD_LOCKOUT, TimeUnit.MILLISECONDS);
           */
-         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         arm.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
          arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
-         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
          arm.setDirection(DcMotor.Direction.FORWARD);
          intake.setDirection(DcMotor.Direction.FORWARD);
          conveyor.setDirection(DcMotor.Direction.FORWARD);
