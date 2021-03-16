@@ -25,7 +25,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
      private DcMotor intake = null;          // Sets the variable of the intake
      private DcMotor conveyor = null;          // Sets the variable of the conveyor
      DigitalChannel beambreak;          // Sets the variable of the beamBreak
-     Servo claw = null;          // Sets the variable of the Claw
+     Servo leftclaw = null;          // Sets the variable of the Claw
+     Servo rightclaw = null;          // Sets the variable of the Claw
      boolean clawstate = false;          // Sets the variable of the clawstate
      boolean toggle = true;          // Sets the variable of the toggle
      double shooterpower = 1;             // mayhaps
@@ -43,7 +44,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          intake = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "intake");
          conveyor = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "conveyor");
          beambreak = hardwareMap.get(DigitalChannel.class, "beambreak");
-         claw = hardwareMap.get(Servo.class, "claw");
+         leftclaw = hardwareMap.get(Servo.class, "leftclaw");
+         rightclaw = hardwareMap.get(Servo.class, "rightclaw");
          limitup = hardwareMap.get(DigitalChannel.class, "limitup");
          limitdown = hardwareMap.get(DigitalChannel.class, "limitdown");
          light = hardwareMap.get(Servo.class, "light");
@@ -54,7 +56,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          lb.setDirection(DcMotorEx.Direction.FORWARD);
          rb.setDirection(DcMotorEx.Direction.REVERSE);
          beambreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
-         claw.setPosition(1);
+         leftclaw.setPosition(1);
+         rightclaw.setPosition(0);
 
           final double driveP = 2.5;        //PID values will change, these are filler values
           final double driveI = 0.1;
@@ -138,14 +141,18 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
             toggle = false;  // Prevents this section of code from being called again until the Button is released and re-pressed
             if (clawstate) {  // Decide which way to set the motor this time through (or use this as a motor value instead)
                 clawstate = false;
-                claw.setPosition(1);
+                leftclaw.setPosition(1);
+                rightclaw.setPosition(0);
             } else {
                 clawstate = true;
-                claw.setPosition(0);
+                leftclaw.setPosition(0);
+                rightclaw.setPosition(1);
             }
         } else if (!gamepad2.y) {
             toggle = true; // Button has been released, so this allows a re-press to activate the code above.
         }
+
+
 
          //Long Arm
 

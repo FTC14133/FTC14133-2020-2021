@@ -1,66 +1,62 @@
 package org.firstinspires.ftc.teamcode;// https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-import java.util.concurrent.TimeUnit;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
-import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
 public class FTC_14133_2021_Auto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftback = null;        // Sets the variables of the mecanum wheels
-    private DcMotor rightback = null;
-    private DcMotor lf = null;
-    private DcMotor rightfront = null;
+    private DcMotorEx lb = null;        // Sets the variables of the mecanum wheels
+    private DcMotorEx rb = null;
+    private DcMotorEx lf = null;
+    private DcMotorEx rf = null;
     static final double MOTOR_TICK_COUNT = 2800;        //
-    private DcMotor Shooter = null;         // Sets the variable of the shooter
-    private DcMotor LongArm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
-    private DcMotor intake = null;          // Sets the variable of the intake
-    private DcMotor conveyor = null;          // Sets the variable of the conveyor
+    private DcMotorEx shooter = null;         // Sets the variable of the shooter
+    private DcMotorEx arm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
+    private DcMotorEx intake = null;          // Sets the variable of the intake
+    private DcMotorEx conveyor = null;          // Sets the variable of the conveyor
     //   DigitalChannel LimitSwitchLongArm;          // Sets the variable of the LimitSwitchLongArm
-    DigitalChannel beamBreak;          // Sets the variable of the beamBreak
-    Servo Claw = null;          // Sets the variable of the Claw
+    DigitalChannel beambreak;          // Sets the variable of the beambreak
+    Servo leftclaw = null;          // Sets the variable of the Claw
+    Servo rightclaw = null;          // Sets the variable of the Claw
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
     public int count = 0;
 
     void ForwardorBackwards(double distance, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving forward/backwards
         //  double distance= 5; //(in)
         double encodercounts = distance * 60.3686819388;//(1/(75*(1/25.4)))*560;
         int encodercountsint = (int) encodercounts;
         lf.setTargetPosition(encodercountsint);
         lf.setPower(speed);        //Sets the power for the left front wheel
-        rightfront.setTargetPosition(encodercountsint);
-        rightfront.setPower(speed);        //Sets the power for the right front wheel
-        leftback.setTargetPosition(encodercountsint);
-        leftback.setPower(speed);        //Sets the power for the left back wheel
-        rightback.setTargetPosition(encodercountsint);
-        rightback.setPower(speed);        //Sets the power for the right back wheel
-        leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setTargetPosition(encodercountsint);
+        rf.setPower(speed);        //Sets the power for the right front wheel
+        lb.setTargetPosition(encodercountsint);
+        lb.setPower(speed);        //Sets the power for the left back wheel
+        rb.setTargetPosition(encodercountsint);
+        rb.setPower(speed);        //Sets the power for the right back wheel
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (lf.isBusy() || leftback.isBusy()) {
+        while (lf.isBusy() || lb.isBusy()) {
             //run until motors arrive at position
-            if(!beamBreak.getState()) { //if beam is broken
+            if(!beambreak.getState()) { //if beam is broken
                 conveyor.setPower(1);//Run conveyor
                 telemetry.addData("count", count);
                 telemetry.addData("toggle", toggle);
-                telemetry.addData("beamBreak", beamBreak.getState());
+                telemetry.addData("beambreak", beambreak.getState());
                 telemetry.update();
 
                 if (toggle){ //if toggle is true, or there was no ring in last loop
@@ -68,15 +64,16 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
                     toggle=false; //set to false to stop count
                     telemetry.addData("count", count);
                     telemetry.addData("toggle", toggle);
-                    telemetry.addData("beamBreak", beamBreak.getState());
-                    telemetry.update();}
+                    telemetry.addData("beambreak", beambreak.getState());
+                    telemetry.update();
+                }
             }
             else{ // if beam break not broken
                 toggle=true; //set to false to allow for count next time ring breaks beam
                 conveyor.setPower(0); // stop conveyor
                 telemetry.addData("count", count);
                 telemetry.addData("toggle", toggle);
-                telemetry.addData("beamBreak", beamBreak.getState());
+                telemetry.addData("beambreak", beambreak.getState());
                 telemetry.update();
             }
 
@@ -87,53 +84,53 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
     void Rotate(double turn, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving left/right
         //NOT DONE
         double encodercounts = turn * 13.18; // test iteratively
         int encodercountsint = (int) encodercounts;
         lf.setTargetPosition(-encodercountsint);
         lf.setPower(speed);        //
-        rightfront.setTargetPosition(encodercountsint);
-        rightfront.setPower(speed);        //Sets the power for the Long arm
-        leftback.setTargetPosition(-encodercountsint);
-        leftback.setPower(speed);        //Sets the power for the Long arm
-        rightback.setTargetPosition(encodercountsint);
-        rightback.setPower(speed);        //Sets the power for the Long arm
-        leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setTargetPosition(encodercountsint);
+        rf.setPower(speed);        //Sets the power for the Long arm
+        lb.setTargetPosition(-encodercountsint);
+        lb.setPower(speed);        //Sets the power for the Long arm
+        rb.setTargetPosition(encodercountsint);
+        rb.setPower(speed);        //Sets the power for the Long arm
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (lf.isBusy() || leftback.isBusy()) {
+        while (lf.isBusy() || lb.isBusy()) {
             //run until motors arrive at position
         }
     }
 
     void Strafing(double Strafe, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //Driving left/right
         //Positive is Strafing left negative is Strafing right
         double encodercounts = Strafe * 60.3686819388 * 1.4142135623730950488016887242097;
         int encodercountsint = (int) encodercounts;
         lf.setTargetPosition(-encodercountsint);
         lf.setPower(speed);        //
-        rightfront.setTargetPosition(encodercountsint);
-        rightfront.setPower(speed);        //Sets the power for the Long arm
-        leftback.setTargetPosition(encodercountsint);
-        leftback.setPower(speed);        //Sets the power for the Long arm
-        rightback.setTargetPosition(-encodercountsint);
-        rightback.setPower(speed);        //Sets the power for the Long arm
-        leftback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightfront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setTargetPosition(encodercountsint);
+        rf.setPower(speed);        //Sets the power for the Long arm
+        lb.setTargetPosition(encodercountsint);
+        lb.setPower(speed);        //Sets the power for the Long arm
+        rb.setTargetPosition(-encodercountsint);
+        rb.setPower(speed);        //Sets the power for the Long arm
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightback.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (lf.isBusy() || leftback.isBusy()) {
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (lf.isBusy() || lb.isBusy()) {
             //run until motors arrive at position
         }
 
@@ -142,7 +139,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
     boolean IntakeFunction(double speed) {
         intake.setPower(speed);
-        if (!beamBreak.getState()) {
+        if (!beambreak.getState()) {
             conveyor.setPower(speed);
         }
         if (speed == 0) {
@@ -155,72 +152,91 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     }
 
     void ConveyorFunction(double speed) {
-        //   Shooter.setPower(speed);
         conveyor.setPower(speed);
         intake.setPower(speed);
     }
 
     void LongArmFunctionDown() {
         double armrotation = MOTOR_TICK_COUNT * (0.4);
-        LongArm.setPower(0.3);        //Sets the power for the Long arm
-        LongArm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
-        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (LongArm.isBusy()){
+        arm.setPower(0.3);        //Sets the power for the Long arm
+        arm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (arm.isBusy()){
             //run until motors arrive at position
         }
     }
 
     void LongArmFunctionUP() {
-        LongArm.setPower(0.3);        //Sets the power for the Long arm
-        LongArm.setTargetPosition(0);        //Tell the motor to go to 90 degrees when told to
-        LongArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (LongArm.isBusy()){
+        arm.setPower(0.3);        //Sets the power for the Long arm
+        arm.setTargetPosition(100);        //Tell the motor to go to 90 degrees when told to
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (arm.isBusy()){
             //run until motors arrive at position
         }
+    }
+
+    void ClawOpen() {
+        leftclaw.setPosition(1);
+        rightclaw.setPosition(0);
+    }
+
+    void ClawClose() {
+        leftclaw.setPosition(0);
+        rightclaw.setPosition(1);
     }
 
     public void waitForStart() {
     }
 
     public void runOpMode() {
-        lf = hardwareMap.get(DcMotor.class, "lf");       //sets the names of the motors on the hardware map
-        rightfront = hardwareMap.get(DcMotor.class, "rightfront");
-        leftback = hardwareMap.get(DcMotor.class, "leftback");
-        rightback = hardwareMap.get(DcMotor.class, "rightback");
-        LongArm = hardwareMap.get(DcMotor.class, "LongArm");
-        Shooter = hardwareMap.get(DcMotor.class, "Shooter");
-        intake = hardwareMap.get(DcMotor.class, "intake");
-        conveyor = hardwareMap.get(DcMotor.class, "conveyor");
-        beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
-        Claw = hardwareMap.get(Servo.class, "Claw");
+        lf = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "lf");       //sets the names of the motors on the hardware map
+        rf = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rf");
+        lb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "lb");
+        rb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rb");
+        arm = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "arm");
+        shooter = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "shooter");
+        intake = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "intake");
+        conveyor = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "conveyor");
+        beambreak = hardwareMap.get(DigitalChannel.class, "beambreak");
+        leftclaw = hardwareMap.get(Servo.class, "leftclaw");
+        rightclaw = hardwareMap.get(Servo.class, "rightclaw");
         telemetry.addData("count", count);
         telemetry.addData("toggle", toggle);
-        telemetry.addData("beamBreak", beamBreak.getState());
+        telemetry.addData("beambreak", beambreak.getState());
         telemetry.update();
 
+        final double driveP = 2.5;        //PID values will change, these are filler values
+        final double driveI = 0.1;
+        final double driveD = 0.2;
+        PIDCoefficients drivePID = new PIDCoefficients(driveP, driveI, driveD);
+        lf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+        rf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+        lb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+        rb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightfront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftback.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightback.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LongArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         conveyor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Shooter.setDirection(DcMotor.Direction.REVERSE);            //sets the directions of the motors
-        lf.setDirection(DcMotor.Direction.FORWARD);
-        rightfront.setDirection(DcMotor.Direction.REVERSE);
-        leftback.setDirection(DcMotor.Direction.FORWARD);
-        rightback.setDirection(DcMotor.Direction.REVERSE);
-        //LimitSwitchLongArm.setMode(DigitalChannel.Mode.INPUT);
-        beamBreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
-        Claw.setPosition(1);
-        LongArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        shooter.setDirection(DcMotorEx.Direction.REVERSE);            //sets the directions of the motors
+        lf.setDirection(DcMotorEx.Direction.FORWARD);
+        rf.setDirection(DcMotorEx.Direction.REVERSE);
+        lb.setDirection(DcMotorEx.Direction.FORWARD);
+        rb.setDirection(DcMotorEx.Direction.REVERSE);
+        beambreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
+        ClawClose();
+
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
-        rightfront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightback.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Shooter.setPower(1);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        shooter.setVelocity(2200);
 
         ForwardorBackwards(57, 0.75); // Drive forward from wall
 
@@ -232,42 +248,44 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
         intake.setPower(1);//begin running intake
 
-        ForwardorBackwards(-16,0.7); //move quickly to ring stack
+        ForwardorBackwards(-14,0.75); //move quickly to ring stack
 
-        ForwardorBackwards(-10.5, 0.4);    // move slowly to pick up rings, count code in drive while loop
+        ForwardorBackwards(-16, 0.5);    // move slowly to pick up rings, count code in drive while loop
 
-        ForwardorBackwards(24, 0.75); // move back to line to shoot
+
 
 
 
         ConveyorFunction(0); // stop shooting
         if (count == 0) {       // if zero rings are picked up, do this portion of code
 
-            Strafing(12, -0.75);
+            ForwardorBackwards(24, 0.75); // move back to line to shoot
+
+            Strafing(12, -0.75);    // Moving to the left the put wobble goal into first box
 
             LongArmFunctionDown();
 
             sleep(200);
 
-            Claw.setPosition(0);
+            ClawOpen();    // Opening Claw
 
             sleep(150);
 
-            ForwardorBackwards(-53,0.75);
+            ForwardorBackwards(-53,0.75);   // Going backwards to pick up second wobble goal
 
-            Rotate(95,0.7);
+            Rotate(100,0.7);
 
-            ForwardorBackwards(10, 0.65);
+            ForwardorBackwards(4, 0.65);    //Going farther the pick up second wobble goal
 
-            Claw.setPosition(1);
+            ClawClose();    //Closing Claw
 
             sleep(200);
 
-            Rotate(-100,0.75);
+            Rotate(-100,0.75);  //Rotating to bring second wobble goal into first box
 
-            ForwardorBackwards(50, 1);
+            ForwardorBackwards(50, 1);  //Going really fast to put wobble goal down
 
-            Claw.setPosition(0);
+            ClawOpen();    //Opening Claw
 
             sleep(200);
 
@@ -280,45 +298,76 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
           //  ForwardorBackwards(10, 0.75);
         }
         if (count == 1) {
+            //ConveyorFunction(1); //begin shooting
+
+            //sleep(3500); //time to shoot
+
+            //ForwardorBackwards(18, 0.75);
+
+            //Strafing(-6,0.75);
+
+            ForwardorBackwards(40, 0.75);   // Going to put first wobble goal into second box
+
+            LongArmFunctionDown();
+
+            Strafing(-8, 1);    // Bring the wobble in the square
+
+            sleep(230);
+
+            ClawOpen();    // Opening Claw
+
+            Rotate(11.5, 0.75);
+
+            ForwardorBackwards(-60, 0.98);    // Going backwards to get second wobble goal
+
+            Rotate(90, 0.75);   //Rotating to pick up wobble goal
+
+            sleep(200);
+
+            //ForwardorBackwards(10, 0.5);
+
+            ForwardorBackwards(10, 0.5);
+
+            ClawClose();   // Closing Claw for second wobble goal
+
+            sleep(230);
+
+            Rotate(-90, 0.75);    // rotating to get ready to go forward to place second wobble goal
+
+            ForwardorBackwards(58, 1);    //going forwards to put second wobble goal down
+
+            sleep(230);
+
+            ClawOpen();     //opening claw for second wobble goal in second box
+
+            sleep(250);
+
+            ForwardorBackwards(-8, 1);
+
+        }
+        if (count > 1) {
+
+            ForwardorBackwards(24, 0.75); // move back to line to shoot
+
             ConveyorFunction(1); //begin shooting
 
             sleep(3500); //time to shoot
 
-            ForwardorBackwards(18, 0.75);
+            ForwardorBackwards(40, 0.75);   //Going forwards to put Long arm down
 
-            Strafing(-6,0.75);
+            Strafing(7, -1);     // A lining for Long arm
 
-            LongArmFunctionDown();
+            LongArmFunctionDown();  // Putting wobble goal arm down
 
-            sleep(240);
+            sleep(230);
 
-            Claw.setPosition(0);
+            ClawOpen();    //Opening the claw after putting down number 1 wobble goal
 
-            sleep(240);
-
-            LongArmFunctionUP();//
-        }
-        if (count > 1) {
-            ConveyorFunction(1); //begin sho
-            // oting
-
-            sleep(3500); //time to shoot
-
-            ForwardorBackwards(40, 0.75);
-
-            Strafing(7, -1);
-
-            LongArmFunctionDown();
-
-            sleep(240);
-
-            Claw.setPosition(0);
-
-            sleep(240);
+            sleep(230);
 
             LongArmFunctionUP();
 
-            ForwardorBackwards(-32,0.75);
+            ForwardorBackwards(-28,0.75);   //Going back to line
         }
     }
 }
