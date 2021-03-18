@@ -117,20 +117,20 @@ public class FTC_14133_2021_PID_Tuning extends LinearOpMode {
         rb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rb");
         shooter = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "shooter");
 
-        final double driveP = 2.5;        //PID values will change, these are filler values
-        final double driveI = 0.1;
-        final double driveD = 0.2;
-        final double driveF = 0.2;
+        final double driveP = 16;        //PID values will change, these are filler values
+        final double driveI = 0;
+        final double driveD = 5;
+        final double driveF = 0;
         PIDFCoefficients drivePIDF = new PIDFCoefficients(driveP, driveI, driveD, driveF);
         lf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
         rf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
         lb.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
         rb.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
 
-        final double ShooterP = 2.5;        //PID values will change, these are filler values
-        final double ShooterI = 0.1;
-        final double ShooterD = 0.2;
-        final double ShooterF = 0.2;
+        final double ShooterP = 10;        //PID values will change, these are filler values
+        final double ShooterI = 0;
+        final double ShooterD = 0;
+        final double ShooterF = 0;
         PIDFCoefficients ShooterPIDF = new PIDFCoefficients(ShooterP, ShooterI, ShooterD, ShooterF);
         shooter.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, ShooterPIDF);
 
@@ -151,6 +151,8 @@ public class FTC_14133_2021_PID_Tuning extends LinearOpMode {
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
         shooter.setVelocity(2200);
         sleep(2000);
         shooter.setVelocity(1500);
@@ -164,14 +166,63 @@ public class FTC_14133_2021_PID_Tuning extends LinearOpMode {
         shooter.setVelocity(1500);
         sleep(2000);
 
-        ForwardorBackwards(57, 0.75); // Drive forward from wall
+        shooter.setVelocity(0);
 
-        Strafing(-17, -0.5);   // scoot left until aligned with top goal
 
-        ForwardorBackwards(-14,0.75); //move quickly to ring stack
 
-        ForwardorBackwards(-16, 0.5);    // move slowly to pick up rings, count code in drive while loop
+        sleep(4000);
 
+
+
+        ForwardorBackwards(25, 1);
+
+        sleep(1000);
+
+        ForwardorBackwards(-25, 1);
+
+        sleep(1000);
+
+        ForwardorBackwards(25, 1);
+
+        sleep(1000);
+
+        ForwardorBackwards(-25, 1);
+
+        sleep(1000);
+
+        ForwardorBackwards(25, 1);
+
+        sleep(1000);
+
+        ForwardorBackwards(-25, 1);
+
+        sleep(1000);
+
+        ForwardorBackwards(25, 1);
+
+        sleep(1000);
+
+        ForwardorBackwards(-25, 1);
+
+
+
+        sleep(4000);
+
+
+
+        Strafing(10, 1);
+
+        sleep(1000);
+
+        Strafing(-10, 1);
+
+        sleep(1000);
+
+        Strafing(10, 1);
+
+        sleep(1000);
+
+        Strafing(-10, 1);
 
     }
 }

@@ -206,11 +206,10 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         telemetry.addData("beambreak", beambreak.getState());
         telemetry.update();
 
-        final double driveP = 2.5;        //PID values will change, these are filler values
+        final double driveP = 2.5;        //PIDF values will change, these are filler values
         final double driveI = 0.1;
         final double driveD = 0.2;
-        final double driveF = 0.2;
-        PIDFCoefficients drivePIDF = new PIDFCoefficients(driveP, driveI, driveD, driveF);
+        PIDFCoefficients drivePIDF = new PIDFCoefficients(driveP, driveI, driveD, 0);
         lf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
         rf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
         lb.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
