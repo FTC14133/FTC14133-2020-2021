@@ -22,15 +22,15 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
      static final double MOTOR_TICK_COUNT = 2800;
      private DcMotorEx shooter = null;         // Sets the variable of the shooter
      private DcMotor arm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
-     private DcMotor intake = null;          // Sets the variable of the intake
-     private DcMotor conveyor = null;          // Sets the variable of the conveyor
+     private DcMotorEx intake = null;          // Sets the variable of the intake
+     private DcMotorEx conveyor = null;          // Sets the variable of the conveyor
      DigitalChannel beambreak;          // Sets the variable of the beamBreak
      Servo leftclaw = null;          // Sets the variable of the Claw
      Servo rightclaw = null;          // Sets the variable of the Claw
      boolean clawstate = false;          // Sets the variable of the clawstate
      boolean toggle = true;          // Sets the variable of the toggle
-     double shooterpower = 1;             // mayhaps
-     Servo light = null;
+     double shooterpower = 2000;             // mayhaps
+     //Servo light = null;
      DigitalChannel limitup;
      DigitalChannel limitdown;
 
@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          rf = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rf");
          lb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "lb");
          rb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rb");
-         arm = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "arm");
+         arm = hardwareMap.get(DcMotor.class, "arm");
          shooter = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "shooter");
          intake = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "intake");
          conveyor = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "conveyor");
@@ -48,7 +48,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          rightclaw = hardwareMap.get(Servo.class, "rightclaw");
          limitup = hardwareMap.get(DigitalChannel.class, "limitup");
          limitdown = hardwareMap.get(DigitalChannel.class, "limitdown");
-         light = hardwareMap.get(Servo.class, "light");
+         //light = hardwareMap.get(Servo.class, "light");
 
          shooter.setDirection(DcMotorEx.Direction.REVERSE);            //sets the directions of the motors
          lf.setDirection(DcMotorEx.Direction.FORWARD);
@@ -63,15 +63,15 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
           final double driveI = 0.1;
           final double driveD = 0.2;
           PIDCoefficients drivePID = new PIDCoefficients(driveP, driveI, driveD);
-          lf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
-          rf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
-          lb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
-          rb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+          //lf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+          //rf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+          //lb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
+          //rb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
 
 
          // RevBlinkinLedDriver blinkinLedDriver = null;
          //GREEN;
-         light.setPosition(-0.71);
+         //light.setPosition(-0.71);
         // blinkinLedDriver.setPattern(GREEN);
 
          /*
@@ -81,8 +81,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          ledCycleDeadline = new Deadline(LED_PERIOD, TimeUnit.SECONDS);
          gamepadRateLimit = new Deadline(GAMEPAD_LOCKOUT, TimeUnit.MILLISECONDS);
           */
-         arm.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
+      //Since this is the first time using the encoder we start it up
          shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
          arm.setDirection(DcMotor.Direction.FORWARD);
          intake.setDirection(DcMotor.Direction.FORWARD);
@@ -107,8 +106,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          //double armrotation = MOTOR_TICK_COUNT * (0.375);
          // double armrotationmiddle = MOTOR_TICK_COUNT * (0.25);
 
-         telemetry.addData("Is pressed? ", limitup.getState());
-         telemetry.addData("Is pressed? ", limitdown.getState());
+         telemetry.addData("Up Is pressed? ", limitup.getState());
+         telemetry.addData(" Down Is pressed? ", limitdown.getState());
+         telemetry.addData("Shooter Speed ", shooterpower);
          telemetry.update();
 
          //Mecanum Wheels
@@ -164,12 +164,12 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
              arm.setPower(0);
          }
 
-         if (gamepad2.dpad_down && !limitdown.getState()) {            //turns the arm that is long but there is not a arm that is short
-             arm.setPower(-0.3);        //Sets the power for the Long arm
+         if (gamepad2.dpad_up && limitup.getState()) {            //turns the arm that is long but there is not a arm that is short
+             arm.setPower(-0.5);        //Sets the power for the Long arm
          }
 
-         if (gamepad2.dpad_up && !limitup.getState()) {      //rotates the arm that is long but there is not a arm that is short
-             arm.setPower(0.3);        //Sets the power for the Long arm
+         if (gamepad2.dpad_down && limitdown.getState()) {      //rotates the arm that is long but there is not a arm that is short
+             arm.setPower(0.5);        //Sets the power for the Long arm
          }
 
          /*if (gamepad2.dpad_left || gamepad2.dpad_right) {      //rotates the arm that is long but there is not a arm that is short
@@ -233,8 +233,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
         else {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
-            shooter.setVelocity(700);
-            arm.setPower(0);
+            //shooter.setVelocity(700);
+            //arm.setPower(0);
         }
     }
 }

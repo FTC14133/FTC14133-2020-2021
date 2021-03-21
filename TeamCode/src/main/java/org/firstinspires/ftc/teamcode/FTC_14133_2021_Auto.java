@@ -29,6 +29,8 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     boolean toggle = true;          // Sets the variable of the toggle
     public int count = 0;
 
+
+
     void ForwardorBackwards(double distance, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -51,7 +53,9 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (lf.isBusy() || lb.isBusy()) {
+        //Rotate(1, 0.5);
+
+        while (lf.isBusy() || rf.isBusy() || lb.isBusy() || rb.isBusy()) {
             //run until motors arrive at position
             if(!beambreak.getState()) { //if beam is broken
                 conveyor.setPower(1);//Run conveyor
@@ -105,7 +109,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (lf.isBusy() || lb.isBusy()) {
+        while (lf.isBusy() || rf.isBusy() || lb.isBusy() || rb.isBusy()) {
             //run until motors arrive at position
         }
     }
@@ -131,7 +135,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (lf.isBusy() || lb.isBusy()) {
+        while (lf.isBusy() || rf.isBusy() || lb.isBusy() || rb.isBusy()) {
             //run until motors arrive at position
         }
 
@@ -176,12 +180,12 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         }
     }
 
-    void ClawOpen() {
+    void ClawClose() {
         leftclaw.setPosition(1);
         rightclaw.setPosition(0);
     }
 
-    void ClawClose() {
+    void ClawOpen() {
         leftclaw.setPosition(0);
         rightclaw.setPosition(1);
     }
@@ -210,10 +214,10 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         final double driveI = 0.1;
         final double driveD = 0.2;
         PIDFCoefficients drivePIDF = new PIDFCoefficients(driveP, driveI, driveD, 0);
-        lf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
-        rf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
-        lb.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
-        rb.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
+        //lf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
+        //rf.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
+        //lb.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
+        //rb.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePIDF);
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -231,7 +235,6 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rb.setDirection(DcMotorEx.Direction.REVERSE);
         beambreak.setMode(DigitalChannel.Mode.INPUT); // set the digital channel to input.
         ClawClose();
-
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        //Since this is the first time using the encoder we start it up
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -249,7 +252,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
         intake.setPower(1);//begin running intake
 
-        ForwardorBackwards(-14,0.75); //move quickly to ring stack
+        ForwardorBackwards(-14,0.7); //move quickly to ring stack
 
         ForwardorBackwards(-16, 0.5);    // move slowly to pick up rings, count code in drive while loop
 
@@ -276,7 +279,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             Rotate(100,0.7);
 
-            ForwardorBackwards(4, 0.65);    //Going farther the pick up second wobble goal
+            ForwardorBackwards(3, 0.65);    //Going farther the pick up second wobble goal
 
             ClawClose();    //Closing Claw
 
@@ -284,19 +287,19 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             Rotate(-100,0.75);  //Rotating to bring second wobble goal into first box
 
-            ForwardorBackwards(50, 1);  //Going really fast to put wobble goal down
+            ForwardorBackwards(50, 0.75);  //Going really fast to put wobble goal down
 
             ClawOpen();    //Opening Claw
 
-            sleep(200);
+            sleep(150);
 
-            LongArmFunctionUP();
+            //LongArmFunctionUP();
 
-         //   Strafing(10, 1);
+            //   Strafing(10, 1);
 
-          //  LongArmFunctionDown();
+            //  LongArmFunctionDown();
 
-          //  ForwardorBackwards(10, 0.75);
+            //  ForwardorBackwards(10, 0.75);
         }
         if (count == 1) {
             //ConveyorFunction(1); //begin shooting
@@ -307,43 +310,25 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             //Strafing(-6,0.75);
 
-            ForwardorBackwards(40, 0.75);   // Going to put first wobble goal into second box
+            ForwardorBackwards(24, 0.75);   // Going to put first wobble goal into second box
+
+            ConveyorFunction(1); //begin shooting
+
+            sleep(3500); //time to shoot
+
+            ForwardorBackwards(18, 0.75);
+
+            Strafing(-6,0.75);
 
             LongArmFunctionDown();
 
-            Strafing(-8, 1);    // Bring the wobble in the square
+            sleep(240);
 
-            sleep(230);
+            ClawOpen();
 
-            ClawOpen();    // Opening Claw
+            sleep(240);
 
-            Rotate(11.5, 0.75);
-
-            ForwardorBackwards(-60, 0.98);    // Going backwards to get second wobble goal
-
-            Rotate(90, 0.75);   //Rotating to pick up wobble goal
-
-            sleep(200);
-
-            //ForwardorBackwards(10, 0.5);
-
-            ForwardorBackwards(10, 0.5);
-
-            ClawClose();   // Closing Claw for second wobble goal
-
-            sleep(230);
-
-            Rotate(-90, 0.75);    // rotating to get ready to go forward to place second wobble goal
-
-            ForwardorBackwards(58, 1);    //going forwards to put second wobble goal down
-
-            sleep(230);
-
-            ClawOpen();     //opening claw for second wobble goal in second box
-
-            sleep(250);
-
-            ForwardorBackwards(-8, 1);
+            LongArmFunctionUP();//
 
         }
         if (count > 1) {
