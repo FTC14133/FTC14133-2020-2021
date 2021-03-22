@@ -189,11 +189,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
         //Shooter and Shooter Power
 
         if (gamepad2.left_stick_y < -0.25) {
-            shooterpower += 10;
+            shooterpower += 50;
         }
 
         if (gamepad2.left_stick_y > 0.25) {
-            shooterpower -= 10;
+            shooterpower -= 50;
         }
 
         if (shooterpower < 700) {
