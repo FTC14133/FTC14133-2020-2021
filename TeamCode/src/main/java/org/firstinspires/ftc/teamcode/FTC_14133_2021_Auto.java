@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;// https://first-tech-challenge.github.io
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -31,7 +30,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
 
 
-    void ForwardorBackwards(double distance, double speed) {
+    void ForwardorBackwardsCount(double distance, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -55,7 +54,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
         //Rotate(1, 0.5);
 
-        while (lf.isBusy() || rf.isBusy() || lb.isBusy() || rb.isBusy()) {
+        while (lf.isBusy() || rf.isBusy() /*|| lb.isBusy() || rb.isBusy()*/) {
             //run until motors arrive at position
             if(!beambreak.getState()) { //if beam is broken
                 conveyor.setPower(1);//Run conveyor
@@ -86,6 +85,35 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         conveyor.setPower(0); //stops conveyor if loop ended with conveyor running
     }
 
+    void ForwardorBackwards(double distance, double speed) {
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //Driving forward/backwards
+        //  double distance= 5; //(in)
+        double encodercounts = distance * 60.3686819388;//(1/(75*(1/25.4)))*560;
+        int encodercountsint = (int) encodercounts;
+        lf.setTargetPosition(encodercountsint);
+        lf.setPower(speed);        //Sets the power for the left front wheel
+        rf.setTargetPosition(encodercountsint);
+        rf.setPower(speed);        //Sets the power for the right front wheel
+        lb.setTargetPosition(encodercountsint);
+        lb.setPower(speed);        //Sets the power for the left back wheel
+        rb.setTargetPosition(encodercountsint);
+        rb.setPower(speed);        //Sets the power for the right back wheel
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //Rotate(1, 0.5);
+
+        while (lf.isBusy() || rf.isBusy() /*|| lb.isBusy() || rb.isBusy()*/) {
+
+        }
+    }
+
 
     void Rotate(double turn, double speed) {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -109,7 +137,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (lf.isBusy() || rf.isBusy() || lb.isBusy() || rb.isBusy()) {
+        while (lf.isBusy() || rf.isBusy() /*|| lb.isBusy() || rb.isBusy()*/) {
             //run until motors arrive at position
         }
     }
@@ -135,7 +163,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (lf.isBusy() || rf.isBusy() || lb.isBusy() || rb.isBusy()) {
+        while (lf.isBusy() || rf.isBusy() /*|| lb.isBusy() || rb.isBusy()*/) {
             //run until motors arrive at position
         }
 
@@ -242,19 +270,19 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setVelocity(2200);
 
-        ForwardorBackwards(57, 0.75); // Drive forward from wall
+        ForwardorBackwardsCount(57, 0.75); // Drive forward from wall
 
-        Strafing(-17, -0.5);   // scoot left until aligned with top goal
+        Strafing(-16, -0.5);   // scoot left until aligned with top goal
 
-        ConveyorFunction(0.5);  //shoot rings in conveyor
+        ConveyorFunction(1);  //shoot rings in conveyor
 
         sleep(3500); //time to shoot rings in conveyor
 
         intake.setPower(1);//begin running intake
 
-        ForwardorBackwards(-14,0.7); //move quickly to ring stack
+        ForwardorBackwardsCount(-14,0.5); //move quickly to ring stack
 
-        ForwardorBackwards(-16, 0.5);    // move slowly to pick up rings, count code in drive while loop
+        ForwardorBackwardsCount(-16, 0.5);    // move slowly to pick up rings, count code in drive while loop
 
 
 
@@ -263,7 +291,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         ConveyorFunction(0); // stop shooting
         if (count == 0) {       // if zero rings are picked up, do this portion of code
 
-            ForwardorBackwards(24, 0.75); // move back to line to shoot
+            ForwardorBackwardsCount(24, 0.75); // move back to line to shoot
 
             Strafing(12, -0.75);    // Moving to the left the put wobble goal into first box
 
@@ -275,19 +303,19 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             sleep(150);
 
-            ForwardorBackwards(-53,0.75);   // Going backwards to pick up second wobble goal
+            ForwardorBackwardsCount(-50,0.75);   // Going backwards to pick up second wobble goal
 
-            Rotate(100,0.7);
+            Rotate(90,0.7);
 
-            ForwardorBackwards(3, 0.65);    //Going farther the pick up second wobble goal
+            ForwardorBackwardsCount(5.5, 0.65);    //Going farther the pick up second wobble goal
 
             ClawClose();    //Closing Claw
 
             sleep(200);
 
-            Rotate(-100,0.75);  //Rotating to bring second wobble goal into first box
+            Rotate(-90,0.75);  //Rotating to bring second wobble goal into first box
 
-            ForwardorBackwards(50, 0.75);  //Going really fast to put wobble goal down
+            ForwardorBackwardsCount(45, 1);  //Going really fast to put wobble goal down
 
             ClawOpen();    //Opening Claw
 
@@ -299,7 +327,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             //  LongArmFunctionDown();
 
-            //  ForwardorBackwards(10, 0.75);
+            ForwardorBackwardsCount(-10, 0.75);
         }
         if (count == 1) {
             //ConveyorFunction(1); //begin shooting
@@ -310,36 +338,61 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             //Strafing(-6,0.75);
 
-            ForwardorBackwards(24, 0.75);   // Going to put first wobble goal into second box
 
-            ConveyorFunction(1); //begin shooting
 
-            sleep(3500); //time to shoot
+            ForwardorBackwardsCount(44, 0.75);   // Going to put first wobble goal into second box
 
-            ForwardorBackwards(18, 0.75);
+            //ConveyorFunction(1); //begin shooting
+
+           //sleep(3500); //time to shoot
+
+            //ForwardorBackwards(18, 0.75);
 
             Strafing(-6,0.75);
 
             LongArmFunctionDown();
 
-            sleep(240);
+            //sleep(240);
 
             ClawOpen();
 
             sleep(240);
 
-            LongArmFunctionUP();//
+            //LongArmFunctionUP();//
 
+            ForwardorBackwardsCount(-38,0.75);
+
+            Rotate(183,0.75);
+
+            ForwardorBackwardsCount(6,0.75);
+
+            ConveyorFunction(0.95);
+
+            ClawClose();
+
+            sleep(240);
+
+            shooter.setVelocity(2000);
+
+            Rotate(183, 0.75);
+
+            ForwardorBackwards(38,0.75);
+
+            ClawOpen();
+
+            sleep(100);
+
+            ForwardorBackwardsCount(-4,0.75);
         }
         if (count > 1) {
 
-            ForwardorBackwards(24, 0.75); // move back to line to shoot
+            ForwardorBackwardsCount(24, 0.75); // move back to line to shoot
 
             ConveyorFunction(1); //begin shooting
 
             sleep(3500); //time to shoot
 
-            ForwardorBackwards(40, 0.75);   //Going forwards to put Long arm down
+            ForwardorBackwardsCount(40, 0.75);   //Going forwards to put Long arm down
 
             Strafing(7, -1);     // A lining for Long arm
 
@@ -353,7 +406,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             LongArmFunctionUP();
 
-            ForwardorBackwards(-28,0.75);   //Going back to line
+            ForwardorBackwardsCount(-28,0.75);   //Going back to line
         }
     }
 }
