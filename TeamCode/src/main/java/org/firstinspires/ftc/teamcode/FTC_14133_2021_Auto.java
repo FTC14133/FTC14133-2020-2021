@@ -374,9 +374,9 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             shooter.setVelocity(2000);
 
-            Rotate(183, 0.75);
+            Rotate(185, 0.75);
 
-            ForwardorBackwards(38,0.75);
+            ForwardorBackwards(40,0.75);
 
             ClawOpen();
 

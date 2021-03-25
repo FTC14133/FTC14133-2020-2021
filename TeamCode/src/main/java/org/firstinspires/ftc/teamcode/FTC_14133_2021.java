@@ -83,6 +83,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
           */
       //Since this is the first time using the encoder we start it up
          shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+         shooter.setVelocity(shooterpower);
          arm.setDirection(DcMotor.Direction.FORWARD);
          intake.setDirection(DcMotor.Direction.FORWARD);
          conveyor.setDirection(DcMotor.Direction.FORWARD);
