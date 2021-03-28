@@ -307,15 +307,15 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             Rotate(90,0.7);
 
-            ForwardorBackwardsCount(5.5, 0.65);    //Going farther the pick up second wobble goal
+            ForwardorBackwardsCount(7.5, 0.65);    //Going farther the pick up second wobble goal
 
             ClawClose();    //Closing Claw
 
             sleep(200);
 
-            Rotate(-90,0.75);  //Rotating to bring second wobble goal into first box
+            Rotate(-88,0.75);  //Rotating to bring second wobble goal into first box
 
-            ForwardorBackwardsCount(45, 1);  //Going really fast to put wobble goal down
+            ForwardorBackwardsCount(43, 1);  //Going really fast to put wobble goal down
 
             ClawOpen();    //Opening Claw
 
@@ -374,7 +374,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             shooter.setVelocity(2000);
 
-            Rotate(185, 0.75);
+            Rotate(184, 0.75);
 
             ForwardorBackwards(40,0.75);
 
