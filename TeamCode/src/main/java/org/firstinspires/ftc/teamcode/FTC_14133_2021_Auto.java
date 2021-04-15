@@ -268,7 +268,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        shooter.setVelocity(2200);
+        shooter.setVelocity(2500);
 
         ForwardorBackwardsCount(57, 0.75); // Drive forward from wall
 
@@ -372,7 +372,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             sleep(240);
 
-            shooter.setVelocity(2000);
+            shooter.setVelocity(2100);
 
             Rotate(184, 0.75);
 

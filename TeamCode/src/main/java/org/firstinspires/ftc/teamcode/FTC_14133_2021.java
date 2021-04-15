@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
      Servo rightclaw = null;          // Sets the variable of the Claw
      boolean clawstate = false;          // Sets the variable of the clawstate
      boolean toggle = true;          // Sets the variable of the toggle
-     double shooterpower = 2200;             // mayhaps
+     double shooterpower = 2500;             // mayhaps
      //Servo light = null;
      DigitalChannel limitup;
      DigitalChannel limitdown;
