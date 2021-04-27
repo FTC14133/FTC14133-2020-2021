@@ -63,24 +63,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
           final double driveI = 0.1;
           final double driveD = 0.2;
           PIDCoefficients drivePID = new PIDCoefficients(driveP, driveI, driveD);
-          //lf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
-          //rf.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
-          //lb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
-          //rb.setPIDCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, drivePID);
 
-
-         // RevBlinkinLedDriver blinkinLedDriver = null;
-         //GREEN;
-         //light.setPosition(-0.71);
-        // blinkinLedDriver.setPattern(GREEN);
-
-         /*
-         display = telemetry.addData("Display Kind: ", displayKind.toString());
-         patternName = telemetry.addData("Pattern: ", pattern.toString());
-
-         ledCycleDeadline = new Deadline(LED_PERIOD, TimeUnit.SECONDS);
-         gamepadRateLimit = new Deadline(GAMEPAD_LOCKOUT, TimeUnit.MILLISECONDS);
-          */
       //Since this is the first time using the encoder we start it up
          shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
          shooter.setVelocity(shooterpower);
