@@ -286,19 +286,29 @@ public class Arm_Test extends OpMode {
         if (!beambreak.getState()) {
             if (gamepad2.left_trigger > 0) {        //BEAM BREAK
                 conveyor.setPower(-1);
+                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                blinkinLedDriver.setPattern(pattern);
             } else {
                 conveyor.setPower(1);
                 pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
                 blinkinLedDriver.setPattern(pattern);
             }
         }
+
+        // Color Reset
+
+        if (gamepad2.x) {
+            pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+            blinkinLedDriver.setPattern(pattern);
+        }
+
         // Else Statement
 
         else {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
-            pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
-            blinkinLedDriver.setPattern(pattern);
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+            //blinkinLedDriver.setPattern(pattern);
         }
     }
 
