@@ -7,6 +7,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 @Autonomous(name="FTC 14133 2021 Auto", group="Auto")
 public class FTC_14133_2021_Auto extends LinearOpMode {
@@ -28,10 +32,24 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     boolean clawstate = false;          // Sets the variable of the clawstate
     boolean toggle = true;          // Sets the variable of the toggle
     public int count = 0;
+    RevBlinkinLedDriver blinkinLedDriver;
+    RevBlinkinLedDriver.BlinkinPattern pattern;
+
+    Telemetry.Item patternName;
+    Telemetry.Item display;
+    Arm_Test.DisplayKind displayKind;
+    Deadline ledCycleDeadline;
+    Deadline gamepadRateLimit;
+
+    protected enum DisplayKind {
+        MANUAL,
+        AUTO
+    }
 
 
 
     void ForwardorBackwardsCount(double distance, double speed) {
+
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -223,6 +241,13 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     }
 
     public void runOpMode() {
+
+        displayKind = Arm_Test.DisplayKind.AUTO;
+
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+        blinkinLedDriver.setPattern(pattern);
+
         lf = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "lf");       //sets the names of the motors on the hardware map
         rf = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "rf");
         lb = (DcMotorEx)hardwareMap.get(DcMotorEx.class, "lb");
@@ -292,7 +317,16 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
 
         ConveyorFunction(0); // stop shooting
+
+        telemetry.addData("count", count);
+        telemetry.addData("beambreak", beambreak_mid.getState());
+
         if (count == 0 && beambreak_mid.getState()) {       // if zero rings are picked up, do this portion of code
+
+
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            blinkinLedDriver.setPattern(pattern);
 
             ForwardorBackwards(24, 0.75); // move back to line to shoot
 
@@ -332,7 +366,10 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             ForwardorBackwardsCount(-10, 0.75);
         }
-        if (count == 1 && beambreak_mid.getState()) {
+        if (count >= 1 && beambreak_mid.getState()) {
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+            blinkinLedDriver.setPattern(pattern);
 
             ForwardorBackwards(44, 0.75);   // Going to put first wobble goal into second box
 
@@ -372,7 +409,10 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             ForwardorBackwardsCount(-4,0.75);
         }
-        if (count > 1 && !beambreak_mid.getState()) {
+        if (!beambreak_mid.getState()) {
+
+            pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+            blinkinLedDriver.setPattern(pattern);
 
             ForwardorBackwards(24, 0.75); // move back to line to shoot
 
@@ -396,5 +436,6 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             ForwardorBackwards(-28,0.75);   //Going back to line
         }
+
     }
 }
