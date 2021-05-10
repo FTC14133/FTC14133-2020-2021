@@ -272,26 +272,46 @@ public class Arm_Test extends OpMode {
 
         if (gamepad2.right_trigger > 0) {       //runs the intake forward
             intake.setPower(1);
-            pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-            blinkinLedDriver.setPattern(pattern);
+            if(pattern== RevBlinkinLedDriver.BlinkinPattern.ORANGE){
+
+            }
+            else {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                blinkinLedDriver.setPattern(pattern);
+            }
         }
 
         if (gamepad2.left_trigger > 0) {        //runs the intake backwards
             intake.setPower(-1);
             conveyor.setPower(-1);
-            pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-            blinkinLedDriver.setPattern(pattern);
+            if(pattern== RevBlinkinLedDriver.BlinkinPattern.ORANGE){
+
+            }
+            else {
+                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                blinkinLedDriver.setPattern(pattern);
+            }
         }
 
         if (!beambreak.getState()) {
             if (gamepad2.left_trigger > 0) {        //BEAM BREAK
                 conveyor.setPower(-1);
-                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-                blinkinLedDriver.setPattern(pattern);
+                if(pattern== RevBlinkinLedDriver.BlinkinPattern.ORANGE){
+
+                }
+                else {
+                    pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                    blinkinLedDriver.setPattern(pattern);
+                }
             } else {
                 conveyor.setPower(1);
-                pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-                blinkinLedDriver.setPattern(pattern);
+                if(pattern== RevBlinkinLedDriver.BlinkinPattern.ORANGE){
+
+                }
+                else {
+                    pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+                    blinkinLedDriver.setPattern(pattern);
+                }
             }
         }
 
@@ -303,7 +323,6 @@ public class Arm_Test extends OpMode {
         }
 
         // Else Statement
-
         else {
             conveyor.setPower(0);        // This tells the program to set the Intake, Long Arm, and Shooter
             intake.setPower(0);        //to turn them off when not being used
