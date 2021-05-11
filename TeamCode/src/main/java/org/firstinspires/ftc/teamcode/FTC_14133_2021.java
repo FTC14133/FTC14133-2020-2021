@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
      private DcMotorEx lf = null;
      private DcMotorEx rf = null;
 
-     // COMMENTED OUT THINGS ARE NOT TO BE DELETED
+     // COMMENTED OUT THINGS ARE NOT TO BE DELETED TESTTTTTTTTTTTTTTTT
      static final double MOTOR_TICK_COUNT = 2800;
      private DcMotorEx shooter = null;         // Sets the variable of the shooter
      private DcMotor arm = null;         // Sets the variable of the arm that is long but there is not a arm that is short
