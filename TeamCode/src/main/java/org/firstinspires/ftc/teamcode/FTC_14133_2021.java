@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 // https://first-tech-challenge.github.io/SkyStone/  This is the link to ALL metered of FTC
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,6 +13,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
     @TeleOp(name="FTC 14133 2021", group="Iterative Opmode")
     public class FTC_14133_2021 extends OpMode {
+
+    //RevBlinkinLedDriver blinkinLedDriver;
+    //RevBlinkinLedDriver.BlinkinPattern pattern;
+
      private ElapsedTime runtime = new ElapsedTime();
      private DcMotorEx lb = null;        // Sets the variables of the mecanum wheels
      private DcMotorEx rb = null;
@@ -70,6 +75,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          arm.setDirection(DcMotor.Direction.FORWARD);
          intake.setDirection(DcMotor.Direction.FORWARD);
          conveyor.setDirection(DcMotor.Direction.FORWARD);
+
+         //blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+         //pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+         //blinkinLedDriver.setPattern(pattern);
      }
 
      public void init_loop() {
@@ -174,10 +183,15 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
         if (gamepad2.left_stick_y < -0.25) {
             shooterpower += 50;
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+            //blinkinLedDriver.setPattern(pattern);
+
         }
 
         if (gamepad2.left_stick_y > 0.25) {
             shooterpower -= 50;
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.GOLD;
+            //blinkinLedDriver.setPattern(pattern);
         }
 
         if (shooterpower < 700) {
@@ -192,17 +206,23 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
             shooter.setVelocity(shooterpower);
             intake.setPower(1);
             conveyor.setPower(1);
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+            //blinkinLedDriver.setPattern(pattern);
         }
 
         //Intake and Conveyor and Conveyor Detection System
 
         if (gamepad2.right_trigger > 0) {       //runs the intake forward
             intake.setPower(1);
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            //blinkinLedDriver.setPattern(pattern);
         }
 
         if (gamepad2.left_trigger > 0) {        //runs the intake backwards
             intake.setPower(-1);
             conveyor.setPower(-1);
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            //blinkinLedDriver.setPattern(pattern);
         }
 
         if (!beambreak.getState()) {
@@ -212,6 +232,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
                 conveyor.setPower(1);
             }
         }
+
+        //if (gamepad2.x){
+        //    pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
+        //    blinkinLedDriver.setPattern(pattern);
+        //}
         //Big Else Statement
 
         else {

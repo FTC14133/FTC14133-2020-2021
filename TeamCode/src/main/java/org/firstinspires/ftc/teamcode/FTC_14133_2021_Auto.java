@@ -35,16 +35,6 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     RevBlinkinLedDriver blinkinLedDriver;
     RevBlinkinLedDriver.BlinkinPattern pattern;
 
-    Telemetry.Item patternName;
-    Telemetry.Item display;
-    Arm_Test.DisplayKind displayKind;
-    Deadline ledCycleDeadline;
-    Deadline gamepadRateLimit;
-
-    protected enum DisplayKind {
-        MANUAL,
-        AUTO
-    }
 
 
 
@@ -242,7 +232,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
     public void runOpMode() {
 
-        displayKind = Arm_Test.DisplayKind.AUTO;
+
 
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
         pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
