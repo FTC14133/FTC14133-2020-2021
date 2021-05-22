@@ -199,7 +199,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
     }
 
     void LongArmFunctionDown() {
-        double armrotation = MOTOR_TICK_COUNT * (0.4);
+        double armrotation = MOTOR_TICK_COUNT * (0.41);
         arm.setPower(0.3);        //Sets the power for the Long arm
         arm.setTargetPosition((int) armrotation);        //Tell the motor to go to 90 degrees when told to
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -315,8 +315,8 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
 
 
-            pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
-            blinkinLedDriver.setPattern(pattern);
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
+            //blinkinLedDriver.setPattern(pattern);
 
             ForwardorBackwards(24, 0.75); // move back to line to shoot
 
@@ -358,8 +358,8 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         }
         if (count >= 1 && beambreak_mid.getState()) {
 
-            pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
-            blinkinLedDriver.setPattern(pattern);
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.ORANGE;
+            //blinkinLedDriver.setPattern(pattern);
 
             ForwardorBackwards(44, 0.75);   // Going to put first wobble goal into second box
 
@@ -377,7 +377,7 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
 
             ForwardorBackwards(-38,0.75);
 
-            Rotate(183,0.75);
+            Rotate(185,0.75);
 
             ForwardorBackwards(6,0.75);
 
@@ -401,8 +401,8 @@ public class FTC_14133_2021_Auto extends LinearOpMode {
         }
         if (!beambreak_mid.getState()) {
 
-            pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
-            blinkinLedDriver.setPattern(pattern);
+            //pattern = RevBlinkinLedDriver.BlinkinPattern.GREEN;
+            //blinkinLedDriver.setPattern(pattern);
 
             ForwardorBackwards(24, 0.75); // move back to line to shoot
 
