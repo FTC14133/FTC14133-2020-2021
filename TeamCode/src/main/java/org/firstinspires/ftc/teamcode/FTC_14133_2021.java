@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
      Servo rightclaw = null;          // Sets the variable of the Claw
      boolean clawstate = false;          // Sets the variable of the clawstate
      boolean toggle = true;          // Sets the variable of the toggle
-     double shooterpower = 2500;             // mayhaps
+     double shooterpower = 2750;             // mayhaps
      //Servo light = null;
      DigitalChannel limitup;
      DigitalChannel limitdown;
@@ -64,10 +64,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
          leftclaw.setPosition(1);
          rightclaw.setPosition(0);
 
-          final double driveP = 2.5;        //PID values will change, these are filler values
+ /*         final double driveP = 2.5;        //PID values will change, these are filler values
           final double driveI = 0.1;
           final double driveD = 0.2;
-          PIDCoefficients drivePID = new PIDCoefficients(driveP, driveI, driveD);
+          PIDCoefficients drivePID = new PIDCoefficients(driveP, driveI, driveD);*/
 
       //Since this is the first time using the encoder we start it up
          shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -212,13 +212,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
         //Intake and Conveyor and Conveyor Detection System
 
-        if (gamepad2.right_trigger > 0) {       //runs the intake forward
+        if (gamepad2.right_trigger > 0.1) {       //runs the intake forward
             intake.setPower(1);
             //pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
             //blinkinLedDriver.setPattern(pattern);
         }
 
-        if (gamepad2.left_trigger > 0) {        //runs the intake backwards
+        if (gamepad2.left_trigger > 0.1) {        //runs the intake backwards
             intake.setPower(-1);
             conveyor.setPower(-1);
             //pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
@@ -232,6 +232,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
                 conveyor.setPower(1);
             }
         }
+
+/*        if (gamepad2.right_trigger == 0){
+            intake.setPower(0);        //to turn them off when not being used
+        }*/
 
         //if (gamepad2.x){
         //    pattern = RevBlinkinLedDriver.BlinkinPattern.LAWN_GREEN;
